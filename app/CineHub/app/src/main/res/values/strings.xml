@@ -8,4 +8,7 @@
     <string name="login_tv_notaccount">No tienes cuenta?</string>
     <string name="login_btn_register">Regístrate</string>
     <string name="login_iv_desc">Logo of app</string>
+    <string name="register_btn_login">Register</string>
+    <string name="login_et_cpassword">Confirm your password</string>
+    <string name="register_et_username">Apodo</string>
 </resources>

@@ -6,28 +6,26 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     // Declare the variables
+    private EditText et_username;
     private EditText et_email;
     private EditText et_password;
-    private Button btn_login;
+    private EditText et_confirm_password;
     private Button btn_register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
 
         // Initialize the variables
+        et_username = findViewById(R.id.et_username);
         et_email = findViewById(R.id.et_email);
         et_password = findViewById(R.id.et_passwd);
-        btn_login = findViewById(R.id.btn_login);
+        et_confirm_password = findViewById(R.id.et_passwd_confirm);
         btn_register = findViewById(R.id.btn_register);
-
-        btn_login.setOnClickListener(v -> {
-            // TODO: Login
-        });
 
         btn_register.setOnClickListener(v -> {
             // TODO: Register
