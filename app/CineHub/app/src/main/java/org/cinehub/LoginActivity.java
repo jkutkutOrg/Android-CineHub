@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import org.cinehub.utils.UserValidationUtils;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -27,7 +30,19 @@ public class LoginActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
 
         btnLogin.setOnClickListener(v -> {
-            // TODO: Login
+            String email = etEmail.getText().toString().trim();
+
+            boolean isValid = true;
+
+            if (!UserValidationUtils.isEmailValid(email)) {
+                Toast.makeText(this, "The email is invalid", Toast.LENGTH_SHORT).show();
+                isValid = false;
+            }
+
+            if (isValid) {
+                Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
+            }
+
         });
 
         btnRegister.setOnClickListener(v -> {

@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.cinehub.utils.UserValidationUtils;
+
 public class RegisterActivity extends AppCompatActivity {
 
     // Declare the variables
@@ -36,22 +38,22 @@ public class RegisterActivity extends AppCompatActivity {
 
             boolean isValid = true;
 
-            if (!isUsernameValid(username)) {
+            if (!UserValidationUtils.isUsernameValid(username)) {
                 Toast.makeText(this, "The username is invalid", Toast.LENGTH_SHORT).show();
                 isValid = false;
             }
 
-            if (!isPasswordSecure(password)) {
+            if (!UserValidationUtils.isPasswordSecure(password)) {
                 Toast.makeText(this, "The password is not secure", Toast.LENGTH_SHORT).show();
                 isValid = false;
             }
 
-            if (!arePasswordsEqual(password, confirmPassword)) {
+            if (!UserValidationUtils.arePasswordsEqual(password, confirmPassword)) {
                 Toast.makeText(this, "The passwords are not equal", Toast.LENGTH_SHORT).show();
                 isValid = false;
             }
 
-            if (!isEmailValid(email)) {
+            if (!UserValidationUtils.isEmailValid(email)) {
                 Toast.makeText(this, "The email is invalid", Toast.LENGTH_SHORT).show();
                 isValid = false;
             }
@@ -63,49 +65,4 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Checks if the username is valid (contains only letters, numbers, underscores and dashes
-     * and has a length between 3 and 15 characters)
-     *
-     * @param username The username to check
-     * @return true if the username is valid, false otherwise
-     */
-    private boolean isUsernameValid(String username) {
-        String regex = "^[a-zA-Z0-9_-]{3,15}$";
-        return username.matches(regex);
-    }
-
-    /**
-     * Checks if the password is secure (contains at least one lowercase letter, one uppercase
-     * letter, one digit and one special character
-     *
-     * @param password The password to check
-     * @return true if the password is secure, false otherwise
-     */
-    private boolean isPasswordSecure(String password) {
-        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
-        return password.matches(regex);
-    }
-
-    /**
-     * Checks if the password and the confirmation password are equal
-     *
-     * @param password The password
-     * @param confirmPassword The confirmation password
-     * @return true if the passwords are equal, false otherwise
-     */
-    private boolean arePasswordsEqual(String password, String confirmPassword) {
-        return password.equals(confirmPassword);
-    }
-
-    /**
-     * Checks if the email is valid
-     *
-     * @param email The email to check
-     * @return true if the email is valid, false otherwise
-     */
-    private boolean isEmailValid(String email) {
-        String regex = "^[A-Za-z0-9+_.-]+@(.+)\\.(.+)$";
-        return email.matches(regex);
-    }
 }
