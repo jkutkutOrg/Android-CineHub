@@ -10,10 +10,10 @@ import android.widget.EditText;
 public class LoginActivity extends AppCompatActivity {
 
     // Declare the variables
-    private EditText et_email;
-    private EditText et_password;
-    private Button btn_login;
-    private Button btn_register;
+    private EditText etEmail;
+    private EditText etPassword;
+    private Button btnLogin;
+    private Button btnRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,16 +21,16 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // Initialize the variables
-        et_email = findViewById(R.id.et_email);
-        et_password = findViewById(R.id.et_passwd);
-        btn_login = findViewById(R.id.btn_login);
-        btn_register = findViewById(R.id.btn_register);
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPasswd);
+        btnLogin = findViewById(R.id.btnLogic);
+        btnRegister = findViewById(R.id.btnRegister);
 
-        btn_login.setOnClickListener(v -> {
+        btnLogin.setOnClickListener(v -> {
             // TODO: Login
         });
 
-        btn_register.setOnClickListener(v -> {
+        btnRegister.setOnClickListener(v -> {
             startActivity(new Intent(this, RegisterActivity.class));
         });
 

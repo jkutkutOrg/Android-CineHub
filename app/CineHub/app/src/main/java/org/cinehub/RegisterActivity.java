@@ -10,11 +10,11 @@ import android.widget.Toast;
 public class RegisterActivity extends AppCompatActivity {
 
     // Declare the variables
-    private EditText et_username;
-    private EditText et_email;
-    private EditText et_password;
-    private EditText et_confirm_password;
-    private Button btn_register;
+    private EditText etUsername;
+    private EditText etEmail;
+    private EditText etPassword;
+    private EditText etConfirmPassword;
+    private Button btnRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,17 +22,17 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         // Initialize the variables
-        et_username = findViewById(R.id.et_username);
-        et_email = findViewById(R.id.et_email);
-        et_password = findViewById(R.id.et_passwd);
-        et_confirm_password = findViewById(R.id.et_passwd_confirm);
-        btn_register = findViewById(R.id.btn_register);
+        etUsername = findViewById(R.id.etUsername);
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPasswd);
+        etConfirmPassword = findViewById(R.id.etPasswdConfirm);
+        btnRegister = findViewById(R.id.btnRegister);
 
-        btn_register.setOnClickListener(v -> {
-            String username = et_username.getText().toString().trim();
-            String email = et_email.getText().toString().trim();
-            String password = et_password.getText().toString().trim();
-            String confirmPassword = et_confirm_password.getText().toString().trim();
+        btnRegister.setOnClickListener(v -> {
+            String username = etUsername.getText().toString().trim();
+            String email = etEmail.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
+            String confirmPassword = etConfirmPassword.getText().toString().trim();
 
             boolean isValid = true;
 

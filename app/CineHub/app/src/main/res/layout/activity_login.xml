@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/general_padding"
+    android:padding="@dimen/generalPadding"
     tools:context=".LoginActivity">
 
     <ImageView
-        android:id="@+id/iv_logo"
+        android:id="@+id/ivLogo"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:src="@drawable/logo_basic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/login_iv_desc" />
+        android:contentDescription="@string/loginIvDesc" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,30 +25,30 @@
         android:gravity="center">
 
         <EditText
-            android:id="@+id/et_email"
+            android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/login_et_email"
+            android:hint="@string/loginEtEmail"
             android:textColor="#0B090A"
             android:inputType="textEmailAddress"
             android:autofillHints="username" />
 
         <EditText
-            android:id="@+id/et_passwd"
+            android:id="@+id/etPasswd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/login_et_password"
+            android:hint="@string/loginEtPassword"
             android:textColor="#0B090A"
             android:inputType="textPassword"
             android:autofillHints="password" />
 
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/btnLogic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#E5383B"
             android:ems="15"
-            android:text="@string/login_btn_login" />
+            android:text="@string/loginBtnLogin" />
     </LinearLayout>
 
     <LinearLayout
@@ -61,19 +61,20 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
+            android:id="@+id/tvNotAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_tv_notaccount"
+            android:text="@string/loginTvNotaccount"
             android:textColor="#0B090A"
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/btn_register"
+            android:id="@+id/btnRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:backgroundTint="#E5383B"
-            android:text="@string/login_btn_register"
+            android:text="@string/loginBtnRegister"
             android:textSize="18sp" />
     </LinearLayout>
     
