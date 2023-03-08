@@ -5,12 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/general_padding"
-    android:background="#F5F3F4"
     tools:context=".LoginActivity">
 
     <ImageView
         android:id="@+id/iv_logo"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="250dp"
         android:src="@drawable/logo_basic"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,13 +21,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:padding="50dp"
         android:gravity="center">
 
         <EditText
             android:id="@+id/et_email"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="12"
             android:hint="@string/login_et_email"
             android:textColor="#0B090A"
             android:inputType="textEmailAddress"
@@ -36,9 +35,8 @@
 
         <EditText
             android:id="@+id/et_passwd"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="12"
             android:hint="@string/login_et_password"
             android:textColor="#0B090A"
             android:inputType="textPassword"
@@ -46,7 +44,7 @@
 
         <Button
             android:id="@+id/btn_login"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#E5383B"
             android:ems="15"
