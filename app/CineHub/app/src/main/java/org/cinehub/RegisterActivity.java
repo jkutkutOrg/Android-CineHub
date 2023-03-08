@@ -34,23 +34,33 @@ public class RegisterActivity extends AppCompatActivity {
             String password = et_password.getText().toString().trim();
             String confirmPassword = et_confirm_password.getText().toString().trim();
 
+            boolean isValid = true;
+
             if (!isUsernameValid(username)) {
                 Toast.makeText(this, "The username is invalid", Toast.LENGTH_SHORT).show();
-                return;
-            } else if (!isPasswordSecure(password)) {
-                Toast.makeText(this, "The password is not secure", Toast.LENGTH_SHORT).show();
-                return;
-            } else if (!arePasswordsEqual(password, confirmPassword)) {
-                Toast.makeText(this, "The passwords are not equal", Toast.LENGTH_SHORT).show();
-                return;
-            } else if (!isEmailValid(email)) {
-                Toast.makeText(this, "The email is invalid", Toast.LENGTH_SHORT).show();
-                return;
-            } else {
-                Toast.makeText(this, "The registration was successful", Toast.LENGTH_SHORT).show();
+                isValid = false;
             }
 
+            if (!isPasswordSecure(password)) {
+                Toast.makeText(this, "The password is not secure", Toast.LENGTH_SHORT).show();
+                isValid = false;
+            }
+
+            if (!arePasswordsEqual(password, confirmPassword)) {
+                Toast.makeText(this, "The passwords are not equal", Toast.LENGTH_SHORT).show();
+                isValid = false;
+            }
+
+            if (!isEmailValid(email)) {
+                Toast.makeText(this, "The email is invalid", Toast.LENGTH_SHORT).show();
+                isValid = false;
+            }
+
+            if (isValid) {
+                Toast.makeText(this, "The registration was successful", Toast.LENGTH_SHORT).show();
+            }
         });
+
     }
 
     /**
