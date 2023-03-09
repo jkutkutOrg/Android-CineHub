@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/generalPadding"
+    android:padding="@dimen/std_padding"
     tools:context=".LoginActivity">
 
     <ImageView
@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/loginIvDesc" />
+        android:contentDescription="@string/desc_login_logo" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/loginEtEmail"
+            android:hint="@string/hint_login_et_mail"
             android:textColor="#0B090A"
             android:inputType="textEmailAddress"
             android:autofillHints="username" />
@@ -37,7 +37,7 @@
             android:id="@+id/etPasswd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/loginEtPassword"
+            android:hint="@string/hint_login_et_password"
             android:textColor="#0B090A"
             android:inputType="textPassword"
             android:autofillHints="password" />
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#E5383B"
             android:ems="15"
-            android:text="@string/loginBtnLogin" />
+            android:text="@string/button_login_now" />
     </LinearLayout>
 
     <LinearLayout
@@ -64,7 +64,7 @@
             android:id="@+id/tvNotAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/loginTvNotaccount"
+            android:text="@string/label_login_et_notaccount"
             android:textColor="#0B090A"
             android:textSize="18sp" />
 
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:backgroundTint="#E5383B"
-            android:text="@string/loginBtnRegister"
+            android:text="@string/button_register_now"
             android:textSize="18sp" />
     </LinearLayout>
     

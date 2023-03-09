@@ -1,14 +1,15 @@
 <resources>
     <!-- General strings -->
     <string name="app_name">CineHub</string>
-    <!-- Main Activity Strings-->
-    <string name="loginEtEmail">Email</string>
-    <string name="loginEtPassword">Password</string>
-    <string name="loginBtnLogin">Login</string>
-    <string name="loginTvNotaccount">No account yet?</string>
-    <string name="loginBtnRegister">Register</string>
-    <string name="loginIvDesc">Logo of app</string>
-    <string name="registerBtnLogin">Register</string>
-    <string name="loginEtCpassword">Confirm your password</string>
-    <string name="registerEtUsername">Nickname</string>
+    <string name="desc_login_logo">Logo of app</string>
+    <!-- Login strings -->
+    <string name="hint_login_et_mail">Email</string>
+    <string name="hint_login_et_password">Password</string>
+    <string name="button_login_now">Login</string>
+    <string name="label_login_et_notaccount">No account yet?</string>
+    <!-- Register strings -->
+    <string name="hint_register_et_mail">Email</string>
+    <string name="hint_register_et_cpasswd">Confirm your password</string>
+    <string name="hint_register_et_username">Nickname</string>
+    <string name="button_register_now">Register</string>
 </resources>
