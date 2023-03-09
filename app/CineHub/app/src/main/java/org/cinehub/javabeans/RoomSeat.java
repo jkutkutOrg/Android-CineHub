@@ -5,8 +5,8 @@ import org.cinehub.enums.SeatType;
 public class RoomSeat {
     private final SeatType seatType;
 
-    public RoomSeat(char encoded_seat_type) {
-        switch (encoded_seat_type) {
+    public RoomSeat(char encodedSeatType) {
+        switch (encodedSeatType) {
             case 'f':
                 seatType = SeatType.EMPTY;
                 break;
