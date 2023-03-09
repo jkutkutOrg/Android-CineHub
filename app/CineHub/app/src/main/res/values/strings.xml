@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CineHub</string>
+    <string name="label_screen_indicator">Screen</string>
 </resources>
