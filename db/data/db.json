@@ -1,0 +1,136 @@
+{
+    "db" : {
+        "movie": [
+            {
+                "name": "Titanic",
+                "description": "",
+                "banner": "",
+                "price": 3.0
+            },
+            {
+                "name": "Minions",
+                "description": "",
+                "banner": "",
+                "price": 6.0
+            },
+            {
+                "name": "Avatar",
+                "description": "",
+                "banner": "",
+                "price": 22.0
+            },
+            {
+                "name": "Avatar 3D",
+                "description": "",
+                "banner": "",
+                "price": 33.0
+            }
+        ],
+        "room": [
+            {
+                "name": "Sala 1",
+                "rows": 10,
+                "cols": 10
+            },
+            {
+                "name": "Sala 2",
+                "rows": 10,
+                "cols": 10
+            },
+            {
+                "name": "Sala 3",
+                "rows": 10,
+                "cols": 10
+            }
+        ],
+        "projection": [
+            {
+                "room": 0,
+                "movie": 0,
+                "timedate": "2023-03-30T18:42:00.000Z"
+            },
+            {
+                "room": 1,
+                "movie": 0,
+                "timedate": "2023-03-30T18:42:00.000Z"
+            },
+            {
+                "room": 2,
+                "movie": 1,
+                "timedate": "2023-03-30T18:42:00.000Z"
+            },
+
+            {
+                "room": 0,
+                "movie": 1,
+                "timedate": "2023-03-30T22:42:00.000Z"
+            },
+            {
+                "room": 1,
+                "movie": 2,
+                "timedate": "2023-03-30T22:42:00.000Z"
+            },
+            {
+                "room": 2,
+                "movie": 3,
+                "timedate": "2023-03-30T22:42:00.000Z"
+            }
+        ],
+
+        "user": [
+            {
+                "name": "Marta",
+                "email": "marta@gmail.com"
+            },
+            {
+                "name": "Pepe",
+                "email": "pepe@gmail.com"
+            },
+            {
+                "name": "Peter",
+                "email": "peter@gmail.com"
+            },
+            {
+                "name": "user",
+                "email": "user@user.com"
+            }
+        ],
+        "reservation": [
+            {
+                "user": 0
+            }
+        ],
+        "seat_reservation": [
+            {
+                "projection": 0,
+                "row": 3,
+                "col": 5,
+                "reservation": 0
+            },
+            {
+                "projection": 0,
+                "row": 4,
+                "col": 5,
+                "reservation": 0
+            },
+            {
+                "projection": 0,
+                "row": 5,
+                "col": 5,
+                "reservation": 0
+            },
+            {
+                "projection": 0,
+                "row": 5,
+                "col": 6,
+                "reservation": 0
+            },
+            {
+                "projection": 0,
+                "row": 5,
+                "col": 7,
+                "reservation": 0
+            }
+        ]
+    }
+}
