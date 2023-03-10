@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
  *
  * @author Jkutkut
  */
-public class User implements Parcelable {
+public class User extends CinehubModel implements Parcelable {
     public static final String DB_REF = "user";
 
     private String email;
@@ -43,6 +43,11 @@ public class User implements Parcelable {
     };
 
     // GETTERS
+    @NonNull
+    public static String getDBRef() {
+        return DB_REF;
+    }
+
     public String getEmail() {
         return email;
     }

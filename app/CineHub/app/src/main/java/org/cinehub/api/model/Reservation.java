@@ -5,12 +5,16 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.database.annotations.NotNull;
+
 /**
  * Reservation model class.
  *
  * @author Jkutkut
  */
-public class Reservation implements Parcelable {
+public class Reservation extends CinehubModel implements Parcelable {
+    public static final String DB_REF = "reservation";
+
     private int user;
 
     public Reservation() {}
@@ -38,6 +42,11 @@ public class Reservation implements Parcelable {
     };
 
     // GETTERS
+    @NonNull
+    public static String getDBRef() {
+        return DB_REF;
+    }
+
     public int getUser() {
         return user;
     }

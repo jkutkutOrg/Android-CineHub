@@ -5,12 +5,15 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Projection model class.
  *
  * @author Jkutkut
  */
-public class Projection implements Parcelable {
+public class Projection extends CinehubModel implements Parcelable {
+    public static final String DB_REF = "projections";
     private int room;
     private int movie;
     private String timedate;
@@ -44,6 +47,11 @@ public class Projection implements Parcelable {
     };
 
     // GETTERS
+    @NonNull
+    public static String getDBRef() {
+        return DB_REF;
+    }
+    
     public int getRoom() {
         return room;
     }
