@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="@dimen/std_padding"
     tools:context=".SeatSelectionActivity">
 
     <TextView
@@ -21,7 +21,7 @@
         android:id="@+id/tvRoomName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/std_padding"
         android:text="@string/label_room_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,8 +31,8 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="@dimen/std_padding"
+        android:layout_marginBottom="@dimen/std_padding"
         app:layout_constraintBottom_toTopOf="@+id/tvScreenIndicator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,12 +47,13 @@
                 android:id="@+id/tblSeat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="@dimen/std_padding"
+                android:layout_marginBottom="@dimen/std_padding"
                 android:gravity="center" />
         </LinearLayout>
     </ScrollView>
 
+    <!-- FIXME We shouldn't allow screen view be this ugly... -->
     <TextView
         android:id="@+id/tvScreenIndicator"
         android:layout_width="0dp"
