@@ -1,6 +1,19 @@
 <resources>
+    <!-- General strings -->
     <string name="app_name">CineHub</string>
-    <string name="label_screen_indicator">Screen</string>
+    <string name="desc_login_logo">Logo of app</string>
+    <!-- Login strings -->
+    <string name="hint_login_et_mail">Email</string>
+    <string name="hint_login_et_password">Password</string>
+    <string name="button_login_now">Login</string>
+    <string name="label_login_et_notaccount">No account yet?</string>
+    <!-- Register strings -->
+    <string name="hint_register_et_mail">Email</string>
+    <string name="hint_register_et_cpasswd">Confirm your password</string>
+    <string name="hint_register_et_username">Nickname</string>
+    <string name="button_register_now">Register</string>
+    <!-- Room selection strings -->
     <string name="label_room_name">Sala %1$s</string>
     <string name="title_seat_selection">Selecciona un asiento</string>
+    <string name="label_screen_indicator">Screen</string>
 </resources>
