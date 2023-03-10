@@ -31,35 +31,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void ft() {
-        CinehubAuth auth = CinehubAPI.getAuthInstance();
         CinehubDB db = CinehubAPI.getDBInstance();
-
-//        auth.signup(
-//            "test user",
-//            "test@gmail.com",
-//            "test123",
-//            () -> {
-//                System.out.println("User created");
-//            },
-//            (error) -> {
-//                System.out.println("Error: " + error);
-//            }
-//        );
-//        auth.autoLogin(
-//            email -> {
-//                System.out.println("Already logged with email: " + email);
-//            }
-//        );
-//        auth.login(
-//            "test@gmail.com",
-//            "test123",
-//            () -> {
-//                System.out.println("Logged in successfully");
-//            },
-//            (error) -> {
-//                System.out.println("Error: " + error);
-//            }
-//        );
 
         db.getUsers(
             users -> {
@@ -101,9 +73,7 @@ public class MainActivity extends AppCompatActivity {
                         user.getEmail()
                 ));
             },
-            (error) -> {
-                System.out.println("Error at me: " + error);
-            }
+            null
         );
     }
 }

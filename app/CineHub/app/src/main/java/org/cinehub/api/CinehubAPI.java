@@ -56,8 +56,8 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         auth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener(authResult -> onSuccessCallback.onSuccess())
-            .addOnFailureListener(e -> onFailureCallback.onFailure(e.getMessage()));
+            .addOnSuccessListener(authResult -> execute(onSuccessCallback))
+            .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
 
     @Override
@@ -69,9 +69,9 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener(authResult -> {
                 // TODO add user to db
-                onSuccessCallback.onSuccess();
+                execute(onSuccessCallback);
             })
-            .addOnFailureListener(e -> onFailureCallback.onFailure(e.getMessage()));
+            .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
 
     @Override
@@ -80,10 +80,10 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureListener
     ) {
         FirebaseUser usr = auth.getCurrentUser();
-        if (usr != null)
-            onSuccessListener.onSuccess(usr.getEmail());
+        if (usr == null)
+            execute(onFailureListener, "Not logged in");
         else
-            onFailureListener.onFailure("Not logged in");
+            execute(onSuccessListener, usr.getEmail());
     }
 
     // ********* DB *********
@@ -95,8 +95,8 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
             ArrayList<User> users = new ArrayList<>();
             for (DataSnapshot userSnap : dataSnapshot.getChildren())
                 users.add(userSnap.getValue(User.class));
-            onSuccessListener.onSuccess(users);
-        }).addOnFailureListener(e -> onFailureCallback.onFailure(e.getMessage()));
+            execute(onSuccessListener, users);
+        }).addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
 
     public void getUser(
@@ -108,12 +108,12 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
             users -> {
                 for (User user : users)
                     if (user.getEmail().equals(email)) {
-                        onSuccessListener.onSuccess(user);
+                        execute(onSuccessListener, user);
                         return;
                     }
-                onFailureCallback.onFailure("User not found");
+                execute(onFailureCallback, "User not found");
             },
-                onFailureCallback
+            onFailureCallback
         );
     }
 
@@ -123,9 +123,25 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
     ) {
         FirebaseUser usr = auth.getCurrentUser();
         if (usr == null) {
-            onFailureCallback.onFailure("Not logged in");
+            execute(onFailureCallback, "Not logged in");
             return;
         }
         getUser(usr.getEmail(), onSuccessListener, onFailureCallback);
+    }
+
+    // ********* Storage *********
+
+    // ********* Utils *********
+    protected void execute(OnSuccessCallback callback) {
+        if (callback != null)
+            callback.onSuccess();
+    }
+    protected <T> void execute(OnSuccessValueCallback<T> callback, T data) {
+        if (callback != null)
+            callback.onSuccess(data);
+    }
+    protected <T> void execute(OnFailureCallback<T> callback, T error) {
+        if (callback != null)
+            callback.onFailure(error);
     }
 }
