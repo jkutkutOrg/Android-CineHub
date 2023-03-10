@@ -1,8 +1,8 @@
 package org.cinehub.api;
 
-import org.cinehub.api.result.OnFailureListener;
-import org.cinehub.api.result.OnSuccessListener;
-import org.cinehub.api.result.OnSuccessValueListener;
+import org.cinehub.api.result.OnFailureCallback;
+import org.cinehub.api.result.OnSuccessCallback;
+import org.cinehub.api.result.OnSuccessValueCallback;
 
 /**
  * Interface to handle the authentication of the user.
@@ -15,13 +15,13 @@ public interface CinehubAuth {
      *
      * @param email email of the user
      * @param password password of the user
-     * @param onSuccessListener listener to be called on success
-     * @param onFailureListener listener to be called on failure
+     * @param onSuccessCallback listener to be called on success
+     * @param onFailureCallback listener to be called on failure
      */
     void login(
         String email, String password,
-        OnSuccessListener onSuccessListener,
-        OnFailureListener<String> onFailureListener
+        OnSuccessCallback onSuccessCallback,
+        OnFailureCallback<String> onFailureCallback
     );
 
     /**
@@ -30,22 +30,23 @@ public interface CinehubAuth {
      * @param name name of the user
      * @param email email of the user
      * @param password password of the user
-     * @param onSuccessListener listener to be called on success
-     * @param onFailureListener listener to be called on failure
+     * @param onSuccessCallback listener to be called on success
+     * @param onFailureCallback listener to be called on failure
      */
     void signup(
         String name, String email, String password,
-        OnSuccessListener onSuccessListener,
-        OnFailureListener<String> onFailureListener
+        OnSuccessCallback onSuccessCallback,
+        OnFailureCallback<String> onFailureCallback
     );
 
     /**
      * Attempts to login a user automatically.
      *
      * @param onSuccessListener listener to be called if the user is already logged in
-     * @apiNote This method does nothing if the user is not already logged in.
+     * @param onFailureListener listener to be called if the user is not logged in
      */
     void autoLogin(
-        OnSuccessValueListener<String> onSuccessListener
+        OnSuccessValueCallback<String> onSuccessListener,
+        OnFailureCallback<String> onFailureListener
     );
 }

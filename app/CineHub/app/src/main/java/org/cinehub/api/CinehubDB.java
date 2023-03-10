@@ -14,37 +14,37 @@ public interface CinehubDB {
     /**
      * Get all the users in the database.
      *
-     * @param onSuccessListener The listener to call when the operation is successful.
-     * @param onFailureListener The listener to handle the error.
+     * @param onSuccessCallback The Callback to call when the operation is successful.
+     * @param onFailureCallback The Callback to handle the error.
      */
     void getUsers(
-        OnSuccessValueListener<ArrayList<User>> onSuccessListener,
-        OnFailureListener<String> onFailureListener
+        OnSuccessValueCallback<ArrayList<User>> onSuccessCallback,
+        OnFailureCallback<String> onFailureCallback
     );
 
     /**
      * Get a user by its email.
      *
      * @param mail The email of the user.
-     * @param onSuccessListener The listener to call when the operation is successful.
-     * @param onFailureListener The listener to handle the error.
+     * @param onSuccessCallback The Callback to call when the operation is successful.
+     * @param onFailureCallback The Callback to handle the error.
      */
     void getUser(
         String mail,
-        OnSuccessValueListener<User> onSuccessListener,
-        OnFailureListener<String> onFailureListener
+        OnSuccessValueCallback<User> onSuccessCallback,
+        OnFailureCallback<String> onFailureCallback
     );
 
     /**
      * Get the current user.
-     * If the user is not logged in or an error occurred, the listener will be called with the
+     * If the user is not logged in or an error occurred, the Callback will be called with the
      * appropriate error.
      *
-     * @param onSuccessListener The listener to call when the operation is successful.
-     * @param onFailureListener The listener to handle the error.
+     * @param onSuccessCallback The Callback to call when the operation is successful.
+     * @param onFailureCallback The Callback to handle the error.
      */
     void whoami(
-        OnSuccessValueListener<User> onSuccessListener,
-        OnFailureListener<String> onFailureListener
+        OnSuccessValueCallback<User> onSuccessCallback,
+        OnFailureCallback<String> onFailureCallback
     );
 }

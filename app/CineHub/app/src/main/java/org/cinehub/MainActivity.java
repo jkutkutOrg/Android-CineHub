@@ -25,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
             email -> {
                 System.out.println("Already logged with email: " + email);
                 user = email;
-            }
+            },
+            error -> {}
         );
     }
 
