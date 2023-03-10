@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
  * @author Jkutkut
  */
 public class User implements Parcelable {
+    public static final String DB_REF = "user";
+
     private String email;
     private String name;
 
