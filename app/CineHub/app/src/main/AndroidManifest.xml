@@ -13,6 +13,9 @@
         android:theme="@style/Theme.CineHub"
         tools:targetApi="31">
         <activity
+            android:name=".BookingSummaryActivity"
+            android:exported="false" />
+        <activity
             android:name=".SeatSelectionActivity"
             android:exported="false" />
         <activity
