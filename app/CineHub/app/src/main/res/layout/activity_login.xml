@@ -11,7 +11,7 @@
         android:id="@+id/ivLogo"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:src="@drawable/logo_basic"
+        android:src="@drawable/ic_logo_basic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
