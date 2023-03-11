@@ -48,6 +48,16 @@ erDiagram
 
     Reservation }o--|| User : is_made_by
 
+    RoomConfiguration {
+      id id
+      id room
+      int row
+      int col
+      char state
+    }
+
+    Room ||--o{ RoomConfiguration : has_gaps
+
 ```
 
 ## Features:

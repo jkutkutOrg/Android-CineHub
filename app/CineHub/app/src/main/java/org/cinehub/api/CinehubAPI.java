@@ -19,7 +19,6 @@ import org.cinehub.api.result.OnSuccessCallback;
 import org.cinehub.api.result.OnSuccessValueCallback;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class CinehubAPI implements CinehubAuth, CinehubDB {
 

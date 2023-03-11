@@ -131,6 +131,98 @@
                 "col": 7,
                 "reservation": 0
             }
+        ],
+        "room_configuration": [
+            {
+                "room": 0,
+                "row": 0,
+                "col": 3,
+                "type": " "
+            },
+            {
+                "room": 0,
+                "row": 0,
+                "col": 4,
+                "type": " "
+            },
+            {
+                "room": 0,
+                "row": 0,
+                "col": 5,
+                "type": " "
+            },
+            {
+                "room": 0,
+                "row": 0,
+                "col": 6,
+                "type": " "
+            },
+            {
+                "room": 0,
+                "row": 0,
+                "col": 7,
+                "type": " "
+            },
+            {
+                "room": 1,
+                "row": 0,
+                "col": 3,
+                "type": " "
+            },
+            {
+                "room": 1,
+                "row": 0,
+                "col": 4,
+                "type": " "
+            },
+            {
+                "room": 1,
+                "row": 0,
+                "col": 5,
+                "type": " "
+            },
+            {
+                "room": 1,
+                "row": 0,
+                "col": 6,
+                "type": " "
+            },
+            {
+                "room": 1,
+                "row": 0,
+                "col": 7,
+                "type": " "
+            },
+            {
+                "room": 2,
+                "row": 0,
+                "col": 3,
+                "type": " "
+            },
+            {
+                "room": 2,
+                "row": 0,
+                "col": 4,
+                "type": " "
+            },
+            {
+                "room": 2,
+                "row": 0,
+                "col": 5,
+                "type": " "
+            },
+            {
+                "room": 2,
+                "row": 0,
+                "col": 6,
+                "type": " "
+            },
+            {
+                "room": 2,
+                "row": 0,
+                "col": 7,
+                "type": " "
+            }
         ]
     }
 }

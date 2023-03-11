@@ -22,15 +22,15 @@ public class RoomConfiguration implements Parcelable {
     private int room;
     private int row;
     private int col;
-    private char state;
+    private char type;
 
     public RoomConfiguration() {}
 
-    public RoomConfiguration(int room, int row, int col, char state) {
+    public RoomConfiguration(int room, int row, int col, char type) {
         setRoom(room);
         setRow(row);
         setCol(col);
-        setState(state);
+        setType(type);
     }
 
     protected RoomConfiguration(Parcel in) {
@@ -60,7 +60,7 @@ public class RoomConfiguration implements Parcelable {
         return String.format(
             Locale.getDefault(),
             "RoomConfiguration{room=%d, row=%d, col=%d, state=%c}",
-            room, row, col, state
+            room, row, col, type
         );
     }
 
@@ -76,8 +76,8 @@ public class RoomConfiguration implements Parcelable {
         return col;
     }
 
-    public char getState() {
-        return state;
+    public char getType() {
+        return type;
     }
 
     // SETTERS
@@ -93,10 +93,10 @@ public class RoomConfiguration implements Parcelable {
         this.col = col;
     }
 
-    public void setState(char state) {
+    public void setType(char type) {
         for (char s : STATES) {
-            if (s == state) {
-                this.state = state;
+            if (s == type) {
+                this.type = type;
                 return;
             }
         }
@@ -113,6 +113,6 @@ public class RoomConfiguration implements Parcelable {
         dest.writeInt(room);
         dest.writeInt(row);
         dest.writeInt(col);
-        dest.writeInt((int) state);
+        dest.writeInt((int) type);
     }
 }
