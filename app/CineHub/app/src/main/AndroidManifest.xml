@@ -19,6 +19,9 @@
             android:name=".SeatSelectionActivity"
             android:exported="false" />
         <activity
+            android:name=".BillBoardActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
