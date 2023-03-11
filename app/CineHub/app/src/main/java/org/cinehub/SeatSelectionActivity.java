@@ -3,9 +3,7 @@ package org.cinehub;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -14,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import org.cinehub.enums.SeatType;
-import org.cinehub.javabeans.MovieRoom;
 
 public class SeatSelectionActivity extends AppCompatActivity {
 
@@ -32,7 +29,7 @@ public class SeatSelectionActivity extends AppCompatActivity {
         TextView tvRoomName = findViewById(R.id.tvRoomName);
         tvRoomName.setText(getString(R.string.label_room_name, String.valueOf(roomId)));
         generateRoomDisplayLayout(findViewById(R.id.tblSeat),
-                new MovieRoom(roomId, encodedLayout.length, encodedLayout[0].length,
+                new MovieRoom(encodedLayout.length, encodedLayout[0].length,
                         encodedLayout));
     }
 
@@ -62,5 +59,55 @@ public class SeatSelectionActivity extends AppCompatActivity {
     private void onSeatSelected(int row, int col) {
         Intent i = new Intent(this, BookingSummaryActivity.class);
         startActivity(i);
+    }
+
+    private static class MovieRoom {
+        private final int rows;
+        private final int cols;
+        private final RoomSeat[][] seatArrangement;
+
+        public MovieRoom(int rows, int cols, Character[][] seatArrangement) {
+            this.rows = rows;
+            this.cols = cols;
+            this.seatArrangement = new RoomSeat[rows][cols];
+            for (int i = 0; i < rows; i++) for (int j = 0; j < cols; j++)
+                this.seatArrangement[i][j] = new RoomSeat(seatArrangement[i][j]);
+        }
+
+        public int getRowCount() {
+            return rows;
+        }
+
+        public int getColCount() {
+            return cols;
+        }
+
+        public RoomSeat getSeatAtPos(int row, int col) {
+            return seatArrangement[row][col];
+        }
+    }
+
+    private static class RoomSeat {
+        private final SeatType seatType;
+
+        public RoomSeat(char encodedSeatType) {
+            switch (encodedSeatType) {
+                case 'f':
+                    seatType = SeatType.EMPTY;
+                    break;
+                case 'o':
+                    seatType = SeatType.OCCUPIED;
+                    break;
+                case ' ':
+                    seatType = SeatType.NONEXISTENT;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unrecognized encoded seat type while initializing seat");
+            }
+        }
+
+        public SeatType getSeatType() {
+            return seatType;
+        }
     }
 }
