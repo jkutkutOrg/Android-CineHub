@@ -58,6 +58,7 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
     private void onSeatSelected(int row, int col) {
         Intent i = new Intent(this, BookingSummaryActivity.class);
+        i.putExtra(BookingSummaryActivity.EXTRA_SEAT_RESERVATION, new SeatReservation(row, col));
         startActivity(i);
     }
 
