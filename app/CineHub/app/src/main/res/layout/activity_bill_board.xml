@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/general_padding"
+    android:padding="@dimen/std_padding"
     tools:context=".BillBoardActivity">
 
     <LinearLayout
@@ -22,9 +22,9 @@
             android:id="@+id/ivLogo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/logo_basic"
+            android:src="@drawable/ic_logo_basic"
             android:layout_weight="1"
-            android:contentDescription="@string/login_iv_desc" />
+            android:contentDescription="@string/desc_login_logo" />
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
