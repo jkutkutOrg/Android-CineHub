@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
 /**
  * User model class.
  *
@@ -42,6 +44,15 @@ public class User implements Parcelable {
     };
 
     // GETTERS
+    @Override
+    public String toString() {
+        return String.format(
+            Locale.getDefault(),
+            "User{email=%s, name=%s}",
+            email, name
+        );
+    }
+
     public String getEmail() {
         return email;
     }

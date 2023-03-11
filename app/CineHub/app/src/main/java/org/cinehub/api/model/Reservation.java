@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 
 import com.google.firebase.database.annotations.NotNull;
 
+import java.util.Locale;
+
 /**
  * Reservation model class.
  *
@@ -41,6 +43,15 @@ public class Reservation implements Parcelable {
     };
 
     // GETTERS
+    @Override
+    public String toString() {
+        return String.format(
+            Locale.getDefault(),
+            "Reservation{user=%d}",
+            user
+        );
+    }
+
     public int getUser() {
         return user;
     }

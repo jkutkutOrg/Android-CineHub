@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
 /**
  * Movie model class.
  *
@@ -48,6 +50,15 @@ public class Movie implements Parcelable {
     };
 
     // GETTERS
+    @Override
+    public String toString() {
+        return String.format(
+            Locale.getDefault(),
+            "Movie{name=%s, description=%s, img=%s, price=%f}",
+            name, description, img, price
+        );
+    }
+
     public String getName() {
         return name;
     }

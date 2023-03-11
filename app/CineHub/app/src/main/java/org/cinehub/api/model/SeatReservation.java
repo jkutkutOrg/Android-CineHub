@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
 /**
  * SeatReservation model class.
  *
@@ -48,6 +50,15 @@ public class SeatReservation implements Parcelable {
     };
 
     // GETTERS
+    @Override
+    public String toString() {
+        return String.format(
+            Locale.getDefault(),
+            "SeatReservation{projection=%d, row=%d, col=%d, reservation=%d}",
+            projection, row, col, reservation
+        );
+    }
+
     public int getProjection() {
         return projection;
     }

@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
+
 /**
  * Projection model class.
  *
@@ -47,6 +49,15 @@ public class Projection implements Parcelable {
     };
 
     // GETTERS
+    @Override
+    public String toString() {
+        return String.format(
+            Locale.getDefault(),
+            "Projection{room=%d, movie=%d, timedate=%s}",
+            room, movie, timedate
+        );
+    }
+
     public int getRoom() {
         return room;
     }

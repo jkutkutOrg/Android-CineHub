@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
 /**
  * Room model class.
  *
@@ -48,6 +50,15 @@ public class Room implements Parcelable {
     };
 
     // GETTERS
+    @Override
+    public String toString() {
+        return String.format(
+            Locale.getDefault(),
+            "Room { name: %s, rows: %d, cols: %d }",
+            name, rows, cols
+        );
+    }
+
     public String getName() {
         return name;
     }
