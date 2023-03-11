@@ -6,8 +6,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
 import org.cinehub.api.model.User;
 import org.cinehub.utils.UserValidationUtils;
 
@@ -55,11 +53,5 @@ public class LoginActivity extends NavActivity {
             startActivity(new Intent(this, RegisterActivity.class));
         });
 
-    }
-
-    @NonNull
-    @Override
-    protected Intent collectData(@NonNull Intent intent) {
-        return intent;
     }
 }
