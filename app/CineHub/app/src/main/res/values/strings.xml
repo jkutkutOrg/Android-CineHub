@@ -11,4 +11,6 @@
     <string name="register_btn_login">Register</string>
     <string name="login_et_cpassword">Confirm your password</string>
     <string name="register_et_username">Nickname</string>
+    <!-- BillBoard Activity Strings-->
+    <string name="billboard_tv_title">Select your favorite movie</string>
 </resources>
