@@ -113,6 +113,43 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         getAll(Projection.class, onSuccessValueCallback, onFailureCallback);
     }
 
+    public void getProjectionConfiguration(
+        int projectionId,
+        OnSuccessValueCallback<char[][]> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getRoom(
+            projectionId,
+            room -> {
+                // row, col
+                getConfigurationsRoom(
+                    projectionId,
+                    lstSeats -> {
+                        // lstSeats
+                        getSeatReservationsProjection(
+                            projectionId,
+                            lstSeatReservations -> {
+                                char[][] seats = new char[room.getRows()][room.getCols()];
+                                for (int i = 0; i < room.getRows(); i++)
+                                    for (int j = 0; j < room.getCols(); j++)
+                                        seats[i][j] = RoomConfiguration.FREE;
+                                for (RoomConfiguration seat : lstSeats)
+                                    seats[seat.getRow()][seat.getCol()] = seat.getState();
+                                for (SeatReservation r : lstSeatReservations)
+                                    seats[r.getRow()][r.getCol()] = RoomConfiguration.OCCUPIED;
+                                execute(onSuccessValueCallback, seats);
+                            },
+                            onFailureCallback
+                        );
+                    },
+                    onFailureCallback
+                );
+            },
+            onFailureCallback
+        );
+    }
+
+
     // ** Reservation **
 
     public void getReservations(
@@ -139,11 +176,35 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
     }
 
     // ** RoomConfiguration **
-    public void getRoomConfigurations(
+    /**
+     * Get all the room configurations from the database.
+     *
+     * @param onSuccessValueCallback The callback to be called when the request is successful.
+     * @param onFailureCallback The callback to be called when the request fails.
+     */
+    protected void getRoomConfigurations(
         OnSuccessValueCallback<ArrayList<RoomConfiguration>> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
     ) {
         getAll(RoomConfiguration.class, onSuccessValueCallback, onFailureCallback);
+    }
+
+    protected void getConfigurationsRoom(
+        int roomId,
+        OnSuccessValueCallback<ArrayList<RoomConfiguration>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+         getRoomConfigurations(
+            specialSeats -> {
+                ArrayList<RoomConfiguration> set = new ArrayList<>();
+                for (RoomConfiguration seat : specialSeats) {
+                    if (seat.getRoom() != roomId)
+                        set.add(seat);
+                }
+                execute(onSuccessValueCallback, set);
+            },
+            onFailureCallback
+        );
     }
 
     // ** SeatReservation **
@@ -152,6 +213,23 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         getAll(SeatReservation.class, onSuccessValueCallback, onFailureCallback);
+    }
+
+    protected void getSeatReservationsProjection(
+            int projectionId,
+            OnSuccessValueCallback<ArrayList<SeatReservation>> onSuccessValueCallback,
+            OnFailureCallback<String> onFailureCallback
+    ) {
+        getSeatReservations(
+                reservations -> {
+                    ArrayList<SeatReservation> lstReservations = new ArrayList<>();
+                    for (SeatReservation r : reservations)
+                        if (r.getProjection() == projectionId)
+                            lstReservations.add(r);
+                    execute(onSuccessValueCallback, lstReservations);
+                },
+                onFailureCallback
+        );
     }
 
     // ** Users **

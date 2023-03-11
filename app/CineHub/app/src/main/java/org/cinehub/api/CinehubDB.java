@@ -44,6 +44,12 @@ public interface CinehubDB {
         OnFailureCallback<String> onFailureCallback
     );
 
+    void getProjectionConfiguration(
+        int projectionId,
+        OnSuccessValueCallback<char[][]> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
+
     // ** Reservation **
 
     /**
@@ -70,18 +76,14 @@ public interface CinehubDB {
         OnFailureCallback<String> onFailureCallback
     );
 
-    // ** RoomConfiguration **
-
-    /**
-     * Get all the room configurations from the database.
-     *
-     * @param onSuccessValueCallback The callback to be called when the request is successful.
-     * @param onFailureCallback The callback to be called when the request fails.
-     */
-    void getRoomConfigurations(
-        OnSuccessValueCallback<ArrayList<RoomConfiguration>> onSuccessValueCallback,
+    void getRoom( // TODO doc
+        int roomId,
+        OnSuccessValueCallback<Room> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
     );
+
+    // ** RoomConfiguration **
+    // TODO update doc
 
     // ** SeatReservation **
 
