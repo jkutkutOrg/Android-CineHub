@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import org.cinehub.api.model.SeatReservation;
 
 public class BookingSummaryActivity extends AppCompatActivity {
+
+    public static final String EXTRA_SEAT_RESERVATION = "SeatReservation";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,9 @@ public class BookingSummaryActivity extends AppCompatActivity {
         // TODO assign data from previous activities
 
         findViewById(R.id.btnBookingConfirmation).setOnClickListener(v -> onBookingConfirmation());
+
+        SeatReservation seat = getIntent().getParcelableExtra(EXTRA_SEAT_RESERVATION);
+        tvSeat.setText(getString(R.string.label_booking_seat_dat, seat.getRow(), seat.getCol()));
     }
 
     private void onBookingConfirmation() {
