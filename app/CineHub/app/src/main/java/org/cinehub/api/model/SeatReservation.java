@@ -21,6 +21,10 @@ public class SeatReservation extends CinehubModel implements Parcelable {
 
     public SeatReservation() {}
 
+    public SeatReservation(int row, int col) {
+        this(-1, row, col, -1);
+    }
+
     public SeatReservation(int projection, int row, int col, int reservation) {
         setProjection(projection);
         setRow(row);
