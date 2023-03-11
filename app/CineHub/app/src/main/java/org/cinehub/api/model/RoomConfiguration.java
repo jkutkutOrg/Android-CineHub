@@ -17,6 +17,7 @@ public class RoomConfiguration implements Parcelable {
     public static final char FREE = 'f';
     public static final char OCCUPIED = 'o';
     public static final char GAP = ' ';
+    public static final char[] STATES = {FREE, OCCUPIED, GAP};
 
     private int room;
     private int row;
@@ -93,7 +94,13 @@ public class RoomConfiguration implements Parcelable {
     }
 
     public void setState(char state) {
-        this.state = state; // TODO validate
+        for (char s : STATES) {
+            if (s == state) {
+                this.state = state;
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Invalid state");
     }
 
     @Override

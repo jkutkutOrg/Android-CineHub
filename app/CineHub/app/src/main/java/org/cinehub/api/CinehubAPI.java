@@ -313,7 +313,7 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
 
     // ********* Storage *********
 
-    // TODO
+    // TODO storage
 
     // ********* Utils *********
     protected <T> void getAll(

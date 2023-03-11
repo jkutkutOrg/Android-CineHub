@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Instrumented test, which will execute on an Android device.
+ * This class is the base class for all API tests.
  *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * @author Jkutkut
  */
 @RunWith(AndroidJUnit4.class)
 public class APITest {
@@ -46,7 +46,7 @@ public class APITest {
 
     @After
     public void teardownTest() {
-        while (running.get() == RUNNING) ;
+        while (running.get() == RUNNING) ; // Yep, just wait
 
         if (msgs.size() == 0) {
             System.out.println("No output");
