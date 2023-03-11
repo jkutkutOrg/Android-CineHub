@@ -5,6 +5,7 @@ package org.cinehub.api.result;
  *
  * @author Jkutkut
  */
+@FunctionalInterface
 public interface OnSuccessCallback {
     /**
      * Called on success.

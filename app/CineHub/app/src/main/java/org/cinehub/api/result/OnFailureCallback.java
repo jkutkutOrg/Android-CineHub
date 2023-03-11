@@ -5,6 +5,7 @@ package org.cinehub.api.result;
  * @param <T> type of the value to be passed to the callback
  * @author Jkutkut
  */
+@FunctionalInterface
 public interface OnFailureCallback<T> {
     /**
      * Called on failure.

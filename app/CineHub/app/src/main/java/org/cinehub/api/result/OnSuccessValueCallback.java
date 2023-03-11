@@ -5,6 +5,7 @@ package org.cinehub.api.result;
  * @param <T> type of the value to be returned
  * @author Jkutkut
  */
+@FunctionalInterface
 public interface OnSuccessValueCallback<T> {
     /**
      * Called on success.
