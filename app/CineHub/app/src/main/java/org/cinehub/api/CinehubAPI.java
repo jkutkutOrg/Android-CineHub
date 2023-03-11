@@ -104,6 +104,14 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         getAll(Movie.class, onSuccessValueCallback, onFailureCallback);
     }
 
+    public void getMovie(
+        int movieId,
+        OnSuccessValueCallback<Movie> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        get(Movie.class, movieId, onSuccessValueCallback, onFailureCallback);
+    }
+
     // ** Projection **
 
     public void getProjections(
@@ -111,6 +119,14 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         getAll(Projection.class, onSuccessValueCallback, onFailureCallback);
+    }
+
+    public void getProjection(
+        int projectionId,
+        OnSuccessValueCallback<Projection> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        get(Projection.class, projectionId, onSuccessValueCallback, onFailureCallback);
     }
 
     public void getProjectionConfiguration(
@@ -149,7 +165,6 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         );
     }
 
-
     // ** Reservation **
 
     public void getReservations(
@@ -157,6 +172,14 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         getAll(Reservation.class, onSuccessValueCallback, onFailureCallback);
+    }
+
+    public void getReservation(
+        int reservationId,
+        OnSuccessValueCallback<Reservation> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        get(Reservation.class, reservationId, onSuccessValueCallback, onFailureCallback);
     }
 
     // ** Room **
@@ -176,17 +199,19 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
     }
 
     // ** RoomConfiguration **
-    /**
-     * Get all the room configurations from the database.
-     *
-     * @param onSuccessValueCallback The callback to be called when the request is successful.
-     * @param onFailureCallback The callback to be called when the request fails.
-     */
-    protected void getRoomConfigurations(
+    public void getRoomConfigurations(
         OnSuccessValueCallback<ArrayList<RoomConfiguration>> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
     ) {
         getAll(RoomConfiguration.class, onSuccessValueCallback, onFailureCallback);
+    }
+
+    public void getRoomConfiguration(
+        int roomConfigurationId,
+        OnSuccessValueCallback<RoomConfiguration> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        get(RoomConfiguration.class, roomConfigurationId, onSuccessValueCallback, onFailureCallback);
     }
 
     protected void getConfigurationsRoom(
@@ -213,6 +238,14 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         getAll(SeatReservation.class, onSuccessValueCallback, onFailureCallback);
+    }
+
+    public void getSeatReservation(
+        int seatReservationId,
+        OnSuccessValueCallback<SeatReservation> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        get(SeatReservation.class, seatReservationId, onSuccessValueCallback, onFailureCallback);
     }
 
     protected void getSeatReservationsProjection(

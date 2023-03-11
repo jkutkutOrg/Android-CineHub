@@ -31,6 +31,12 @@ public interface CinehubDB {
         OnFailureCallback<String> onFailureCallback
     );
 
+    void getMovie( // TODO doc
+        int movieId,
+        OnSuccessValueCallback<Movie> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
+
     // ** Projection **
 
     /**
@@ -41,6 +47,12 @@ public interface CinehubDB {
      */
     void getProjections(
         OnSuccessValueCallback<ArrayList<Projection>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
+
+    void getProjection( // TODO doc
+        int projectionId,
+        OnSuccessValueCallback<Projection> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
     );
 
@@ -60,6 +72,12 @@ public interface CinehubDB {
      */
     void getReservations(
         OnSuccessValueCallback<ArrayList<Reservation>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
+
+    void getReservation( // TODO doc
+        int reservationId,
+        OnSuccessValueCallback<Reservation> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
     );
 
@@ -83,7 +101,22 @@ public interface CinehubDB {
     );
 
     // ** RoomConfiguration **
-    // TODO update doc
+    /**
+     * Get all the room configurations from the database.
+     *
+     * @param onSuccessValueCallback The callback to be called when the request is successful.
+     * @param onFailureCallback The callback to be called when the request fails.
+     */
+    void getRoomConfigurations(
+        OnSuccessValueCallback<ArrayList<RoomConfiguration>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
+
+    void getRoomConfiguration( // TODO doc
+        int roomConfigurationId,
+        OnSuccessValueCallback<RoomConfiguration> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
 
     // ** SeatReservation **
 
@@ -95,6 +128,12 @@ public interface CinehubDB {
      */
     void getSeatReservations(
         OnSuccessValueCallback<ArrayList<SeatReservation>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
+
+    void getSeatReservation( // TODO doc
+        int seatReservationId,
+        OnSuccessValueCallback<SeatReservation> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
     );
 
