@@ -130,6 +130,14 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         getAll(Room.class, onSuccessValueCallback, onFailureCallback);
     }
 
+    public void getRoom( // TODO doc
+        int roomId,
+        OnSuccessValueCallback<Room> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        get(Room.class, roomId, onSuccessValueCallback, onFailureCallback);
+    }
+
     // ** RoomConfiguration **
     public void getRoomConfigurations(
         OnSuccessValueCallback<ArrayList<RoomConfiguration>> onSuccessValueCallback,
@@ -177,19 +185,7 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnSuccessValueCallback<User> onSuccessListener,
         OnFailureCallback<String> onFailureCallback
     ) {
-        if (id < 0) {
-            execute(onFailureCallback, "Invalid id");
-            return;
-        }
-        dbRef.child(getDBRef(User.class)).child(String.valueOf(id)).get()
-            .addOnSuccessListener(dataSnapshot -> {
-                User user = dataSnapshot.getValue(User.class);
-                if (user == null)
-                    execute(onFailureCallback, "User not found");
-                else
-                    execute(onSuccessListener, user);
-            })
-            .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
+        get(User.class, id, onSuccessListener, onFailureCallback);
     }
 
     public void whoami(
@@ -220,6 +216,27 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
                 list.add(snap.getValue(clazz));
             execute(onSuccessListener, list);
         }).addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
+    }
+
+    protected <T> void get(
+        Class<T> clazz,
+        int id,
+        OnSuccessValueCallback<T> onSuccessListener,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        if (id < 0) {
+            execute(onFailureCallback, "Invalid id");
+            return;
+        }
+        dbRef.child(getDBRef(clazz)).child(String.valueOf(id)).get()
+            .addOnSuccessListener(dataSnapshot -> {
+                T obj = dataSnapshot.getValue(clazz);
+                if (obj == null)
+                    execute(onFailureCallback, clazz.getName() + " not found");
+                else
+                    execute(onSuccessListener, obj);
+            })
+            .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
 
     protected String getDBRef(Class<?> clazz) {
