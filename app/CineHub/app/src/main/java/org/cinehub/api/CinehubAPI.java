@@ -74,8 +74,9 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
     ) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener(authResult -> {
-                // TODO add user to db
-                execute(onSuccessCallback);
+                dbRef.child(User.getDBRef()).push().setValue(new User(name, email))
+                    .addOnSuccessListener(aVoid -> execute(onSuccessCallback))
+                    .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
             })
             .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }

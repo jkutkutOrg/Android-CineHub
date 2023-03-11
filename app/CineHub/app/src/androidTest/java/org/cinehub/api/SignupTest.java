@@ -21,8 +21,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RunWith(AndroidJUnit4.class)
 public class SignupTest {
 
-    public static final int VALID = 0;
-    public static final int INVALID = 1;
+    public static final int VALID = 1;
+    public static final int INVALID = -1;
+    public static final int RUNNING = 0;
 
     static CinehubAuth auth;
     static CinehubDB db;
@@ -40,13 +41,13 @@ public class SignupTest {
 
     @Before
     public void setupTest() {
-        running = new AtomicInteger(1);
+        running = new AtomicInteger(RUNNING);
     }
 
     @After
     public void teardownTest() {
-        while (running.get() == 1) ;
-        assertEquals(0, running.get());
+        while (running.get() == RUNNING) ;
+        assertEquals(VALID, running.get());
         running.set(-1);
     }
 
