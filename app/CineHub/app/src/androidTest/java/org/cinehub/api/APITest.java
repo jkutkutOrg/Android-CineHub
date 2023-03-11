@@ -4,10 +4,11 @@ import static org.junit.Assert.assertEquals;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.cinehub.api.result.OnFailureCallback;
+import org.cinehub.api.result.OnSuccessValueCallback;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
@@ -62,5 +63,38 @@ public class APITest {
 
     protected void print(String s) {
         msgs.add(s);
+    }
+
+    protected <T> OnSuccessValueCallback<ArrayList<T>> getAllSuccessCallback() {
+        return lst -> {
+            if (lst.isEmpty()) {
+                print("lst.isEmpty()");
+                running.set(INVALID);
+            }
+            else {
+                print("lst.size() = " + lst.size());
+                running.set(VALID);
+            }
+        };
+    }
+
+    protected <T> OnSuccessValueCallback<T> getOneSuccessCallback() {
+        return obj -> {
+            if (obj == null) {
+                print("obj == null");
+                running.set(INVALID);
+            }
+            else {
+                print("obj = " + obj);
+                running.set(VALID);
+            }
+        };
+    }
+
+    protected OnFailureCallback<String> getFailureCallback() {
+        return e -> {
+            print("Error: " + e);
+            running.set(INVALID);
+        };
     }
 }
