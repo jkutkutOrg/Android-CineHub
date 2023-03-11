@@ -122,6 +122,12 @@ public interface CinehubDB {
         OnFailureCallback<String> onFailureCallback
     );
 
+    void getUserById( // TODO doc
+        int id,
+        OnSuccessValueCallback<User> onSuccessCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
+
     /**
      * Get the current user.
      * If the user is not logged in or an error occurred, the Callback will be called with the

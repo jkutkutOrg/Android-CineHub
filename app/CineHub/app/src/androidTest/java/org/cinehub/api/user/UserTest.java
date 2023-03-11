@@ -73,4 +73,27 @@ public class UserTest extends APITest {
             }
         );
     }
+
+    @Test
+    public void getUserById() {
+        db.getUserById(
+            0,
+            user -> {
+                print("user = " + user);
+                if (user == null) {
+                    running.set(INVALID);
+                }
+                else {
+                    print("user.getEmail() = " + user.getEmail());
+                    print("user.getName() = " + user.getName());
+                    running.set(VALID);
+                }
+            },
+            e -> {
+                print("Error: " + e);
+                running.set(INVALID);
+            }
+        );
+
+    }
 }

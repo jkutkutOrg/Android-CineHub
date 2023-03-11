@@ -172,6 +172,26 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         );
     }
 
+    public void getUserById( // TODO doc
+        int id,
+        OnSuccessValueCallback<User> onSuccessListener,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        if (id < 0) {
+            execute(onFailureCallback, "Invalid id");
+            return;
+        }
+        dbRef.child(User.getDBRef()).child(String.valueOf(id)).get()
+            .addOnSuccessListener(dataSnapshot -> {
+                User user = dataSnapshot.getValue(User.class);
+                if (user == null)
+                    execute(onFailureCallback, "User not found");
+                else
+                    execute(onSuccessListener, user);
+            })
+            .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
+    }
+
     public void whoami(
         OnSuccessValueCallback<User> onSuccessListener,
         OnFailureCallback<String> onFailureCallback
