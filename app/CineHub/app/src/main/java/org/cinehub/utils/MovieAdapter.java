@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.cinehub.R;
 
-import java.util.List;
-
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
 
     public MovieAdapter() {
@@ -30,6 +28,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
     @Override
     public void onBindViewHolder(@NonNull MovieVH holder, int position) {
         // Get the movie at the current position API
+        // holder.bind(movie);
     }
 
     @Override
@@ -41,14 +40,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
 
     public static class MovieVH extends RecyclerView.ViewHolder {
 
-        TextView tv_title, tv_release_date, tv_description;
-        ImageView iv_movie;
+        TextView tvTitle, tvReleaseDate, tvDescription;
+        ImageView ivMovie;
 
         public MovieVH(@NonNull View itemView) {
             super(itemView);
-            tv_title = itemView.findViewById(R.id.tvMovieTitle);
-            tv_description = itemView.findViewById(R.id.tvMovieDescription);
-            tv_release_date = itemView.findViewById(R.id.tvReleaseDate);
+            tvTitle = itemView.findViewById(R.id.tvMovieTitle);
+            tvDescription = itemView.findViewById(R.id.tvMovieDescription);
+            tvReleaseDate = itemView.findViewById(R.id.tvReleaseDate);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
