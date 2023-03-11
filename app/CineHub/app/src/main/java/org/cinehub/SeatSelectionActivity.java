@@ -1,5 +1,6 @@
 package org.cinehub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -46,7 +47,7 @@ public class SeatSelectionActivity extends AppCompatActivity {
                 // Disable button if seat is occupied or nonexistent
                 if (seatType.equals(SeatType.NONEXISTENT) || seatType.equals(SeatType.OCCUPIED))
                     seatBtn.setEnabled(false);
-                seatBtn.setBackgroundColor(0x00000000); // FIXME this should be in styles.xml
+                seatBtn.setBackgroundColor(0x0); // FIXME this should be in styles.xml
                 // required for lambda expression to compile
                 int currRow = row, currCol = col;
                 seatBtn.setOnClickListener(v -> onSeatSelected(currRow, currCol));
@@ -59,6 +60,7 @@ public class SeatSelectionActivity extends AppCompatActivity {
     }
 
     private void onSeatSelected(int row, int col) {
-        // TODO implement activity transition
+        Intent i = new Intent(this, BookingSummaryActivity.class);
+        startActivity(i);
     }
 }

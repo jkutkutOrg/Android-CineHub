@@ -16,4 +16,13 @@
     <string name="label_room_name">Sala %1$s</string>
     <string name="title_seat_selection">Selecciona un asiento</string>
     <string name="label_screen_indicator">Screen</string>
+    <!-- Summary strings -->
+    <string name="title_summary">Revisa tu reserva</string>
+    <string name="label_summary_subtitle">¡Casi hemos terminado!</string>
+    <string name="label_booking_date">Fecha</string>
+    <string name="label_booking_hour">Hora</string>
+    <string name="label_booking_room">Sala</string>
+    <string name="label_booking_seat">Butaca</string>
+    <string name="label_booking_price">Precio: %1$s€</string>
+    <string name="action_booking_confirmation">Finalizar reserva</string>
 </resources>
