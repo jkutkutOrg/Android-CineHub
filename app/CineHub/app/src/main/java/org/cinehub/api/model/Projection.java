@@ -12,8 +12,8 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Jkutkut
  */
-public class Projection extends CinehubModel implements Parcelable {
-    public static final String DB_REF = "projections";
+public class Projection implements Parcelable {
+
     private int room;
     private int movie;
     private String timedate;
@@ -47,11 +47,6 @@ public class Projection extends CinehubModel implements Parcelable {
     };
 
     // GETTERS
-    @NonNull
-    public static String getDBRef() {
-        return DB_REF;
-    }
-    
     public int getRoom() {
         return room;
     }

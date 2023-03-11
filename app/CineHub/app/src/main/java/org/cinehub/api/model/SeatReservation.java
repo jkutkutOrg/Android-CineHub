@@ -10,9 +10,7 @@ import androidx.annotation.NonNull;
  *
  * @author Jkutkut
  */
-public class SeatReservation extends CinehubModel implements Parcelable {
-
-    public static final String DB_REF = "seat_reservation";
+public class SeatReservation implements Parcelable {
 
     private int projection;
     private int row;
@@ -50,11 +48,6 @@ public class SeatReservation extends CinehubModel implements Parcelable {
     };
 
     // GETTERS
-    @NonNull
-    public static String getDBRef() {
-        return DB_REF;
-    }
-
     public int getProjection() {
         return projection;
     }

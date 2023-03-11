@@ -94,6 +94,5 @@ public class UserTest extends APITest {
                 running.set(INVALID);
             }
         );
-
     }
 }

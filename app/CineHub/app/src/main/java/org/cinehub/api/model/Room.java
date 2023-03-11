@@ -10,8 +10,7 @@ import androidx.annotation.NonNull;
  *
  * @author Jkutkut
  */
-public class Room extends CinehubModel implements Parcelable {
-    public static final String DB_REF = "room";
+public class Room implements Parcelable {
 
     private String name;
     private int rows;
@@ -49,11 +48,6 @@ public class Room extends CinehubModel implements Parcelable {
     };
 
     // GETTERS
-    @NonNull
-    public static String getDBRef() {
-        return DB_REF;
-    }
-
     public String getName() {
         return name;
     }

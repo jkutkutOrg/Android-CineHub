@@ -7,7 +7,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
 
-import org.cinehub.api.model.CinehubModel;
 import org.cinehub.api.model.Movie;
 import org.cinehub.api.model.Projection;
 import org.cinehub.api.model.Reservation;
@@ -20,6 +19,7 @@ import org.cinehub.api.result.OnSuccessCallback;
 import org.cinehub.api.result.OnSuccessValueCallback;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class CinehubAPI implements CinehubAuth, CinehubDB {
 
@@ -74,7 +74,7 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
     ) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener(authResult -> {
-                dbRef.child(User.getDBRef()).push().setValue(new User(name, email))
+                dbRef.child(getDBRef(User.class)).push().setValue(new User(name, email))
                     .addOnSuccessListener(aVoid -> execute(onSuccessCallback))
                     .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
             })
@@ -181,7 +181,7 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
             execute(onFailureCallback, "Invalid id");
             return;
         }
-        dbRef.child(User.getDBRef()).child(String.valueOf(id)).get()
+        dbRef.child(getDBRef(User.class)).child(String.valueOf(id)).get()
             .addOnSuccessListener(dataSnapshot -> {
                 User user = dataSnapshot.getValue(User.class);
                 if (user == null)
@@ -209,17 +209,22 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
     // TODO
 
     // ********* Utils *********
-    protected <T extends CinehubModel> void getAll(
+    protected <T> void getAll(
         Class<T> clazz,
         OnSuccessValueCallback<ArrayList<T>> onSuccessListener,
         OnFailureCallback<String> onFailureCallback
     ) {
-        dbRef.child(T.getDBRef()).get().addOnSuccessListener(dataSnapshot -> {
+        dbRef.child(getDBRef(clazz)).get().addOnSuccessListener(dataSnapshot -> {
             ArrayList<T> list = new ArrayList<>();
             for (DataSnapshot snap : dataSnapshot.getChildren())
                 list.add(snap.getValue(clazz));
             execute(onSuccessListener, list);
         }).addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
+    }
+
+    protected String getDBRef(Class<?> clazz) {
+        String[] arr = clazz.getName().split("\\.");
+        return arr[arr.length - 1].replaceAll("([a-z][A-Z])", "_$1").toLowerCase();
     }
 
     protected void execute(OnSuccessCallback callback) {

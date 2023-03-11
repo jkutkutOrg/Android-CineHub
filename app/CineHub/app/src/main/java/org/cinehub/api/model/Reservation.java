@@ -12,8 +12,7 @@ import com.google.firebase.database.annotations.NotNull;
  *
  * @author Jkutkut
  */
-public class Reservation extends CinehubModel implements Parcelable {
-    public static final String DB_REF = "reservation";
+public class Reservation implements Parcelable {
 
     private int user;
 
@@ -42,11 +41,6 @@ public class Reservation extends CinehubModel implements Parcelable {
     };
 
     // GETTERS
-    @NonNull
-    public static String getDBRef() {
-        return DB_REF;
-    }
-
     public int getUser() {
         return user;
     }
