@@ -16,10 +16,8 @@ import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
 
-    List<MovieTest> movies;
-
-    public MovieAdapter(List<MovieTest> movies) {
-        this.movies = movies;
+    public MovieAdapter() {
+        // TODO: Initialize the adapter with the data
     }
 
     @NonNull
@@ -31,12 +29,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
 
     @Override
     public void onBindViewHolder(@NonNull MovieVH holder, int position) {
-        holder.bind(movies.get(position));
+        // Get the movie at the current position API
     }
 
     @Override
     public int getItemCount() {
-        return movies.size();
+        return 0;
+        // Return the number of movies API
     }
 
 
@@ -55,19 +54,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
                 @Override
                 public void onClick(View view) {
                     // TODO: Go to seat selection
-                    Toast.makeText(itemView.getContext(),
-                            "Título: " + tv_title.getText() +
-                                    "\nDescripción: " + tv_description.getText() +
-                                    "\nFecha de lanzamiento: " + tv_release_date.getText(),
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(itemView.getContext(), "Movie clicked", Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
+        /*
         public void bind(MovieTest movie) {
             tv_title.setText(movie.getTitle());
             tv_release_date.setText(movie.getReleaseDate());
             tv_description.setText(movie.getDescription());
-        }
+        } */
     }
 }
