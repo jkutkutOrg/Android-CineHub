@@ -37,7 +37,6 @@
                     android:id="@+id/tvMovieTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Exanple Movie Title"
                     android:textColor="#0B090A"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -46,7 +45,6 @@
                     android:id="@+id/tvMovieDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="This is a description of the movie that is being shown in the billboard activity aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa."
                     android:textColor="#0B090A"
                     android:textSize="18sp" />
 
@@ -59,7 +57,6 @@
                             android:id="@+id/tvReleaseDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2020-01-01, 20:00h in Room 1"
                             android:layout_gravity="bottom"
                             android:textColor="#0B090A"
                             android:textSize="18sp"/>
