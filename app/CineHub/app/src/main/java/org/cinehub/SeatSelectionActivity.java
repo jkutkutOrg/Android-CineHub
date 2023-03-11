@@ -8,12 +8,12 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 
+import org.cinehub.api.model.SeatReservation;
 import org.cinehub.enums.SeatType;
 
-public class SeatSelectionActivity extends AppCompatActivity {
+public class SeatSelectionActivity extends NavActivity {
 
     public static final String EXTRA_ROOM_ID = "RoomId";
     public static final String EXTRA_LAYOUT = "Layout";

@@ -1,13 +1,11 @@
 package org.cinehub;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.TextView;
 
 import org.cinehub.api.model.SeatReservation;
 
-public class BookingSummaryActivity extends AppCompatActivity {
+public class BookingSummaryActivity extends NavActivity {
 
     public static final String EXTRA_SEAT_RESERVATION = "SeatReservation";
 
