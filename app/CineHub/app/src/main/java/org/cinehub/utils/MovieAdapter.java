@@ -11,11 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.cinehub.R;
+import org.cinehub.api.model.Movie;
+
+import java.util.ArrayList;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
 
-    public MovieAdapter() {
-        // TODO: Initialize the adapter with the data
+    private ArrayList<Movie> movieList;
+
+    public MovieAdapter(ArrayList<Movie> movieList) {
+        this.movieList = movieList;
     }
 
     @NonNull
@@ -27,14 +32,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
 
     @Override
     public void onBindViewHolder(@NonNull MovieVH holder, int position) {
-        // Get the movie at the current position API
-        // holder.bind(movie);
+        Movie movie = movieList.get(position);
+        holder.tvTitle.setText(movie.getName());
+        holder.tvDescription.setText(movie.getDescription());
+        // holder.ivMovie.setImageResource(movie.getImg());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
-        // Return the number of movies API
+        return movieList.size();
     }
 
 
@@ -48,7 +54,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
             tvTitle = itemView.findViewById(R.id.tvMovieTitle);
             tvDescription = itemView.findViewById(R.id.tvMovieDescription);
             tvReleaseDate = itemView.findViewById(R.id.tvReleaseDate);
-
+            ivMovie = itemView.findViewById(R.id.ivMovieImage);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -57,12 +63,5 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
                 }
             });
         }
-
-        /*
-        public void bind(MovieTest movie) {
-            tv_title.setText(movie.getTitle());
-            tv_release_date.setText(movie.getReleaseDate());
-            tv_description.setText(movie.getDescription());
-        } */
     }
 }

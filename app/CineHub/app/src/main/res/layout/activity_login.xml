@@ -43,7 +43,7 @@
             android:autofillHints="password" />
 
         <Button
-            android:id="@+id/btnLogic"
+            android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#E5383B"
