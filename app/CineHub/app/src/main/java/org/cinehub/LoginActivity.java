@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
             if (!UserValidationUtils.isEmailValid(email)) {
                 Toast.makeText(this, "The email is invalid", Toast.LENGTH_SHORT).show();
                 isValid = false;
+                startActivity(new Intent(this, BillBoardActivity.class));
             }
 
             if (isValid) {
