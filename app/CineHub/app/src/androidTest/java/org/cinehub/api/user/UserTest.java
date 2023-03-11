@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.cinehub.api.APITest;
 import org.cinehub.api.CinehubAPI;
 import org.cinehub.api.CinehubAuth;
 import org.cinehub.api.CinehubDB;
@@ -26,50 +27,9 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class UserTest {
-
-    public static final int VALID = 1;
-    public static final int INVALID = -1;
-    public static final int RUNNING = 0;
-
-    static CinehubAuth auth;
-    static CinehubDB db;
-
-    AtomicInteger running;
-    ArrayList<String> msgs;
-
-    @BeforeClass
-    public static void setup() {
-        auth = CinehubAPI.getAuthInstance();
-        db = CinehubAPI.getDBInstance();
-    }
-
-    @Before
-    public void setupTest() {
-        running = new AtomicInteger(RUNNING);
-        msgs = new ArrayList<>();
-    }
-
-    @After
-    public void teardownTest() {
-        while (running.get() == RUNNING) ;
-
-        if (msgs.size() == 0) {
-            System.out.println("No output");
-        }
-        else {
-            System.out.println("Test output:");
-            for (String s : msgs) {
-                System.out.println(s);
-            }
-        }
-        System.out.println("Test finished");
-        assertEquals(VALID, running.get());
-    }
-
+public class UserTest extends APITest {
     @Test
     public void getAll() {
-        System.out.println("Test all started");
         db.getUsers(
             users -> {
                 if (users == null) {
@@ -90,12 +50,10 @@ public class UserTest {
                 running.set(INVALID);
             }
         );
-        System.out.println("Test all finished");
     }
 
     @Test
     public void getUser() {
-        System.out.println("Test user started");
         db.getUser(
             "marta@gmail.com",
             user -> {
@@ -114,10 +72,5 @@ public class UserTest {
                 running.set(INVALID);
             }
         );
-        System.out.println("Test user finished");
-    }
-
-    protected void print(String s) {
-        msgs.add(s);
     }
 }
