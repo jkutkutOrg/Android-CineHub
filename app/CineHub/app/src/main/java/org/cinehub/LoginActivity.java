@@ -1,16 +1,19 @@
 package org.cinehub;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import org.cinehub.api.model.User;
 import org.cinehub.utils.UserValidationUtils;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends NavActivity {
+
+    public static final String EXTRA_USER = "User";
 
     // Declare the variables
     private EditText etEmail;
@@ -37,11 +40,13 @@ public class LoginActivity extends AppCompatActivity {
             if (!UserValidationUtils.isEmailValid(email)) {
                 Toast.makeText(this, "The email is invalid", Toast.LENGTH_SHORT).show();
                 isValid = false;
-                startActivity(new Intent(this, BillBoardActivity.class));
             }
 
             if (isValid) {
                 Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
+                advanceActivity(() ->
+                        new Intent(this, BillBoardActivity.class)
+                                .putExtra(EXTRA_USER, new User(email)));
             }
 
         });
@@ -50,5 +55,11 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(this, RegisterActivity.class));
         });
 
+    }
+
+    @NonNull
+    @Override
+    protected Intent collectData(@NonNull Intent intent) {
+        return intent;
     }
 }

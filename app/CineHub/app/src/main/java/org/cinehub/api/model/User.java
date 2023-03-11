@@ -18,6 +18,10 @@ public class User extends CinehubModel implements Parcelable {
 
     public User() {}
 
+    public User(String email) {
+        this(email, null);
+    }
+
     public User(String email, String name) {
         setEmail(email);
         setName(name);
