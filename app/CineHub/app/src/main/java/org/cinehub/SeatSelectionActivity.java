@@ -1,6 +1,6 @@
 package org.cinehub;
 
-import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.Button;
@@ -15,9 +15,13 @@ import org.cinehub.api.CinehubAPI;
 import org.cinehub.api.model.SeatReservation;
 import org.cinehub.enums.SeatType;
 
+import java.util.ArrayList;
+
 public class SeatSelectionActivity extends NavActivity {
 
     public static final String EXTRA_ROOM_ID = "RoomId";
+
+    private final ArrayList<SeatReservation> reservations = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,18 +57,26 @@ public class SeatSelectionActivity extends NavActivity {
     @NonNull
     private Button generateSeatButton(SeatType seatType, int row, int col) {
         Button seatBtn = new Button(this);
+        Drawable stdIco = AppCompatResources.getDrawable(this, seatType.getResourceId());
+        Drawable selIco = AppCompatResources.getDrawable(this, R.drawable.ic_select_seat);
         // Disable button if seat is occupied or nonexistent
         if (seatType.equals(SeatType.NONEXISTENT) || seatType.equals(SeatType.OCCUPIED))
             seatBtn.setEnabled(false);
         seatBtn.setBackgroundColor(0x0);
-        // required for lambda expression to compile
-        seatBtn.setOnClickListener(v -> advanceActivity(() ->
-                new Intent(this, BookingSummaryActivity.class)
-                        .putExtra(BookingSummaryActivity.EXTRA_SEAT_RESERVATION,
-                                new SeatReservation(row, col))));
+        seatBtn.setOnClickListener(v -> {
+            SeatReservation res = new SeatReservation(row, col);
+            if (!reservations.contains(res)) {
+                reservations.add(res);
+                seatBtn.setCompoundDrawablesWithIntrinsicBounds(null, selIco, null,
+                        null);
+            } else {
+                reservations.remove(res);
+                seatBtn.setCompoundDrawablesWithIntrinsicBounds(null, stdIco, null,
+                        null);
+            }
+        });
         seatBtn.setText(getString(R.string.label_seat_placement, row, col));
-        seatBtn.setCompoundDrawablesWithIntrinsicBounds(null, AppCompatResources
-                .getDrawable(this, seatType.getResourceId()), null, null);
+        seatBtn.setCompoundDrawablesWithIntrinsicBounds(null, stdIco, null, null);
         return seatBtn;
     }
 
