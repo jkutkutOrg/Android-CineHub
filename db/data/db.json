@@ -188,6 +188,98 @@
                 "col": 7,
                 "reservation": 0
             }
+        ],
+        "room_configuration": [
+            {
+                "room": 0,
+                "row": 0,
+                "col": 3,
+                "state": " "
+            },
+            {
+                "room": 0,
+                "row": 0,
+                "col": 4,
+                "state": " "
+            },
+            {
+                "room": 0,
+                "row": 0,
+                "col": 5,
+                "state": " "
+            },
+            {
+                "room": 0,
+                "row": 0,
+                "col": 6,
+                "state": " "
+            },
+            {
+                "room": 0,
+                "row": 0,
+                "col": 7,
+                "state": " "
+            },          
+            {
+                "room": 1,
+                "row": 0,
+                "col": 3,
+                "state": " "
+            },
+            {
+                "room": 1,
+                "row": 0,
+                "col": 4,
+                "state": " "
+            },
+            {
+                "room": 1,
+                "row": 0,
+                "col": 5,
+                "state": " "
+            },
+            {
+                "room": 1,
+                "row": 0,
+                "col": 6,
+                "state": " "
+            },
+            {
+                "room": 1,
+                "row": 0,
+                "col": 7,
+                "state": " "
+            },
+            {
+                "room": 2,
+                "row": 0,
+                "col": 3,
+                "state": " "
+            },
+            {
+                "room": 2,
+                "row": 0,
+                "col": 4,
+                "state": " "
+            },
+            {
+                "room": 2,
+                "row": 0,
+                "col": 5,
+                "state": " "
+            },
+            {
+                "room": 2,
+                "row": 0,
+                "col": 6,
+                "state": " "
+            },
+            {
+                "room": 2,
+                "row": 0,
+                "col": 7,
+                "state": " "
+            }
         ]
     }
 }
