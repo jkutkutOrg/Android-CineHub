@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import org.cinehub.api.model.Movie;
+import org.cinehub.api.model.Projection;
 import org.cinehub.api.model.SeatReservation;
 
 import java.util.ArrayList;
@@ -25,13 +26,26 @@ public class BookingSummaryActivity extends NavActivity {
         TextView tvPrice = findViewById(R.id.tvSummaryPrice);
 
         Movie movie = getIntent().getParcelableExtra(BillBoardActivity.EXTRA_MOVIE);
+        Projection projection = getIntent().getParcelableExtra(BillBoardActivity.EXTRA_PROJECTION);
         ArrayList<SeatReservation> reservations = getIntent()
                 .getParcelableArrayListExtra(EXTRA_SEAT_RESERVATIONS);
 
         tvMovieName.setText(movie.getName());
-        // TODO show reserved seats
-//        tvSeat.setText(getString(R.string.label_booking_seat_dat, seat.getRow(), seat.getCol()));
+        String timedate = projection.getTimedate();
+        int timeIdx = timedate.indexOf('T') + 1;
+        StringBuilder seatStr = new StringBuilder(getString(R.string.label_booking_seat_head,
+                reservations.size())).append("\n");
+        for (SeatReservation seat: reservations) {
+            seatStr.append(getString(R.string.label_booking_seat_dat, seat.getRow(),
+                    seat.getCol())).append("\n");
+        }
 
+        tvDate.setText(timedate.substring(0, 10));
+        tvTime.setText(timedate.substring(timeIdx, timeIdx + 8));
+        tvRoom.setText(getString(R.string.label_room_name, projection.getRoom()));
+        tvSeat.setText(seatStr.toString());
+        tvPrice.setText(getString(R.string.label_booking_price_dat, movie
+                .getPrice() * reservations.size()));
         findViewById(R.id.btnSummaryConfirmation).setOnClickListener(v -> onBookingConfirmation());
     }
 

@@ -36,7 +36,7 @@ public class SeatSelectionActivity extends NavActivity {
                 .getParcelableExtra(BillBoardActivity.EXTRA_PROJECTION))
                 .getRoom();
         TextView tvRoomName = findViewById(R.id.tvRoomName);
-        tvRoomName.setText(getString(R.string.label_room_name, String.valueOf(roomId)));
+        tvRoomName.setText(getString(R.string.label_room_name, roomId));
 
         api.getProjectionConfiguration(roomId, encodedLayout -> generateRoomDisplayLayout(
                 findViewById(R.id.tblSeat),

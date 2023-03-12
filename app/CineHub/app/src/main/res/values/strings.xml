@@ -13,7 +13,7 @@
     <string name="hint_register_et_username">Nickname</string>
     <string name="button_register_now">Register</string>
     <!-- Room selection strings -->
-    <string name="label_room_name">Sala %1$s</string>
+    <string name="label_room_name">Sala %1$d</string>
     <string name="title_seat_selection">Selecciona un asiento</string>
     <string name="label_seat_placement">%1$d - %2$d</string>
     <string name="label_screen_indicator">Screen</string>
@@ -24,7 +24,8 @@
     <string name="label_booking_hour">Hora</string>
     <string name="label_booking_room">Sala</string>
     <string name="label_booking_seat">Butaca</string>
-    <string name="label_booking_seat_dat">Fila %1$x, Butaca %2$x</string>
+    <string name="label_booking_seat_head">%1$d reservas: </string>
+    <string name="label_booking_seat_dat">Fila %1$d, Butaca %2$d</string>
     <string name="label_booking_price">Precio</string>
     <string name="label_booking_price_dat">%1$.2f€</string>
     <string name="action_booking_confirmation">Finalizar reserva</string>
