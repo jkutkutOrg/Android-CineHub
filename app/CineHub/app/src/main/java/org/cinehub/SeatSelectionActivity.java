@@ -47,19 +47,16 @@ public class SeatSelectionActivity extends NavActivity {
                 seatBtn.setBackgroundColor(0x0); // FIXME this should be in styles.xml
                 // required for lambda expression to compile
                 int currRow = row, currCol = col;
-                seatBtn.setOnClickListener(v -> onSeatSelected(currRow, currCol));
+                seatBtn.setOnClickListener(v -> advanceActivity(() ->
+                        new Intent(this, BookingSummaryActivity.class)
+                                .putExtra(BookingSummaryActivity.EXTRA_SEAT_RESERVATION,
+                                        new SeatReservation(currRow, currCol))));
                 seatBtn.setImageDrawable(AppCompatResources
                         .getDrawable(this, seatType.getResourceId()));
                 seatRow.addView(seatBtn);
             }
             seatPreview.addView(seatRow);
         }
-    }
-
-    private void onSeatSelected(int row, int col) {
-        Intent i = new Intent(this, BookingSummaryActivity.class);
-        i.putExtra(BookingSummaryActivity.EXTRA_SEAT_RESERVATION, new SeatReservation(row, col));
-        startActivity(i);
     }
 
     private static class MovieRoom {
