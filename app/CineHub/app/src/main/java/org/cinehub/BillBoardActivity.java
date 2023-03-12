@@ -1,11 +1,13 @@
 package org.cinehub;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-
+import org.cinehub.api.CinehubAPI;
+import org.cinehub.api.CinehubDB;
 import org.cinehub.api.model.Movie;
 import org.cinehub.utils.MovieAdapter;
 
@@ -16,6 +18,7 @@ public class BillBoardActivity extends AppCompatActivity {
     private MovieAdapter mvAdapter;
     private RecyclerView rvMovies;
     private ArrayList<Movie> movieList;
+    private CinehubDB db = CinehubAPI.getDBInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +26,21 @@ public class BillBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bill_board);
 
         movieList = new ArrayList<>();
-        movieList.add(new Movie("Movie 1", "Description 1", "img1", 10.0f));
-        movieList.add(new Movie("Movie 2", "Description 2", "img2", 12.0f));
-        movieList.add(new Movie("Movie 3", "Description 3", "img3", 8.0f));
+        db.getMovies(
+                movies -> {
+                    for (Movie movie : movies) {
+                        movieList.add(new Movie(
+                                movie.getName(),
+                                movie.getDescription(),
+                                movie.getImg(),
+                                movie.getPrice()
+                        ));
+                    }
+                },
+                (error) -> {
+                    System.out.println("Error: " + error);
+                }
+        );
 
         rvMovies = findViewById(R.id.rvMovies);
 
