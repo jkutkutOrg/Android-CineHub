@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class SeatReservationTest extends APITest {
     @Test
-    public void getAll() { // TODO fix
+    public void getAll() {
         db.getSeatReservations(
             getAllSuccessCallback(),
             getFailureCallback()
@@ -22,7 +22,7 @@ public class SeatReservationTest extends APITest {
     }
 
     @Test
-    public void get() { // TODO fix
+    public void get() {
         int id = 0;
         db.getSeatReservation(
             id,

@@ -133,75 +133,33 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnSuccessValueCallback<char[][]> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
     ) {
-//        getRoom(
-//            projectionId,
-//            room -> {
-//                // row, col
-//                getConfigurationsRoom(
-//                    projectionId,
-//                    lstSeats -> {
-//                        // lstSeats
-//                        getSeatReservationsProjection(
-//                            projectionId,
-//                            lstSeatReservations -> {
-//                                char[][] seats = new char[room.getRows()][room.getCols()];
-//                                for (int i = 0; i < room.getRows(); i++)
-//                                    for (int j = 0; j < room.getCols(); j++)
-//                                        seats[i][j] = RoomConfiguration.FREE;
-//                                for (RoomConfiguration seat : lstSeats)
-//                                    seats[seat.getRow()][seat.getCol()] = seat.getState();
-//                                for (SeatReservation r : lstSeatReservations)
-//                                    seats[r.getRow()][r.getCol()] = RoomConfiguration.OCCUPIED;
-//                                execute(onSuccessValueCallback, seats);
-//                            },
-//                            onFailureCallback
-//                        );
-//                    },
-//                    onFailureCallback
-//                );
-//            },
-//            onFailureCallback
-//        );
-
-        // getProjection
-        //   getRoom
-        //    getConfigurationsRoom
-        //      getSeatReservationsProjection
-        //        parse!
-//        getProjection(
-//            projectionId,
-//            projection -> {
-//                getProjectionRoom(
-//                    projectionId,
-//                    room -> {
-//                        getConfigurationsRoom( // TODO test
-//                            projectionId,
-//                            lstSeats -> {
-//                                getSeatReservationsProjection( // TODO test
-//                                    projectionId,
-//                                    lstSeatReservations -> {
-//                                        char[][] seats = new char[room.getRows()][room.getCols()];
-//                                        for (int i = 0; i < room.getRows(); i++)
-//                                            for (int j = 0; j < room.getCols(); j++)
-//                                                seats[i][j] = RoomConfiguration.FREE;
-//                                        for (RoomConfiguration seat : lstSeats)
-//                                            seats[seat.getRow()][seat.getCol()] = seat.getType();
-//                                        for (SeatReservation r : lstSeatReservations)
-//                                            seats[r.getRow()][r.getCol()] = RoomConfiguration.OCCUPIED;
-//                                        execute(onSuccessValueCallback, seats);
-//                                    },
-//                                    onFailureCallback
-//                                );
-//                            },
-//                            onFailureCallback
-//                        );
-//                    },
-//                    onFailureCallback
-//                );
-//            },
-//            onFailureCallback
-//        );
-        onFailureCallback.onFailure("Not implemented");
+        getProjection(
+            projectionId,
+            projection -> getRoom(
+                projection.getRoom(),
+                room -> getRoomConfigurationRoom(
+                    projection.getRoom(),
+                    lstSeats -> getSeatReservationsProjection(
+                        projectionId,
+                        lstSeatReservations -> {
+                            char[][] seats = new char[room.getRows()][room.getCols()];
+                            for (int i = 0; i < room.getRows(); i++)
+                                for (int j = 0; j < room.getCols(); j++)
+                                    seats[i][j] = RoomConfiguration.FREE;
+                            for (RoomConfiguration seat : lstSeats)
+                                seats[seat.getRow()][seat.getCol()] = seat.getType();
+                            for (SeatReservation r : lstSeatReservations)
+                                seats[r.getRow()][r.getCol()] = RoomConfiguration.OCCUPIED;
+                            execute(onSuccessValueCallback, seats);
+                        },
+                        onFailureCallback
+                    ),
+                    onFailureCallback
+                ),
+                onFailureCallback
+            ),
+            onFailureCallback
+        );
     }
 
     // ** Reservation **
@@ -237,22 +195,6 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         get(Room.class, roomId, onSuccessValueCallback, onFailureCallback);
     }
 
-    protected void getProjectionRoom(
-            int projectionId,
-            OnSuccessValueCallback<Room> onSuccessValueCallback,
-            OnFailureCallback<String> onFailureCallback
-    ) {
-        getProjection(
-                projectionId,
-                projection -> getRoom(
-                        projection.getRoom(),
-                        onSuccessValueCallback,
-                        onFailureCallback
-                ),
-                onFailureCallback
-        );
-    }
-
     // ** RoomConfiguration **
     public void getRoomConfigurations(
         OnSuccessValueCallback<ArrayList<RoomConfiguration>> onSuccessValueCallback,
@@ -269,7 +211,7 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         get(RoomConfiguration.class, roomConfigurationId, onSuccessValueCallback, onFailureCallback);
     }
 
-    protected void getConfigurationsRoom(
+    protected void getRoomConfigurationRoom(
         int roomId,
         OnSuccessValueCallback<ArrayList<RoomConfiguration>> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
