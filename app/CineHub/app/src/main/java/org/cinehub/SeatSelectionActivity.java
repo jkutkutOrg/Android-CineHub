@@ -50,7 +50,7 @@ public class SeatSelectionActivity extends NavActivity {
                 seatRow.addView(generateSeatButton(room.getSeatAtPos(row, col)
                         .getSeatType(), row, col));
             }
-            seatPreview.addView(seatRow);
+            seatPreview.addView(seatRow, 0);
         }
     }
 
