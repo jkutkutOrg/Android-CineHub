@@ -32,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogic);
         btnRegister = findViewById(R.id.btnRegister);
 
-        // Initialize CinehubAuth instance
         auth = CinehubAPI.getAuthInstance();
 
         btnLogin.setOnClickListener(v -> {
@@ -42,12 +41,12 @@ public class LoginActivity extends AppCompatActivity {
             boolean isValid = true;
 
             if (!UserValidationUtils.isEmailValid(email)) {
-                Toast.makeText(this, "The email is invalid", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.notification_login_error_email, Toast.LENGTH_SHORT).show();
                 isValid = false;
             }
 
             if (password.isEmpty()) {
-                Toast.makeText(this, "Please enter your password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.notification_login_error_password, Toast.LENGTH_SHORT).show();
                 isValid = false;
             }
 
@@ -68,14 +67,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onLoginSuccess() {
-        Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
-        //startActivity(new Intent(this, BillBoardActivity.class));
+        //TODO: startActivity(new Intent(this, BillBoardActivity.class));
         finish();
     }
 
     private void onLoginError(@NonNull String error) {
-        Toast.makeText(this, "Error: " + error, Toast.LENGTH_SHORT).show();
-        System.out.println("Error: " + error);
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
-
 }

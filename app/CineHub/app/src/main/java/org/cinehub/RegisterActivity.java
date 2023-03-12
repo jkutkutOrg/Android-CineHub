@@ -1,5 +1,6 @@
 package org.cinehub;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,7 +15,6 @@ import org.cinehub.utils.UserValidationUtils;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    // Declare the variables
     private EditText etUsername;
     private EditText etEmail;
     private EditText etPassword;
@@ -26,7 +26,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Initialize the variables
         etUsername = findViewById(R.id.etUsername);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPasswd);
@@ -39,47 +38,38 @@ public class RegisterActivity extends AppCompatActivity {
             String password = etPassword.getText().toString().trim();
             String confirmPassword = etConfirmPassword.getText().toString().trim();
 
-            boolean isValid = true;
+            int errorMessageResId = -1;
 
             if (!UserValidationUtils.isUsernameValid(username)) {
-                Toast.makeText(this, "The username is invalid", Toast.LENGTH_SHORT).show();
-                isValid = false;
+                errorMessageResId = R.string.notification_register_error_username;
+            } else if (!UserValidationUtils.isPasswordSecure(password)) {
+                errorMessageResId = R.string.notification_register_error_password_sec;
+            } else if (!UserValidationUtils.arePasswordsEqual(password, confirmPassword)) {
+                errorMessageResId = R.string.notification_register_error_password;
+            } else if (!UserValidationUtils.isEmailValid(email)) {
+                errorMessageResId = R.string.notification_register_error_email;
             }
 
-            if (!UserValidationUtils.isPasswordSecure(password)) {
-                Toast.makeText(this, "The password is not secure", Toast.LENGTH_SHORT).show();
-                isValid = false;
-            }
-
-            if (!UserValidationUtils.arePasswordsEqual(password, confirmPassword)) {
-                Toast.makeText(this, "The passwords are not equal", Toast.LENGTH_SHORT).show();
-                isValid = false;
-            }
-
-            if (!UserValidationUtils.isEmailValid(email)) {
-                Toast.makeText(this, "The email is invalid", Toast.LENGTH_SHORT).show();
-                isValid = false;
-            }
-
-            if (isValid) {
+            if (errorMessageResId != -1) {
+                Toast.makeText(this, errorMessageResId, Toast.LENGTH_SHORT).show();
+            } else {
                 CinehubAuth auth = CinehubAPI.getAuthInstance();
                 auth.signup(
-                        username,
-                        email,
-                        password,
-                        () -> {
-                            Toast.makeText(this, "User created", Toast.LENGTH_SHORT).show();
-                            cleanFields();
-                            Intent intent = new Intent(this, LoginActivity.class);
-                            startActivity(intent);
-                        },
-                        (error) -> {
-                            Toast.makeText(this, "Error: " + error, Toast.LENGTH_SHORT).show();
-                        }
+                        username, email, password, this::onSignupSuccess, this::onSignupError
                 );
             }
         });
 
+    }
+
+    private void onSignupSuccess() {
+        Toast.makeText(this, "Signup successful!", Toast.LENGTH_SHORT).show();
+        cleanFields();
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    private void onSignupError(@NonNull String error) {
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
     private void cleanFields() {
@@ -88,5 +78,4 @@ public class RegisterActivity extends AppCompatActivity {
         etPassword.setText("");
         etConfirmPassword.setText("");
     }
-
 }
