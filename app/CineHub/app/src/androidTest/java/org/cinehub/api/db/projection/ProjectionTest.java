@@ -3,7 +3,7 @@ package org.cinehub.api.db.projection;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.cinehub.api.APITest;
-import org.cinehub.api.model.RoomConfiguration;
+import org.cinehub.api.model.SpecialSeat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -54,11 +54,11 @@ public class ProjectionTest extends APITest {
                         sb.append("\n");
                     }
                     print(sb.toString());
-                    boolean[] allStates = new boolean[RoomConfiguration.STATES.length];
+                    boolean[] allStates = new boolean[SpecialSeat.STATES.length];
                     for (char[] chars : projectionConfig) {
                         for (char aChar : chars) {
-                            for (int j = 0; j < RoomConfiguration.STATES.length; j++) {
-                                if (aChar == RoomConfiguration.STATES[j]) {
+                            for (int j = 0; j < SpecialSeat.STATES.length; j++) {
+                                if (aChar == SpecialSeat.STATES[j]) {
                                     allStates[j] = true;
                                 }
                             }
@@ -66,7 +66,7 @@ public class ProjectionTest extends APITest {
                     }
                     for (int i = 0; i < allStates.length; i++) {
                         if (!allStates[i]) {
-                            print("Missing state: " + RoomConfiguration.STATES[i]);
+                            print("Missing state: " + SpecialSeat.STATES[i]);
                             running.set(INVALID);
                             return;
                         }

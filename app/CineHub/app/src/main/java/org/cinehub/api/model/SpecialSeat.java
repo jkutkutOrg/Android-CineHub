@@ -12,7 +12,7 @@ import java.util.Locale;
  *
  * @author  Jkutkut
  */
-public class RoomConfiguration implements Parcelable {
+public class SpecialSeat implements Parcelable {
 
     public static final char FREE = 'f';
     public static final char OCCUPIED = 'o';
@@ -24,16 +24,16 @@ public class RoomConfiguration implements Parcelable {
     private int col;
     private char type;
 
-    public RoomConfiguration() {}
+    public SpecialSeat() {}
 
-    public RoomConfiguration(int room, int row, int col, char type) {
+    public SpecialSeat(int room, int row, int col, char type) {
         setRoom(room);
         setRow(row);
         setCol(col);
         setTypeChar(type);
     }
 
-    protected RoomConfiguration(Parcel in) {
+    protected SpecialSeat(Parcel in) {
         this(
             in.readInt(),
             in.readInt(),
@@ -42,15 +42,15 @@ public class RoomConfiguration implements Parcelable {
         );
     }
 
-    public static final Creator<RoomConfiguration> CREATOR = new Creator<RoomConfiguration>() {
+    public static final Creator<SpecialSeat> CREATOR = new Creator<SpecialSeat>() {
         @Override
-        public RoomConfiguration createFromParcel(Parcel in) {
-            return new RoomConfiguration(in);
+        public SpecialSeat createFromParcel(Parcel in) {
+            return new SpecialSeat(in);
         }
 
         @Override
-        public RoomConfiguration[] newArray(int size) {
-            return new RoomConfiguration[size];
+        public SpecialSeat[] newArray(int size) {
+            return new SpecialSeat[size];
         }
     };
 

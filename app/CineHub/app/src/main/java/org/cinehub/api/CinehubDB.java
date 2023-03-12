@@ -4,7 +4,7 @@ import org.cinehub.api.model.Movie;
 import org.cinehub.api.model.Projection;
 import org.cinehub.api.model.Reservation;
 import org.cinehub.api.model.Room;
-import org.cinehub.api.model.RoomConfiguration;
+import org.cinehub.api.model.SpecialSeat;
 import org.cinehub.api.model.SeatReservation;
 import org.cinehub.api.model.User;
 import org.cinehub.api.result.*;
@@ -100,24 +100,6 @@ public interface CinehubDB {
         OnFailureCallback<String> onFailureCallback
     );
 
-    // ** RoomConfiguration **
-    /**
-     * Get all the room configurations from the database.
-     *
-     * @param onSuccessValueCallback The callback to be called when the request is successful.
-     * @param onFailureCallback The callback to be called when the request fails.
-     */
-    void getRoomConfigurations(
-        OnSuccessValueCallback<ArrayList<RoomConfiguration>> onSuccessValueCallback,
-        OnFailureCallback<String> onFailureCallback
-    );
-
-    void getRoomConfiguration( // TODO doc
-        int roomConfigurationId,
-        OnSuccessValueCallback<RoomConfiguration> onSuccessValueCallback,
-        OnFailureCallback<String> onFailureCallback
-    );
-
     // ** SeatReservation **
 
     /**
@@ -134,6 +116,24 @@ public interface CinehubDB {
     void getSeatReservation( // TODO doc
         int seatReservationId,
         OnSuccessValueCallback<SeatReservation> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
+
+    // ** SpecialSeat **
+    /**
+     * Get all the special seats from the database.
+     *
+     * @param onSuccessValueCallback The callback to be called when the request is successful.
+     * @param onFailureCallback The callback to be called when the request fails.
+     */
+    void getSpecialSeats(
+            OnSuccessValueCallback<ArrayList<SpecialSeat>> onSuccessValueCallback,
+            OnFailureCallback<String> onFailureCallback
+    );
+
+    void getSpecialSeat( // TODO doc
+        int specialSeatId,
+        OnSuccessValueCallback<SpecialSeat> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
     );
 

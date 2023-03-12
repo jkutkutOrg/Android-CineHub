@@ -12,10 +12,10 @@ import org.junit.runner.RunWith;
  * @author Jkutkut
  */
 @RunWith(AndroidJUnit4.class)
-public class RoomConfigurationTest extends APITest {
+public class SpecialSeatTest extends APITest {
     @Test
     public void getAll() {
-        db.getRoomConfigurations(
+        db.getSpecialSeats(
             getAllSuccessCallback(),
             getFailureCallback()
         );
@@ -24,7 +24,7 @@ public class RoomConfigurationTest extends APITest {
     @Test
     public void get() {
         int id = 0;
-        db.getRoomConfiguration(
+        db.getSpecialSeat(
             id,
             getOneSuccessCallback(),
             getFailureCallback()
