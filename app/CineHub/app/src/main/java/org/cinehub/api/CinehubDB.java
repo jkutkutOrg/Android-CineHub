@@ -100,6 +100,12 @@ public interface CinehubDB {
         OnFailureCallback<String> onFailureCallback
     );
 
+    void getRoomConfiguration(
+        int roomId,
+        OnSuccessValueCallback<char[][]> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
+
     // ** SeatReservation **
 
     /**

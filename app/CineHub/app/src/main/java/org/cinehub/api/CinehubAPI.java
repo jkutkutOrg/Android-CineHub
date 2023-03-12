@@ -135,28 +135,18 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
     ) {
         getProjection(
             projectionId,
-            projection -> getRoom(
-                projection.getRoom(),
-                room -> getSpecialSeatsRoom(
+            projection -> getRoomConfiguration(
                     projection.getRoom(),
-                    lstSeats -> getSeatReservationsProjection(
+                    roomArr -> getSeatReservationsProjection(
                         projectionId,
                         lstSeatReservations -> {
-                            char[][] seats = new char[room.getRows()][room.getCols()];
-                            for (int i = 0; i < room.getRows(); i++)
-                                for (int j = 0; j < room.getCols(); j++)
-                                    seats[i][j] = SpecialSeat.FREE;
-                            for (SpecialSeat seat : lstSeats)
-                                seats[seat.getRow()][seat.getCol()] = seat.getType();
                             for (SeatReservation r : lstSeatReservations)
-                                seats[r.getRow()][r.getCol()] = SpecialSeat.OCCUPIED;
-                            execute(onSuccessValueCallback, seats);
+                                roomArr[r.getRow()][r.getCol()] = SpecialSeat.OCCUPIED;
+                            execute(onSuccessValueCallback, roomArr);
                         },
                         onFailureCallback
                     ),
                     onFailureCallback
-                ),
-                onFailureCallback
             ),
             onFailureCallback
         );
@@ -193,6 +183,30 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         get(Room.class, roomId, onSuccessValueCallback, onFailureCallback);
+    }
+
+    public void getRoomConfiguration(
+        int roomId,
+        OnSuccessValueCallback<char[][]> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getRoom(
+            roomId,
+            room -> getSpecialSeatsRoom(
+                roomId,
+                lstSeats -> {
+                    char[][] seats = new char[room.getRows()][room.getCols()];
+                    for (int i = 0; i < room.getRows(); i++)
+                        for (int j = 0; j < room.getCols(); j++)
+                            seats[i][j] = SpecialSeat.FREE;
+                    for (SpecialSeat seat : lstSeats)
+                        seats[seat.getRow()][seat.getCol()] = seat.getType();
+                    execute(onSuccessValueCallback, seats);
+                },
+                onFailureCallback
+            ),
+            onFailureCallback
+        );
     }
 
     // ** SeatReservation **

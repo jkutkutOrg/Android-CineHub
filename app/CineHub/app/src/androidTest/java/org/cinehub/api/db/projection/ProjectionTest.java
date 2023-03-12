@@ -34,7 +34,7 @@ public class ProjectionTest extends APITest {
     }
 
     @Test
-    public void getProjectionConfiguration() { // TODO fix
+    public void getProjectionConfiguration() {
         int id = 0;
         db.getProjectionConfiguration(
             id,
