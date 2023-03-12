@@ -133,35 +133,75 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnSuccessValueCallback<char[][]> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
     ) {
-        getRoom(
-            projectionId,
-            room -> {
-                // row, col
-                getConfigurationsRoom(
-                    projectionId,
-                    lstSeats -> {
-                        // lstSeats
-                        getSeatReservationsProjection(
-                            projectionId,
-                            lstSeatReservations -> {
-                                char[][] seats = new char[room.getRows()][room.getCols()];
-                                for (int i = 0; i < room.getRows(); i++)
-                                    for (int j = 0; j < room.getCols(); j++)
-                                        seats[i][j] = RoomConfiguration.FREE;
-                                for (RoomConfiguration seat : lstSeats)
-                                    seats[seat.getRow()][seat.getCol()] = seat.getState();
-                                for (SeatReservation r : lstSeatReservations)
-                                    seats[r.getRow()][r.getCol()] = RoomConfiguration.OCCUPIED;
-                                execute(onSuccessValueCallback, seats);
-                            },
-                            onFailureCallback
-                        );
-                    },
-                    onFailureCallback
-                );
-            },
-            onFailureCallback
-        );
+//        getRoom(
+//            projectionId,
+//            room -> {
+//                // row, col
+//                getConfigurationsRoom(
+//                    projectionId,
+//                    lstSeats -> {
+//                        // lstSeats
+//                        getSeatReservationsProjection(
+//                            projectionId,
+//                            lstSeatReservations -> {
+//                                char[][] seats = new char[room.getRows()][room.getCols()];
+//                                for (int i = 0; i < room.getRows(); i++)
+//                                    for (int j = 0; j < room.getCols(); j++)
+//                                        seats[i][j] = RoomConfiguration.FREE;
+//                                for (RoomConfiguration seat : lstSeats)
+//                                    seats[seat.getRow()][seat.getCol()] = seat.getState();
+//                                for (SeatReservation r : lstSeatReservations)
+//                                    seats[r.getRow()][r.getCol()] = RoomConfiguration.OCCUPIED;
+//                                execute(onSuccessValueCallback, seats);
+//                            },
+//                            onFailureCallback
+//                        );
+//                    },
+//                    onFailureCallback
+//                );
+//            },
+//            onFailureCallback
+//        );
+
+        // getProjection
+        //   getRoom
+        //    getConfigurationsRoom
+        //      getSeatReservationsProjection
+        //        parse!
+//        getProjection(
+//            projectionId,
+//            projection -> {
+//                getProjectionRoom(
+//                    projectionId,
+//                    room -> {
+//                        getConfigurationsRoom( // TODO test
+//                            projectionId,
+//                            lstSeats -> {
+//                                getSeatReservationsProjection( // TODO test
+//                                    projectionId,
+//                                    lstSeatReservations -> {
+//                                        char[][] seats = new char[room.getRows()][room.getCols()];
+//                                        for (int i = 0; i < room.getRows(); i++)
+//                                            for (int j = 0; j < room.getCols(); j++)
+//                                                seats[i][j] = RoomConfiguration.FREE;
+//                                        for (RoomConfiguration seat : lstSeats)
+//                                            seats[seat.getRow()][seat.getCol()] = seat.getType();
+//                                        for (SeatReservation r : lstSeatReservations)
+//                                            seats[r.getRow()][r.getCol()] = RoomConfiguration.OCCUPIED;
+//                                        execute(onSuccessValueCallback, seats);
+//                                    },
+//                                    onFailureCallback
+//                                );
+//                            },
+//                            onFailureCallback
+//                        );
+//                    },
+//                    onFailureCallback
+//                );
+//            },
+//            onFailureCallback
+//        );
+        onFailureCallback.onFailure("Not implemented");
     }
 
     // ** Reservation **
@@ -195,6 +235,22 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         get(Room.class, roomId, onSuccessValueCallback, onFailureCallback);
+    }
+
+    protected void getProjectionRoom(
+            int projectionId,
+            OnSuccessValueCallback<Room> onSuccessValueCallback,
+            OnFailureCallback<String> onFailureCallback
+    ) {
+        getProjection(
+                projectionId,
+                projection -> getRoom(
+                        projection.getRoom(),
+                        onSuccessValueCallback,
+                        onFailureCallback
+                ),
+                onFailureCallback
+        );
     }
 
     // ** RoomConfiguration **
@@ -351,7 +407,7 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
 
     protected String getDBRef(Class<?> clazz) {
         String[] arr = clazz.getName().split("\\.");
-        return arr[arr.length - 1].replaceAll("([a-z][A-Z])", "_$1").toLowerCase();
+        return arr[arr.length - 1].replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase();
     }
 
     protected void execute(OnSuccessCallback callback) {

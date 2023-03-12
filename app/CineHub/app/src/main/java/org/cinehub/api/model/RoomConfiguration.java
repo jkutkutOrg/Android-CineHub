@@ -30,7 +30,7 @@ public class RoomConfiguration implements Parcelable {
         setRoom(room);
         setRow(row);
         setCol(col);
-        setType(type);
+        setTypeChar(type);
     }
 
     protected RoomConfiguration(Parcel in) {
@@ -93,7 +93,12 @@ public class RoomConfiguration implements Parcelable {
         this.col = col;
     }
 
-    public void setType(char type) {
+    public void setType(String typeStr) {
+        // Firebase does not support char
+        setTypeChar(typeStr.charAt(0));
+    }
+
+    public void setTypeChar(char type) {
         for (char s : STATES) {
             if (s == type) {
                 this.type = type;
