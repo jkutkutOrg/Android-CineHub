@@ -20,7 +20,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/ivMovieImage"
+                android:id="@+id/ivRcMovieImage"
                 android:layout_width="133dp"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop" />
@@ -33,7 +33,7 @@
                 android:paddingStart="10dp">
 
                 <TextView
-                    android:id="@+id/tvMovieTitle"
+                    android:id="@+id/tvRcMovieTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#0B090A"
@@ -41,19 +41,29 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvMovieDescription"
+                    android:id="@+id/tvRcMovieDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#0B090A"
                     android:textSize="18sp" />
 
-                    <LinearLayout
+                <TextView
+                    android:id="@+id/tvRcRoom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvRcTimedate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
                         android:id="@+id/llReleaseDate"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
                         <TextView
-                            android:id="@+id/tvReleaseDate"
+                            android:id="@+id/tvRcReleaseDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
