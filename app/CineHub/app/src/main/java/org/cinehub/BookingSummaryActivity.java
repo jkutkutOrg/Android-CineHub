@@ -15,12 +15,12 @@ public class BookingSummaryActivity extends NavActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_summary);
 
-        TextView tvMovieName = findViewById(R.id.tvMovieName);
-        TextView tvDate = findViewById(R.id.tvDate);
-        TextView tvTime = findViewById(R.id.tvTime);
-        TextView tvRoom = findViewById(R.id.tvRoom);
-        TextView tvSeat = findViewById(R.id.tvSeat);
-        TextView tvPrice = findViewById(R.id.tvPrice);
+        TextView tvMovieName = findViewById(R.id.tvSummaryMovieName);
+        TextView tvDate = findViewById(R.id.tvSummaryDate);
+        TextView tvTime = findViewById(R.id.tvSummaryTime);
+        TextView tvRoom = findViewById(R.id.tvSummaryRoom);
+        TextView tvSeat = findViewById(R.id.tvSummarySeat);
+        TextView tvPrice = findViewById(R.id.tvSummaryPrice);
 
         Movie movie = getIntent().getParcelableExtra(BillBoardActivity.EXTRA_MOVIE);
         SeatReservation seat = getIntent().getParcelableExtra(EXTRA_SEAT_RESERVATION);
@@ -28,7 +28,7 @@ public class BookingSummaryActivity extends NavActivity {
         tvMovieName.setText(movie.getName());
         tvSeat.setText(getString(R.string.label_booking_seat_dat, seat.getRow(), seat.getCol()));
 
-        findViewById(R.id.btnBookingConfirmation).setOnClickListener(v -> onBookingConfirmation());
+        findViewById(R.id.btnSummaryConfirmation).setOnClickListener(v -> onBookingConfirmation());
     }
 
     private void onBookingConfirmation() {
