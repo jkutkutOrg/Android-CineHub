@@ -1,5 +1,8 @@
 package org.cinehub;
 
+import org.cinehub.api.CinehubAPI;
+import org.cinehub.api.CinehubDB;
+import org.cinehub.api.model.Movie;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
