@@ -19,4 +19,9 @@ public abstract class NavActivity extends AppCompatActivity {
     protected void advanceActivity(@NonNull Supplier<Intent> intentSupplier) {
         startActivity(intentSupplier.get().putExtras(getIntent()));
     }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent.putExtras(getIntent()));
+    }
 }
