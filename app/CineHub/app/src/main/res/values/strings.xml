@@ -7,9 +7,15 @@
     <string name="hint_login_et_password">Password</string>
     <string name="button_login_now">Login</string>
     <string name="label_login_et_notaccount">No account yet?</string>
+    <string name="notification_login_error_email">Email is not valid</string>
+    <string name="notification_login_error_password">Password is not valid</string>
     <!-- Register strings -->
     <string name="hint_register_et_mail">Email</string>
     <string name="hint_register_et_cpasswd">Confirm your password</string>
     <string name="hint_register_et_username">Nickname</string>
     <string name="button_register_now">Register</string>
+    <string name="notification_register_error_username">Username is not valid</string>
+    <string name="notification_register_error_email">Email is not valid</string>
+    <string name="notification_register_error_password">Password is not matching</string>
+    <string name="notification_register_error_password_sec">Password is not secure</string>
 </resources>
