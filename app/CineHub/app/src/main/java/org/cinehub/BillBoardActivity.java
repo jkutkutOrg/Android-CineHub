@@ -61,9 +61,8 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
 
     @Override
     public void onMovieClicked(Movie movie) {
-        // TODO: Go to seat selection activity
         Toast.makeText(this, "Movie clicked: " + movie.getName(), Toast.LENGTH_SHORT).show();
         advanceActivity(() -> new Intent(this, SeatSelectionActivity.class)
-                .putExtra(EXTRA_MOVIE, new Movie()));
+                .putExtra(EXTRA_MOVIE, movie));
     }
 }
