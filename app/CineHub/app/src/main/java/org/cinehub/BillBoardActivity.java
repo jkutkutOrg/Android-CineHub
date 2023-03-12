@@ -1,6 +1,9 @@
 package org.cinehub;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,7 +16,7 @@ import org.cinehub.utils.MovieAdapter;
 
 import java.util.ArrayList;
 
-public class BillBoardActivity extends AppCompatActivity {
+public class BillBoardActivity extends AppCompatActivity implements MovieAdapter.OnMovieClickListener {
 
     private MovieAdapter mvAdapter;
     private RecyclerView rvMovies;
@@ -36,6 +39,7 @@ public class BillBoardActivity extends AppCompatActivity {
                                 movie.getPrice()
                         ));
                     }
+                    mvAdapter.notifyDataSetChanged();
                 },
                 (error) -> {
                     System.out.println("Error: " + error);
@@ -47,7 +51,13 @@ public class BillBoardActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvMovies.setLayoutManager(layoutManager);
 
-        mvAdapter = new MovieAdapter(movieList);
+        mvAdapter = new MovieAdapter(movieList, this);
         rvMovies.setAdapter(mvAdapter);
+    }
+
+    @Override
+    public void onMovieClicked(Movie movie) {
+        // TODO: Go to seat selection activity
+        Toast.makeText(this, "Movie clicked: " + movie.getName(), Toast.LENGTH_SHORT).show();
     }
 }

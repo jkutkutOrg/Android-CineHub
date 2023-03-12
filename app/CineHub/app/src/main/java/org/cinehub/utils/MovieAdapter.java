@@ -18,9 +18,11 @@ import java.util.ArrayList;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
 
     private ArrayList<Movie> movieList;
+    private OnMovieClickListener onMovieClickListener;
 
-    public MovieAdapter(ArrayList<Movie> movieList) {
+    public MovieAdapter(ArrayList<Movie> movieList, OnMovieClickListener onMovieClickListener) {
         this.movieList = movieList;
+        this.onMovieClickListener = onMovieClickListener;
     }
 
     @NonNull
@@ -35,7 +37,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
         Movie movie = movieList.get(position);
         holder.tvTitle.setText(movie.getName());
         holder.tvDescription.setText(movie.getDescription());
-        // holder.ivMovie.setImageResource(movie.getImg());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onMovieClickListener.onMovieClicked(movie);
+            }
+        });
     }
 
     @Override
@@ -43,6 +50,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
         return movieList.size();
     }
 
+    public interface OnMovieClickListener {
+        void onMovieClicked(Movie movie);
+    }
 
     public static class MovieVH extends RecyclerView.ViewHolder {
 
@@ -55,13 +65,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
             tvDescription = itemView.findViewById(R.id.tvMovieDescription);
             tvReleaseDate = itemView.findViewById(R.id.tvReleaseDate);
             ivMovie = itemView.findViewById(R.id.ivMovieImage);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // TODO: Go to seat selection
-                    Toast.makeText(itemView.getContext(), "Movie clicked", Toast.LENGTH_SHORT).show();
-                }
-            });
         }
     }
 }
