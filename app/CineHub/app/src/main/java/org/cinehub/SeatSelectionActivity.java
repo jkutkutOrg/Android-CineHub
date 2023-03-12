@@ -12,14 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import org.cinehub.api.CinehubAPI;
+import org.cinehub.api.model.Projection;
 import org.cinehub.api.model.SeatReservation;
 import org.cinehub.enums.SeatType;
 
 import java.util.ArrayList;
 
 public class SeatSelectionActivity extends NavActivity {
-
-    public static final String EXTRA_ROOM_ID = "RoomId";
 
     private final ArrayList<SeatReservation> reservations = new ArrayList<>();
 
@@ -30,7 +29,9 @@ public class SeatSelectionActivity extends NavActivity {
 
         CinehubAPI api = new CinehubAPI();
 
-        int roomId = getIntent().getIntExtra(EXTRA_ROOM_ID, -1);
+        int roomId = ((Projection) getIntent()
+                .getParcelableExtra(BillBoardActivity.EXTRA_PROJECTION))
+                .getRoom();
         TextView tvRoomName = findViewById(R.id.tvRoomName);
         tvRoomName.setText(getString(R.string.label_room_name, String.valueOf(roomId)));
 
