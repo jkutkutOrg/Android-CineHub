@@ -1,12 +1,15 @@
 package org.cinehub;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -40,6 +43,7 @@ public class SeatSelectionActivity extends NavActivity {
                     new MovieRoom(encodedLayout.length, encodedLayout[0].length,
                             encodedLayout)),
                 System.err::println);
+        findViewById(R.id.fabSelectionAccept).setOnClickListener(this::onSelectionAccepted);
     }
 
     private void generateRoomDisplayLayout(TableLayout seatPreview, MovieRoom room) {
@@ -75,10 +79,21 @@ public class SeatSelectionActivity extends NavActivity {
                 seatBtn.setCompoundDrawablesWithIntrinsicBounds(null, stdIco, null,
                         null);
             }
+            // TODO hide button when no seats are selected
         });
         seatBtn.setText(getString(R.string.label_seat_placement, row, col));
         seatBtn.setCompoundDrawablesWithIntrinsicBounds(null, stdIco, null, null);
         return seatBtn;
+    }
+
+    private void onSelectionAccepted(View v) {
+        if (reservations.isEmpty()) {
+            Toast.makeText(this, "Por favor, selecciona los asientos que deseas reservar", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        advanceActivity(() -> new Intent(this, BookingSummaryActivity.class)
+                    .putParcelableArrayListExtra(BookingSummaryActivity.EXTRA_SEAT_RESERVATIONS,
+                            reservations));
     }
 
     private static class MovieRoom {
