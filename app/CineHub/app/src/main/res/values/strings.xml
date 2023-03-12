@@ -13,22 +13,21 @@
     <string name="hint_register_et_username">Nickname</string>
     <string name="button_register_now">Register</string>
     <!-- Room selection strings -->
-    <string name="label_room_name">Sala %1$d</string>
-    <string name="title_seat_selection">Selecciona un asiento</string>
+    <string name="label_room_name">Room %1$d</string>
+    <string name="title_seat_selection">Choose the seats you want</string>
     <string name="label_seat_placement">%1$d - %2$d</string>
     <string name="label_screen_indicator">Screen</string>
     <!-- Summary strings -->
-    <string name="title_summary">Revisa tu reserva</string>
-    <string name="label_summary_subtitle">¡Casi hemos terminado!</string>
-    <string name="label_booking_date">Fecha</string>
-    <string name="label_booking_hour">Hora</string>
-    <string name="label_booking_room">Sala</string>
-    <string name="label_booking_seat">Butaca</string>
-    <string name="label_booking_seat_head">%1$d reservas: </string>
-    <string name="label_booking_seat_dat">Fila %1$d, Butaca %2$d</string>
-    <string name="label_booking_price">Precio</string>
+    <string name="title_summary">Booking overview</string>
+    <string name="label_summary_subtitle">Almost done!</string>
+    <string name="label_booking_date">Date</string>
+    <string name="label_booking_hour">Time</string>
+    <string name="label_booking_room">Room</string>
+    <string name="label_booking_seat">%1$d seats</string>
+    <string name="label_booking_seat_dat">Row %1$d, Seat %2$d</string>
+    <string name="label_booking_price">Price</string>
     <string name="label_booking_price_dat">%1$.2f€</string>
-    <string name="action_booking_confirmation">Finalizar reserva</string>
+    <string name="action_booking_confirmation">Buy tickets</string>
     <!-- BillBoard Activity Strings-->
     <string name="title_billboard_tv_title">Select your favorite movie</string>
 </resources>

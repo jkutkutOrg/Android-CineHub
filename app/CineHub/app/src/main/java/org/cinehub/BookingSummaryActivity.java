@@ -23,6 +23,7 @@ public class BookingSummaryActivity extends NavActivity {
         TextView tvTime = findViewById(R.id.tvSummaryTime);
         TextView tvRoom = findViewById(R.id.tvSummaryRoom);
         TextView tvSeat = findViewById(R.id.tvSummarySeat);
+        TextView tvSeatLbl = findViewById(R.id.tvSummarySeatLbl);
         TextView tvPrice = findViewById(R.id.tvSummaryPrice);
 
         Movie movie = getIntent().getParcelableExtra(BillBoardActivity.EXTRA_MOVIE);
@@ -33,8 +34,7 @@ public class BookingSummaryActivity extends NavActivity {
         tvMovieName.setText(movie.getName());
         String timedate = projection.getTimedate();
         int timeIdx = timedate.indexOf('T') + 1;
-        StringBuilder seatStr = new StringBuilder(getString(R.string.label_booking_seat_head,
-                reservations.size())).append("\n");
+        StringBuilder seatStr = new StringBuilder();
         for (SeatReservation seat: reservations) {
             seatStr.append(getString(R.string.label_booking_seat_dat, seat.getRow(),
                     seat.getCol())).append("\n");
@@ -43,6 +43,7 @@ public class BookingSummaryActivity extends NavActivity {
         tvDate.setText(timedate.substring(0, 10));
         tvTime.setText(timedate.substring(timeIdx, timeIdx + 8));
         tvRoom.setText(getString(R.string.label_room_name, projection.getRoom()));
+        tvSeatLbl.setText(getString(R.string.label_booking_seat, reservations.size()));
         tvSeat.setText(seatStr.toString());
         tvPrice.setText(getString(R.string.label_booking_price_dat, movie
                 .getPrice() * reservations.size()));
