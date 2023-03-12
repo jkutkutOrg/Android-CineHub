@@ -25,14 +25,16 @@ public class SeatSelectionActivity extends NavActivity {
         setContentView(R.layout.activity_seat_selection);
 
         CinehubAPI api = new CinehubAPI();
-        Character[][] encodedLayout; // FIXME query api
 
         int roomId = getIntent().getIntExtra(EXTRA_ROOM_ID, -1);
         TextView tvRoomName = findViewById(R.id.tvRoomName);
         tvRoomName.setText(getString(R.string.label_room_name, String.valueOf(roomId)));
-        generateRoomDisplayLayout(findViewById(R.id.tblSeat),
-                new MovieRoom(encodedLayout.length, encodedLayout[0].length,
-                        encodedLayout));
+
+        api.getProjectionConfiguration(roomId, encodedLayout -> generateRoomDisplayLayout(
+                findViewById(R.id.tblSeat),
+                    new MovieRoom(encodedLayout.length, encodedLayout[0].length,
+                            encodedLayout)),
+                System.err::println);
     }
 
     private void generateRoomDisplayLayout(TableLayout seatPreview, MovieRoom room) {
@@ -71,7 +73,7 @@ public class SeatSelectionActivity extends NavActivity {
         private final int cols;
         private final RoomSeat[][] seatArrangement;
 
-        public MovieRoom(int rows, int cols, Character[][] seatArrangement) {
+        public MovieRoom(int rows, int cols, char[][] seatArrangement) {
             this.rows = rows;
             this.cols = cols;
             this.seatArrangement = new RoomSeat[rows][cols];
