@@ -3,6 +3,7 @@ package org.cinehub;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import org.cinehub.api.model.Movie;
 import org.cinehub.api.model.SeatReservation;
 
 public class BookingSummaryActivity extends NavActivity {
@@ -20,12 +21,14 @@ public class BookingSummaryActivity extends NavActivity {
         TextView tvRoom = findViewById(R.id.tvRoom);
         TextView tvSeat = findViewById(R.id.tvSeat);
         TextView tvPrice = findViewById(R.id.tvPrice);
-        // TODO assign data from previous activities
+
+        Movie movie = getIntent().getParcelableExtra(BillBoardActivity.EXTRA_MOVIE);
+        SeatReservation seat = getIntent().getParcelableExtra(EXTRA_SEAT_RESERVATION);
+
+        tvMovieName.setText(movie.getName());
+        tvSeat.setText(getString(R.string.label_booking_seat_dat, seat.getRow(), seat.getCol()));
 
         findViewById(R.id.btnBookingConfirmation).setOnClickListener(v -> onBookingConfirmation());
-
-        SeatReservation seat = getIntent().getParcelableExtra(EXTRA_SEAT_RESERVATION);
-        tvSeat.setText(getString(R.string.label_booking_seat_dat, seat.getRow(), seat.getCol()));
     }
 
     private void onBookingConfirmation() {
