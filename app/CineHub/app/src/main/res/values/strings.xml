@@ -24,6 +24,7 @@
     <string name="label_booking_room">Sala</string>
     <string name="label_booking_seat">Butaca</string>
     <string name="label_booking_seat_dat">Fila %1$x, Butaca %2$x</string>
-    <string name="label_booking_price">Precio: %1$.2f€</string>
+    <string name="label_booking_price">Precio</string>
+    <string name="label_booking_price_dat">%1$.2f€</string>
     <string name="action_booking_confirmation">Finalizar reserva</string>
 </resources>
