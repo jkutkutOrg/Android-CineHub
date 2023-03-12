@@ -3,11 +3,12 @@ package org.cinehub;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import org.cinehub.api.CinehubAPI;
@@ -40,24 +41,29 @@ public class SeatSelectionActivity extends NavActivity {
             seatRow = new TableRow(this);
             seatRow.setGravity(Gravity.CENTER);
             for (int col = 0; col < room.getColCount(); col++) {
-                SeatType seatType = room.getSeatAtPos(row, col).getSeatType();
-                ImageButton seatBtn = new ImageButton(this);
-                // Disable button if seat is occupied or nonexistent
-                if (seatType.equals(SeatType.NONEXISTENT) || seatType.equals(SeatType.OCCUPIED))
-                    seatBtn.setEnabled(false);
-                seatBtn.setBackgroundColor(0x0); // FIXME this should be in styles.xml
-                // required for lambda expression to compile
-                int currRow = row, currCol = col;
-                seatBtn.setOnClickListener(v -> advanceActivity(() ->
-                        new Intent(this, BookingSummaryActivity.class)
-                                .putExtra(BookingSummaryActivity.EXTRA_SEAT_RESERVATION,
-                                        new SeatReservation(currRow, currCol))));
-                seatBtn.setImageDrawable(AppCompatResources
-                        .getDrawable(this, seatType.getResourceId()));
-                seatRow.addView(seatBtn);
+                seatRow.addView(generateSeatButton(room.getSeatAtPos(row, col)
+                        .getSeatType(), row, col));
             }
             seatPreview.addView(seatRow);
         }
+    }
+
+    @NonNull
+    private Button generateSeatButton(SeatType seatType, int row, int col) {
+        Button seatBtn = new Button(this);
+        // Disable button if seat is occupied or nonexistent
+        if (seatType.equals(SeatType.NONEXISTENT) || seatType.equals(SeatType.OCCUPIED))
+            seatBtn.setEnabled(false);
+        seatBtn.setBackgroundColor(0x0);
+        // required for lambda expression to compile
+        seatBtn.setOnClickListener(v -> advanceActivity(() ->
+                new Intent(this, BookingSummaryActivity.class)
+                        .putExtra(BookingSummaryActivity.EXTRA_SEAT_RESERVATION,
+                                new SeatReservation(row, col))));
+        seatBtn.setText(getString(R.string.label_seat_placement, row, col));
+        seatBtn.setCompoundDrawablesWithIntrinsicBounds(null, AppCompatResources
+                .getDrawable(this, seatType.getResourceId()), null, null);
+        return seatBtn;
     }
 
     private static class MovieRoom {

@@ -15,6 +15,7 @@
     <!-- Room selection strings -->
     <string name="label_room_name">Sala %1$s</string>
     <string name="title_seat_selection">Selecciona un asiento</string>
+    <string name="label_seat_placement">%1$d - %2$d</string>
     <string name="label_screen_indicator">Screen</string>
     <!-- Summary strings -->
     <string name="title_summary">Revisa tu reserva</string>
