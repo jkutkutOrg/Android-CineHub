@@ -88,17 +88,14 @@
         ],
         "room": [
             {
-                "name": "Sala 1",
                 "rows": 10,
                 "cols": 10
             },
             {
-                "name": "Sala 2",
                 "rows": 10,
                 "cols": 10
             },
             {
-                "name": "Sala 3",
                 "rows": 10,
                 "cols": 10
             }
