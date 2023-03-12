@@ -7,13 +7,14 @@ import androidx.annotation.NonNull;
 
 import com.google.firebase.database.annotations.NotNull;
 
+import java.util.Locale;
+
 /**
  * Reservation model class.
  *
  * @author Jkutkut
  */
-public class Reservation extends CinehubModel implements Parcelable {
-    public static final String DB_REF = "reservation";
+public class Reservation implements Parcelable {
 
     private int user;
 
@@ -42,9 +43,13 @@ public class Reservation extends CinehubModel implements Parcelable {
     };
 
     // GETTERS
-    @NonNull
-    public static String getDBRef() {
-        return DB_REF;
+    @Override
+    public String toString() {
+        return String.format(
+            Locale.getDefault(),
+            "Reservation{user=%d}",
+            user
+        );
     }
 
     public int getUser() {

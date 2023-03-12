@@ -5,34 +5,35 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
 /**
  * RoomConfiguration model class.
  *
  * @author  Jkutkut
  */
-public class RoomConfiguration extends CinehubModel implements Parcelable {
-
-    public static final String DB_REF = "room_configuration";
+public class SpecialSeat implements Parcelable {
 
     public static final char FREE = 'f';
     public static final char OCCUPIED = 'o';
     public static final char GAP = ' ';
+    public static final char[] STATES = {FREE, OCCUPIED, GAP};
 
     private int room;
     private int row;
     private int col;
-    private char state;
+    private char type;
 
-    public RoomConfiguration() {}
+    public SpecialSeat() {}
 
-    public RoomConfiguration(int room, int row, int col, char state) {
+    public SpecialSeat(int room, int row, int col, char type) {
         setRoom(room);
         setRow(row);
         setCol(col);
-        setState(state);
+        setTypeChar(type);
     }
 
-    protected RoomConfiguration(Parcel in) {
+    protected SpecialSeat(Parcel in) {
         this(
             in.readInt(),
             in.readInt(),
@@ -41,22 +42,26 @@ public class RoomConfiguration extends CinehubModel implements Parcelable {
         );
     }
 
-    public static final Creator<RoomConfiguration> CREATOR = new Creator<RoomConfiguration>() {
+    public static final Creator<SpecialSeat> CREATOR = new Creator<SpecialSeat>() {
         @Override
-        public RoomConfiguration createFromParcel(Parcel in) {
-            return new RoomConfiguration(in);
+        public SpecialSeat createFromParcel(Parcel in) {
+            return new SpecialSeat(in);
         }
 
         @Override
-        public RoomConfiguration[] newArray(int size) {
-            return new RoomConfiguration[size];
+        public SpecialSeat[] newArray(int size) {
+            return new SpecialSeat[size];
         }
     };
 
     // GETTERS
-    @NonNull
-    public static String getDBRef() {
-        return DB_REF;
+    @Override
+    public String toString() {
+        return String.format(
+            Locale.getDefault(),
+            "RoomConfiguration{room=%d, row=%d, col=%d, state=%c}",
+            room, row, col, type
+        );
     }
 
     public int getRoom() {
@@ -71,8 +76,8 @@ public class RoomConfiguration extends CinehubModel implements Parcelable {
         return col;
     }
 
-    public char getState() {
-        return state;
+    public char getType() {
+        return type;
     }
 
     // SETTERS
@@ -88,8 +93,19 @@ public class RoomConfiguration extends CinehubModel implements Parcelable {
         this.col = col;
     }
 
-    public void setState(char state) {
-        this.state = state; // TODO validate
+    public void setType(String typeStr) {
+        // Firebase does not support char
+        setTypeChar(typeStr.charAt(0));
+    }
+
+    public void setTypeChar(char type) {
+        for (char s : STATES) {
+            if (s == type) {
+                this.type = type;
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Invalid state");
     }
 
     @Override
@@ -102,6 +118,6 @@ public class RoomConfiguration extends CinehubModel implements Parcelable {
         dest.writeInt(room);
         dest.writeInt(row);
         dest.writeInt(col);
-        dest.writeInt((int) state);
+        dest.writeInt((int) type);
     }
 }

@@ -7,12 +7,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
 
-import org.cinehub.api.model.CinehubModel;
 import org.cinehub.api.model.Movie;
 import org.cinehub.api.model.Projection;
 import org.cinehub.api.model.Reservation;
 import org.cinehub.api.model.Room;
-import org.cinehub.api.model.RoomConfiguration;
+import org.cinehub.api.model.SpecialSeat;
 import org.cinehub.api.model.SeatReservation;
 import org.cinehub.api.model.User;
 import org.cinehub.api.result.OnFailureCallback;
@@ -22,8 +21,6 @@ import org.cinehub.api.result.OnSuccessValueCallback;
 import java.util.ArrayList;
 
 public class CinehubAPI implements CinehubAuth, CinehubDB {
-
-    // TODO implement storage interface
 
     private static final String DB_REF = "db";
 
@@ -74,8 +71,9 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
     ) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener(authResult -> {
-                // TODO add user to db
-                execute(onSuccessCallback);
+                dbRef.child(getDBRef(User.class)).push().setValue(new User(name, email))
+                    .addOnSuccessListener(aVoid -> execute(onSuccessCallback))
+                    .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
             })
             .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
@@ -103,6 +101,14 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         getAll(Movie.class, onSuccessValueCallback, onFailureCallback);
     }
 
+    public void getMovie(
+        int movieId,
+        OnSuccessValueCallback<Movie> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        get(Movie.class, movieId, onSuccessValueCallback, onFailureCallback);
+    }
+
     // ** Projection **
 
     public void getProjections(
@@ -110,6 +116,38 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         getAll(Projection.class, onSuccessValueCallback, onFailureCallback);
+    }
+
+    public void getProjection(
+        int projectionId,
+        OnSuccessValueCallback<Projection> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        get(Projection.class, projectionId, onSuccessValueCallback, onFailureCallback);
+    }
+
+    public void getProjectionConfiguration(
+        int projectionId,
+        OnSuccessValueCallback<char[][]> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getProjection(
+            projectionId,
+            projection -> getRoomConfiguration(
+                    projection.getRoom(),
+                    roomArr -> getSeatReservationsProjection(
+                        projectionId,
+                        lstSeatReservations -> {
+                            for (SeatReservation r : lstSeatReservations)
+                                roomArr[r.getRow()][r.getCol()] = SpecialSeat.OCCUPIED;
+                            execute(onSuccessValueCallback, roomArr);
+                        },
+                        onFailureCallback
+                    ),
+                    onFailureCallback
+            ),
+            onFailureCallback
+        );
     }
 
     // ** Reservation **
@@ -121,6 +159,14 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         getAll(Reservation.class, onSuccessValueCallback, onFailureCallback);
     }
 
+    public void getReservation(
+        int reservationId,
+        OnSuccessValueCallback<Reservation> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        get(Reservation.class, reservationId, onSuccessValueCallback, onFailureCallback);
+    }
+
     // ** Room **
     public void getRooms(
         OnSuccessValueCallback<ArrayList<Room>> onSuccessValueCallback,
@@ -129,12 +175,36 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         getAll(Room.class, onSuccessValueCallback, onFailureCallback);
     }
 
-    // ** RoomConfiguration **
-    public void getRoomConfigurations(
-        OnSuccessValueCallback<ArrayList<RoomConfiguration>> onSuccessValueCallback,
+    public void getRoom(
+        int roomId,
+        OnSuccessValueCallback<Room> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
     ) {
-        getAll(RoomConfiguration.class, onSuccessValueCallback, onFailureCallback);
+        get(Room.class, roomId, onSuccessValueCallback, onFailureCallback);
+    }
+
+    public void getRoomConfiguration(
+        int roomId,
+        OnSuccessValueCallback<char[][]> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getRoom(
+            roomId,
+            room -> getSpecialSeatsRoom(
+                roomId,
+                lstSeats -> {
+                    char[][] seats = new char[room.getRows()][room.getCols()];
+                    for (int i = 0; i < room.getRows(); i++)
+                        for (int j = 0; j < room.getCols(); j++)
+                            seats[i][j] = SpecialSeat.FREE;
+                    for (SpecialSeat seat : lstSeats)
+                        seats[seat.getRow()][seat.getCol()] = seat.getType();
+                    execute(onSuccessValueCallback, seats);
+                },
+                onFailureCallback
+            ),
+            onFailureCallback
+        );
     }
 
     // ** SeatReservation **
@@ -143,6 +213,78 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         getAll(SeatReservation.class, onSuccessValueCallback, onFailureCallback);
+    }
+
+    public void getSeatReservation(
+        int seatReservationId,
+        OnSuccessValueCallback<SeatReservation> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        get(SeatReservation.class, seatReservationId, onSuccessValueCallback, onFailureCallback);
+    }
+
+    /**
+     * Gets all the seat reservations for a projection.
+     * @param projectionId the projection id.
+     * @param onSuccessValueCallback the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     */
+    protected void getSeatReservationsProjection(
+        int projectionId,
+        OnSuccessValueCallback<ArrayList<SeatReservation>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getSeatReservations(
+            reservations -> {
+                ArrayList<SeatReservation> lstReservations = new ArrayList<>();
+                for (SeatReservation r : reservations)
+                    if (r.getProjection() == projectionId)
+                        lstReservations.add(r);
+                execute(onSuccessValueCallback, lstReservations);
+            },
+            onFailureCallback
+        );
+    }
+
+    // ** SpecialSeat **
+    public void getSpecialSeats(
+        OnSuccessValueCallback<ArrayList<SpecialSeat>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getAll(SpecialSeat.class, onSuccessValueCallback, onFailureCallback);
+    }
+
+    public void getSpecialSeat(
+        int roomConfigurationId,
+        OnSuccessValueCallback<SpecialSeat> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        get(SpecialSeat.class, roomConfigurationId, onSuccessValueCallback, onFailureCallback);
+    }
+
+    /**
+     * Gets all the special seats for a room.
+     *
+     * @param roomId the room id.
+     * @param onSuccessValueCallback the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     */
+    protected void getSpecialSeatsRoom(
+        int roomId,
+        OnSuccessValueCallback<ArrayList<SpecialSeat>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getSpecialSeats(
+            specialSeats -> {
+                ArrayList<SpecialSeat> set = new ArrayList<>();
+                for (SpecialSeat seat : specialSeats) {
+                    if (seat.getRoom() != roomId)
+                        set.add(seat);
+                }
+                execute(onSuccessValueCallback, set);
+            },
+            onFailureCallback
+        );
     }
 
     // ** Users **
@@ -171,6 +313,14 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         );
     }
 
+    public void getUserById(
+        int id,
+        OnSuccessValueCallback<User> onSuccessListener,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        get(User.class, id, onSuccessListener, onFailureCallback);
+    }
+
     public void whoami(
         OnSuccessValueCallback<User> onSuccessListener,
         OnFailureCallback<String> onFailureCallback
@@ -185,20 +335,47 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
 
     // ********* Storage *********
 
-    // TODO
+    // TODO storage
+    // TODO implement storage interface
 
     // ********* Utils *********
-    protected <T extends CinehubModel> void getAll(
+    protected <T> void getAll(
         Class<T> clazz,
         OnSuccessValueCallback<ArrayList<T>> onSuccessListener,
         OnFailureCallback<String> onFailureCallback
     ) {
-        dbRef.child(T.getDBRef()).get().addOnSuccessListener(dataSnapshot -> {
+        dbRef.child(getDBRef(clazz)).get().addOnSuccessListener(dataSnapshot -> {
             ArrayList<T> list = new ArrayList<>();
             for (DataSnapshot snap : dataSnapshot.getChildren())
                 list.add(snap.getValue(clazz));
             execute(onSuccessListener, list);
         }).addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
+    }
+
+    protected <T> void get(
+        Class<T> clazz,
+        int id,
+        OnSuccessValueCallback<T> onSuccessListener,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        if (id < 0) {
+            execute(onFailureCallback, "Invalid id");
+            return;
+        }
+        dbRef.child(getDBRef(clazz)).child(String.valueOf(id)).get()
+            .addOnSuccessListener(dataSnapshot -> {
+                T obj = dataSnapshot.getValue(clazz);
+                if (obj == null)
+                    execute(onFailureCallback, clazz.getName() + " not found");
+                else
+                    execute(onSuccessListener, obj);
+            })
+            .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
+    }
+
+    protected String getDBRef(Class<?> clazz) {
+        String[] arr = clazz.getName().split("\\.");
+        return arr[arr.length - 1].replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase();
     }
 
     protected void execute(OnSuccessCallback callback) {

@@ -5,14 +5,14 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
 /**
  * SeatReservation model class.
  *
  * @author Jkutkut
  */
-public class SeatReservation extends CinehubModel implements Parcelable {
-
-    public static final String DB_REF = "seat_reservation";
+public class SeatReservation implements Parcelable {
 
     private int projection;
     private int row;
@@ -54,9 +54,13 @@ public class SeatReservation extends CinehubModel implements Parcelable {
     };
 
     // GETTERS
-    @NonNull
-    public static String getDBRef() {
-        return DB_REF;
+    @Override
+    public String toString() {
+        return String.format(
+            Locale.getDefault(),
+            "SeatReservation{projection=%d, row=%d, col=%d, reservation=%d}",
+            projection, row, col, reservation
+        );
     }
 
     public int getProjection() {

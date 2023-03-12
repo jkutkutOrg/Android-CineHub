@@ -5,18 +5,18 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
 /**
  * Room model class.
  *
  * @author Jkutkut
  */
-public class Room extends CinehubModel implements Parcelable {
-    public static final String DB_REF = "room";
+public class Room implements Parcelable {
 
     private String name;
     private int rows;
     private int cols;
-//    private ArrayList<RoomConfiguration> configurations; // TODO
 
     public Room() {}
 
@@ -24,7 +24,6 @@ public class Room extends CinehubModel implements Parcelable {
         setName(name);
         setRows(rows);
         setCols(cols);
-        // setConfigurations(configurations);
     }
 
     protected Room(Parcel in) {
@@ -33,7 +32,6 @@ public class Room extends CinehubModel implements Parcelable {
             in.readInt(),
             in.readInt()
         );
-        // TODO
     }
 
     public static final Creator<Room> CREATOR = new Creator<Room>() {
@@ -49,9 +47,13 @@ public class Room extends CinehubModel implements Parcelable {
     };
 
     // GETTERS
-    @NonNull
-    public static String getDBRef() {
-        return DB_REF;
+    @Override
+    public String toString() {
+        return String.format(
+            Locale.getDefault(),
+            "Room { name: %s, rows: %d, cols: %d }",
+            name, rows, cols
+        );
     }
 
     public String getName() {
@@ -66,10 +68,6 @@ public class Room extends CinehubModel implements Parcelable {
         return cols;
     }
 
-//    public ArrayList<RoomConfiguration> getConfigurations() {
-//        return configurations;
-//    }
-
     // SETTERS
     public void setName(String name) {
         this.name = name;
@@ -83,10 +81,6 @@ public class Room extends CinehubModel implements Parcelable {
         this.cols = cols;
     }
 
-//    public void setConfigurations(ArrayList<RoomConfiguration> configurations) {
-//        this.configurations = configurations;
-//    }
-
     @Override
     public int describeContents() {
         return 0b0;
@@ -97,6 +91,5 @@ public class Room extends CinehubModel implements Parcelable {
         dest.writeString(name);
         dest.writeInt(rows);
         dest.writeInt(cols);
-        // TODO
     }
 }

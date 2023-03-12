@@ -1,6 +1,6 @@
 ```mermaid
 erDiagram
-    Movie {
+    movie {
         id id
         str name
         str description
@@ -8,45 +8,55 @@ erDiagram
         int price
     }
 
-    Room {
+    room {
         id id
         str name
         int rows
         int cols
     }
 
-    Projection {
+    projection {
         id id
         id room
         id movie
         timedate time
     }
 
-    Movie ||--o{ Projection : is_displayed
-    Projection }o--|| Room : is_hosted
+    movie ||--o{ projection : is_displayed
+    projection }o--|| room : is_hosted
 
-    SeatReservation {
+    seat_reservation {
         id projection
         int row
         int col
         id reservation
     }
 
-    Projection ||--o{ SeatReservation : has_seats
+    projection ||--o{ seat_reservation : has_seats
 
-    Reservation {
+    reservation {
         id id
         id user_id
     }
 
-    SeatReservation }|--|| Reservation : is_reserved_in
+    seat_reservation }|--|| reservation : is_reserved_in
 
-    User {
+    user {
         id email
         str name
     }
 
-    Reservation }o--|| User : is_made_by
+    reservation }o--|| user : is_made_by
+
+    special_seat {
+      id id
+      id room
+      int row
+      int col
+      char state
+    }
+
+    room ||--o{ special_seat : has
 
     RoomConfiguration {
       id id
@@ -74,9 +84,10 @@ erDiagram
   - Available: Any user can book it with a reservation.
   - Used: A user booked it with a reservation.
 - If there is no admin control, all data in the following data sources is constant:
-  - Room
-  - Movie
-  - Projection
+  - room
+  - movie
+  - projection
+  - special_seat
 
 ## Notes:
 - Row and col in seat should be related to the room dimensions.

@@ -76,6 +76,7 @@
                 "timedate": "2023-03-30T22:42:00.000Z"
             }
         ],
+
         "user": [
             {
                 "name": "Marta",
@@ -131,30 +132,96 @@
                 "reservation": 0
             }
         ],
-        "room_configuration": [
+        "special_seat": [
             {
                 "room": 0,
-                "row": 1,
+                "row": 0,
                 "col": 3,
-                "state": " "
+                "type": " "
             },
             {
                 "room": 0,
-                "row": 1,
+                "row": 0,
                 "col": 4,
-                "state": " "
+                "type": " "
             },
             {
                 "room": 0,
-                "row": 1,
+                "row": 0,
                 "col": 5,
-                "state": " "
+                "type": " "
             },
             {
                 "room": 0,
-                "row": 1,
+                "row": 0,
                 "col": 6,
-                "state": " "
+                "type": " "
+            },
+            {
+                "room": 0,
+                "row": 0,
+                "col": 7,
+                "type": " "
+            },
+            {
+                "room": 1,
+                "row": 0,
+                "col": 3,
+                "type": " "
+            },
+            {
+                "room": 1,
+                "row": 0,
+                "col": 4,
+                "type": " "
+            },
+            {
+                "room": 1,
+                "row": 0,
+                "col": 5,
+                "type": " "
+            },
+            {
+                "room": 1,
+                "row": 0,
+                "col": 6,
+                "type": " "
+            },
+            {
+                "room": 1,
+                "row": 0,
+                "col": 7,
+                "type": " "
+            },
+            {
+                "room": 2,
+                "row": 0,
+                "col": 3,
+                "type": " "
+            },
+            {
+                "room": 2,
+                "row": 0,
+                "col": 4,
+                "type": " "
+            },
+            {
+                "room": 2,
+                "row": 0,
+                "col": 5,
+                "type": " "
+            },
+            {
+                "room": 2,
+                "row": 0,
+                "col": 6,
+                "type": " "
+            },
+            {
+                "room": 2,
+                "row": 0,
+                "col": 7,
+                "type": " "
             }
         ]
     }

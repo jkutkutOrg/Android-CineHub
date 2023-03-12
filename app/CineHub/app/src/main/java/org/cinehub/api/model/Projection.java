@@ -7,13 +7,15 @@ import androidx.annotation.NonNull;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
+
 /**
  * Projection model class.
  *
  * @author Jkutkut
  */
-public class Projection extends CinehubModel implements Parcelable {
-    public static final String DB_REF = "projections";
+public class Projection implements Parcelable {
+
     private int room;
     private int movie;
     private String timedate;
@@ -47,11 +49,15 @@ public class Projection extends CinehubModel implements Parcelable {
     };
 
     // GETTERS
-    @NonNull
-    public static String getDBRef() {
-        return DB_REF;
+    @Override
+    public String toString() {
+        return String.format(
+            Locale.getDefault(),
+            "Projection{room=%d, movie=%d, timedate=%s}",
+            room, movie, timedate
+        );
     }
-    
+
     public int getRoom() {
         return room;
     }

@@ -5,13 +5,14 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
 /**
  * User model class.
  *
  * @author Jkutkut
  */
-public class User extends CinehubModel implements Parcelable {
-    public static final String DB_REF = "user";
+public class User implements Parcelable {
 
     private String email;
     private String name;
@@ -47,9 +48,13 @@ public class User extends CinehubModel implements Parcelable {
     };
 
     // GETTERS
-    @NonNull
-    public static String getDBRef() {
-        return DB_REF;
+    @Override
+    public String toString() {
+        return String.format(
+            Locale.getDefault(),
+            "User{email=%s, name=%s}",
+            email, name
+        );
     }
 
     public String getEmail() {

@@ -5,13 +5,14 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
 /**
  * Movie model class.
  *
  * @author Jkutkut
  */
-public class Movie extends CinehubModel implements Parcelable {
-    public static final String DB_REF = "movie";
+public class Movie implements Parcelable {
 
     private String name;
     private String description;
@@ -49,9 +50,13 @@ public class Movie extends CinehubModel implements Parcelable {
     };
 
     // GETTERS
-    @NonNull
-    public static String getDBRef() {
-        return DB_REF;
+    @Override
+    public String toString() {
+        return String.format(
+            Locale.getDefault(),
+            "Movie{name=%s, description=%s, img=%s, price=%f}",
+            name, description, img, price
+        );
     }
 
     public String getName() {
