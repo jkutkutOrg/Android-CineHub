@@ -2,11 +2,14 @@ package org.cinehub;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.cinehub.api.CinehubAPI;
+import org.cinehub.api.CinehubAuth;
 import org.cinehub.utils.UserValidationUtils;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -59,10 +62,31 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             if (isValid) {
-                Toast.makeText(this, "The registration was successful", Toast.LENGTH_SHORT).show();
+                CinehubAuth auth = CinehubAPI.getAuthInstance();
+                auth.signup(
+                        username,
+                        email,
+                        password,
+                        () -> {
+                            Toast.makeText(this, "User created", Toast.LENGTH_SHORT).show();
+                            cleanFields();
+                            Intent intent = new Intent(this, LoginActivity.class);
+                            startActivity(intent);
+                        },
+                        (error) -> {
+                            Toast.makeText(this, "Error: " + error, Toast.LENGTH_SHORT).show();
+                        }
+                );
             }
         });
 
+    }
+
+    private void cleanFields() {
+        etUsername.setText("");
+        etEmail.setText("");
+        etPassword.setText("");
+        etConfirmPassword.setText("");
     }
 
 }
