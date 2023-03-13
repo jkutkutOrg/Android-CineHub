@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "613200648054",
+    "firebase_url": "https://android-cinehub-default-rtdb.firebaseio.com",
+    "project_id": "android-cinehub",
+    "storage_bucket": "android-cinehub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613200648054:android:705086881c3f6441fb8c57",
+        "android_client_info": {
+          "package_name": "org.cinehub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "613200648054-4ia6vacptfn11sn1i379vmkehjpb5ggj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3_IWRBmvCZ-0Ue0ZM9ANubFzuR2-n0E8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "613200648054-4ia6vacptfn11sn1i379vmkehjpb5ggj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

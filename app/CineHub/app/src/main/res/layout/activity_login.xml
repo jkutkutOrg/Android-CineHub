@@ -43,7 +43,7 @@
             android:autofillHints="password" />
 
         <Button
-            android:id="@+id/btnLogic"
+            android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#E5383B"
@@ -77,5 +77,5 @@
             android:text="@string/button_register_now"
             android:textSize="18sp" />
     </LinearLayout>
-    
+
 </androidx.constraintlayout.widget.ConstraintLayout>

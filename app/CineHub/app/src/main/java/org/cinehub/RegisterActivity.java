@@ -1,7 +1,5 @@
 package org.cinehub;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,7 +7,7 @@ import android.widget.Toast;
 
 import org.cinehub.utils.UserValidationUtils;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends NavActivity {
 
     // Declare the variables
     private EditText etUsername;
@@ -64,5 +62,4 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }
-
 }
