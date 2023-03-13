@@ -246,17 +246,4 @@ public interface CinehubDB {
         OnSuccessValueCallback<User> onSuccessCallback,
         OnFailureCallback<String> onFailureCallback
     );
-
-    /**
-     * Get the current user.
-     * If the user is not logged in or an error occurred, the Callback will be called with the
-     * appropriate error.
-     *
-     * @param onSuccessCallback The Callback to call when the operation is successful.
-     * @param onFailureCallback The Callback to handle the error.
-     */
-    void whoami(
-        OnSuccessValueCallback<User> onSuccessCallback,
-        OnFailureCallback<String> onFailureCallback
-    );
 }

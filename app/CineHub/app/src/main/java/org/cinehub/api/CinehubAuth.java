@@ -1,5 +1,6 @@
 package org.cinehub.api;
 
+import org.cinehub.api.model.User;
 import org.cinehub.api.result.OnFailureCallback;
 import org.cinehub.api.result.OnSuccessCallback;
 import org.cinehub.api.result.OnSuccessValueCallback;
@@ -48,5 +49,18 @@ public interface CinehubAuth {
     void autoLogin(
         OnSuccessValueCallback<String> onSuccessListener,
         OnFailureCallback<String> onFailureListener
+    );
+
+    /**
+     * Get the current user.
+     * If the user is not logged in or an error occurred, the Callback will be called with the
+     * appropriate error.
+     *
+     * @param onSuccessCallback The Callback to call when the operation is successful.
+     * @param onFailureCallback The Callback to handle the error.
+     */
+    void whoami( // TODO update position in wiki
+        OnSuccessValueCallback<User> onSuccessCallback,
+        OnFailureCallback<String> onFailureCallback
     );
 }

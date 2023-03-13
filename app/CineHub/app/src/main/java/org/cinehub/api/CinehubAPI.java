@@ -89,6 +89,17 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         else
             execute(onSuccessListener, usr.getEmail());
     }
+    public void whoami(
+            OnSuccessValueCallback<User> onSuccessListener,
+            OnFailureCallback<String> onFailureCallback
+    ) {
+        FirebaseUser usr = auth.getCurrentUser();
+        if (usr == null) {
+            execute(onFailureCallback, "Not logged in");
+            return;
+        }
+        getUser(usr.getEmail(), onSuccessListener, onFailureCallback);
+    }
 
     // ********* DB *********
 
@@ -319,18 +330,6 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         get(User.class, id, onSuccessListener, onFailureCallback);
-    }
-
-    public void whoami(
-        OnSuccessValueCallback<User> onSuccessListener,
-        OnFailureCallback<String> onFailureCallback
-    ) {
-        FirebaseUser usr = auth.getCurrentUser();
-        if (usr == null) {
-            execute(onFailureCallback, "Not logged in");
-            return;
-        }
-        getUser(usr.getEmail(), onSuccessListener, onFailureCallback);
     }
 
     // ********* Storage *********
