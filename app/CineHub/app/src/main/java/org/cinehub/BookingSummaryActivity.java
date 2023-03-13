@@ -1,5 +1,6 @@
 package org.cinehub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -52,5 +53,7 @@ public class BookingSummaryActivity extends NavActivity {
 
     private void onBookingConfirmation() {
         // TODO send data to db
+        advanceActivity(() -> new Intent(this, BillBoardActivity.class));
+        finish();
     }
 }
