@@ -1,10 +1,16 @@
 package org.cinehub.api;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.storage.StorageReference;
 
 import org.cinehub.api.model.Movie;
@@ -23,6 +29,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class CinehubAPI implements CinehubAuth, CinehubDB {
 
@@ -74,12 +81,10 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnSuccessListener(authResult -> {
-                append(
-                    User.class, new User(email, name),
-                    onSuccessCallback, onFailureCallback
-                );
-            })
+            .addOnSuccessListener(authResult -> append(
+                User.class, new User(email, name),
+                s -> onSuccessCallback.onSuccess(), onFailureCallback
+            ))
             .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
 
@@ -150,17 +155,17 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         getProjection(
             projectionId,
             projection -> getRoomConfiguration(
-                    projection.getRoom(),
-                    roomArr -> getSeatReservationsProjection(
-                        projectionId,
-                        lstSeatReservations -> {
-                            for (SeatReservation r : lstSeatReservations)
-                                roomArr[r.getRow()][r.getCol()] = SpecialSeat.OCCUPIED;
-                            execute(onSuccessValueCallback, roomArr);
-                        },
-                        onFailureCallback
-                    ),
+                projection.getRoom(),
+                roomArr -> getSeatReservationsProjection(
+                    projectionId,
+                    lstSeatReservations -> {
+                        for (SeatReservation r : lstSeatReservations)
+                            roomArr[r.getRow()][r.getCol()] = SpecialSeat.OCCUPIED;
+                        execute(onSuccessValueCallback, roomArr);
+                    },
                     onFailureCallback
+                ),
+                onFailureCallback
             ),
             onFailureCallback
         );
@@ -181,6 +186,48 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         get(Reservation.class, reservationId, onSuccessValueCallback, onFailureCallback);
+    }
+
+    public void addReservation(
+        User usr,
+        Projection projection,
+        ArrayList<Seat> seats,
+        OnSuccessCallback onSuccessCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getId(
+            projection,
+            projectionId -> ensureSeatsAvailable(
+                projectionId,
+                seats,
+                () -> getId(
+                    usr,
+                    usrId -> append(
+                        Reservation.class,
+                        new Reservation(usrId),
+                        reservationId -> {
+                            ArrayList<SeatReservation> rlst = new ArrayList<>();
+                            for (Seat s : seats)
+                                rlst.add(new SeatReservation(
+                                    projectionId, s.getRow(), s.getCol(), reservationId
+                                ));
+                            append(
+                                SeatReservation.class, rlst,
+                                size -> execute(onSuccessCallback),
+                                e -> {
+                                    // TODO remove reservation
+                                    execute(onFailureCallback, e);
+                                }
+                            );
+                        },
+                        onFailureCallback
+                    ),
+                    onFailureCallback
+                ),
+                onFailureCallback
+            ),
+            onFailureCallback
+        );
     }
 
     // ** Room **
@@ -262,6 +309,30 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         );
     }
 
+    protected void ensureSeatsAvailable( // TODO doc
+            int projectionId,
+            ArrayList<Seat> seats,
+            OnSuccessCallback onSuccessCallback,
+            OnFailureCallback<String> onFailureCallback
+    ) {
+        // Note: RoomConfiguration unverified
+        getSeatReservationsProjection(
+            projectionId,
+            reservations -> {
+                for (Seat s : seats) {
+                    for (SeatReservation r : reservations) {
+                        if (r.getRow() == s.getRow() && r.getCol() == s.getCol()) {
+                            execute(onFailureCallback, "Seat already reserved");
+                            return;
+                        }
+                    }
+                }
+                execute(onSuccessCallback);
+            },
+            onFailureCallback
+        );
+    }
+
     // ** SpecialSeat **
     public void getSpecialSeats(
         OnSuccessValueCallback<ArrayList<SpecialSeat>> onSuccessValueCallback,
@@ -317,15 +388,15 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         getUsers(
-                users -> {
-                    for (User user : users)
-                        if (user.getEmail().equals(email)) {
-                            execute(onSuccessListener, user);
-                            return;
-                        }
-                    execute(onFailureCallback, "User not found");
-                },
-                onFailureCallback
+            users -> {
+                for (User user : users)
+                    if (Objects.equals(user.getEmail(), email)) {
+                        execute(onSuccessListener, user);
+                        return;
+                    }
+                execute(onFailureCallback, "User not found");
+            },
+            onFailureCallback
         );
     }
 
@@ -343,7 +414,7 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
     // TODO implement storage interface
 
     // ********* Utils *********
-    protected <T> void getAll(
+    protected <T> void getAll( // TODO doc
         Class<T> clazz,
         OnSuccessValueCallback<ArrayList<T>> onSuccessListener,
         OnFailureCallback<String> onFailureCallback
@@ -356,7 +427,7 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         }).addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
 
-    protected <T> void get(
+    protected <T> void get( // TODO doc
         Class<T> clazz,
         int id,
         OnSuccessValueCallback<T> onSuccessListener,
@@ -377,7 +448,7 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
             .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
 
-    protected <T> void getId(
+    protected <T> void getId( // TODO doc
         T data,
         OnSuccessValueCallback<Integer> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
@@ -397,7 +468,7 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         );
     }
 
-    protected <T> void getSize(
+    protected <T> void getSize( // TODO doc
         Class<T> clazz,
         OnSuccessValueCallback<Integer> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
@@ -409,30 +480,73 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
             .addOnFailureListener(e -> onFailureCallback.onFailure(e.getMessage()));
     }
 
-    protected <T> void append(
+    protected <T> void append( // TODO doc
         Class<T> clazz,
-        T data,
-        OnSuccessCallback onSuccessCallback,
+        ArrayList<T> lst,
+        OnSuccessValueCallback<Integer> onSuccessCallback,
         OnFailureCallback<String> onFailureCallback
     ) {
+        if (lst.isEmpty()) {
+            onFailureCallback.onFailure("Empty list");
+            return;
+        }
         getSize(
             clazz,
             size -> {
-                try {
-                    for (Method getter : getGetters(clazz)) {
-                        dbRef.child(getDBRef(clazz)).child(String.valueOf(size))
-                            .child(method2attr(getter)).setValue(getter.invoke(data));
+                Method[] getters = getGetters(clazz);
+                String[] attrs = Arrays.stream(getters)
+                        .map(this::method2attr).toArray(String[]::new);
+                dbRef.child(getDBRef(clazz)).runTransaction(new Transaction.Handler() {
+                    @NonNull @Override
+                    public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                        try {
+                            for (int i, j = 0; j < lst.size(); j++) {
+                                for (i = 0; i < getters.length; i++) {
+                                    mutableData.child(String.valueOf(size + j))
+                                        .child(attrs[i])
+                                        .setValue(getters[i].invoke(lst.get(j)));
+                                }
+                            }
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            onFailureCallback.onFailure(e.getMessage());
+                            return Transaction.abort();
+                        }
+                        return Transaction.success(mutableData);
                     }
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    onFailureCallback.onFailure(e.getMessage());
-                    return;
-                }
-                onSuccessCallback.onSuccess();
+                    @Override
+                    public void onComplete(
+                        @Nullable DatabaseError databaseError,
+                        boolean b,
+                        @Nullable DataSnapshot dataSnapshot
+                    ) {
+                        if (databaseError != null)
+                            onFailureCallback.onFailure(databaseError.getMessage());
+                        else
+                            onSuccessCallback.onSuccess(size + lst.size());
+                    }
+                });
             },
             onFailureCallback
         );
     }
 
+    protected <T> void append( // TODO doc
+        Class<T> clazz,
+        T data,
+        OnSuccessValueCallback<Integer> onSuccessCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        ArrayList<T> lst = new ArrayList<>();
+        lst.add(data);
+        append(
+            clazz,
+            lst,
+            onSuccessCallback,
+            onFailureCallback
+        );
+    }
+
+    // TODO doc
     protected Method[] getGetters(Class<?> clazz) {
         return Arrays.stream(clazz.getMethods())
             .filter(method ->
@@ -441,24 +555,27 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
             )
             .toArray(Method[]::new);
     }
-
+    // TODO doc
     protected String method2attr(Method method) {
         return method.getName().substring(3).toLowerCase();
     }
-
+    // TODO doc
     protected String getDBRef(Class<?> clazz) {
         String[] arr = clazz.getName().split("\\.");
         return arr[arr.length - 1].replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase();
     }
 
+    // TODO doc
     protected void execute(OnSuccessCallback callback) {
         if (callback != null)
             callback.onSuccess();
     }
+    // TODO doc
     protected <T> void execute(OnSuccessValueCallback<T> callback, T data) {
         if (callback != null)
             callback.onSuccess(data);
     }
+    // TODO doc
     protected <T> void execute(OnFailureCallback<T> callback, T error) {
         if (callback != null)
             callback.onFailure(error);

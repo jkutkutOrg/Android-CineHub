@@ -4,6 +4,7 @@ import org.cinehub.api.model.Movie;
 import org.cinehub.api.model.Projection;
 import org.cinehub.api.model.Reservation;
 import org.cinehub.api.model.Room;
+import org.cinehub.api.model.Seat;
 import org.cinehub.api.model.SpecialSeat;
 import org.cinehub.api.model.SeatReservation;
 import org.cinehub.api.model.User;
@@ -180,6 +181,15 @@ public interface CinehubDB {
     void getSeatReservation(
         int seatReservationId,
         OnSuccessValueCallback<SeatReservation> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
+
+    // TODO doc
+    void addReservation( // TODO wiki
+        User usr,
+        Projection projection,
+        ArrayList<Seat> seats,
+        OnSuccessCallback onSuccessCallback,
         OnFailureCallback<String> onFailureCallback
     );
 

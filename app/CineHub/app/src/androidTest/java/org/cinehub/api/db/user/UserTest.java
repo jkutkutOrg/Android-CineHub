@@ -38,4 +38,16 @@ public class UserTest extends APITest {
             getFailureCallback()
         );
     }
+
+    @Test
+    public void getNewUserById() {
+        db.getUserById(
+            4,
+            user -> {
+                System.out.println(user);
+                running.set(VALID);
+            },
+            getFailureCallback()
+        );
+    }
 }
