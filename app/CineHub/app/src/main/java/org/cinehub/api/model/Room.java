@@ -13,22 +13,18 @@ import java.util.Locale;
  * @author Jkutkut
  */
 public class Room implements Parcelable {
-
-    private String name;
     private int rows;
     private int cols;
 
     public Room() {}
 
-    public Room(String name, int rows, int cols) {
-        setName(name);
+    public Room(int rows, int cols) {
         setRows(rows);
         setCols(cols);
     }
 
     protected Room(Parcel in) {
         this(
-            in.readString(),
             in.readInt(),
             in.readInt()
         );
@@ -47,17 +43,14 @@ public class Room implements Parcelable {
     };
 
     // GETTERS
+    @NonNull
     @Override
     public String toString() {
         return String.format(
             Locale.getDefault(),
-            "Room { name: %s, rows: %d, cols: %d }",
-            name, rows, cols
+            "Room {rows: %d, cols: %d }",
+            rows, cols
         );
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getRows() {
@@ -69,10 +62,6 @@ public class Room implements Parcelable {
     }
 
     // SETTERS
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setRows(int rows) {
         this.rows = rows;
     }
@@ -88,7 +77,6 @@ public class Room implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(name);
         dest.writeInt(rows);
         dest.writeInt(cols);
     }
