@@ -20,7 +20,7 @@ public class SignupTest extends APITest {
             "testmail@mail.com",
             "test1234",
             () -> running.set(VALID),
-            e -> running.set(INVALID)
+            getFailureCallback()
         );
     }
 

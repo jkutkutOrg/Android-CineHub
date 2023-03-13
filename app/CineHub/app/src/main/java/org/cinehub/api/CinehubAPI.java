@@ -18,7 +18,10 @@ import org.cinehub.api.result.OnFailureCallback;
 import org.cinehub.api.result.OnSuccessCallback;
 import org.cinehub.api.result.OnSuccessValueCallback;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CinehubAPI implements CinehubAuth, CinehubDB {
 
@@ -71,9 +74,10 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
     ) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener(authResult -> {
-                dbRef.child(getDBRef(User.class)).push().setValue(new User(name, email))
-                    .addOnSuccessListener(aVoid -> execute(onSuccessCallback))
-                    .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
+                append(
+                    User.class, new User(email, name),
+                    onSuccessCallback, onFailureCallback
+                );
             })
             .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
@@ -370,6 +374,55 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
                     execute(onSuccessListener, obj);
             })
             .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
+    }
+
+    protected <T> void getSize(
+        Class<T> clazz,
+        OnSuccessValueCallback<Integer> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        dbRef.child(getDBRef(clazz)).get()
+            .addOnSuccessListener(d ->
+                onSuccessValueCallback.onSuccess((int) d.getChildrenCount())
+            )
+            .addOnFailureListener(e -> onFailureCallback.onFailure(e.getMessage()));
+    }
+
+    protected <T> void append(
+        Class<T> clazz,
+        T data,
+        OnSuccessCallback onSuccessCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getSize(
+            clazz,
+            size -> {
+                try {
+                    for (Method getter : getGetters(clazz)) {
+                        dbRef.child(getDBRef(clazz)).child(String.valueOf(size))
+                            .child(method2attr(getter)).setValue(getter.invoke(data));
+                    }
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    onFailureCallback.onFailure(e.getMessage());
+                    return;
+                }
+                onSuccessCallback.onSuccess();
+            },
+            onFailureCallback
+        );
+    }
+
+    protected Method[] getGetters(Class<?> clazz) {
+        return Arrays.stream(clazz.getMethods())
+            .filter(method ->
+                method.getName().startsWith("get") &&
+                !method.getName().equals("getClass")
+            )
+            .toArray(Method[]::new);
+    }
+
+    protected String method2attr(Method method) {
+        return method.getName().substring(3).toLowerCase();
     }
 
     protected String getDBRef(Class<?> clazz) {
