@@ -11,6 +11,7 @@ import org.cinehub.api.model.Movie;
 import org.cinehub.api.model.Projection;
 import org.cinehub.api.model.Reservation;
 import org.cinehub.api.model.Room;
+import org.cinehub.api.model.Seat;
 import org.cinehub.api.model.SpecialSeat;
 import org.cinehub.api.model.SeatReservation;
 import org.cinehub.api.model.User;
@@ -374,6 +375,26 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
                     execute(onSuccessListener, obj);
             })
             .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
+    }
+
+    protected <T> void getId(
+        T data,
+        OnSuccessValueCallback<Integer> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getAll(
+            data.getClass(),
+            list -> {
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).equals(data)) {
+                        execute(onSuccessValueCallback, i);
+                        return;
+                    }
+                }
+                execute(onFailureCallback, data.getClass().getName() + " not found");
+            },
+            onFailureCallback
+        );
     }
 
     protected <T> void getSize(

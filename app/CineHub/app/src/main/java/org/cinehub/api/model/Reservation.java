@@ -42,6 +42,14 @@ public class Reservation implements Parcelable {
         }
     };
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reservation that = (Reservation) o;
+        return user == that.user;
+    }
+
     // GETTERS
     @Override
     public String toString() {

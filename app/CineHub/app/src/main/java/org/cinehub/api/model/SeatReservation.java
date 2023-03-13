@@ -46,6 +46,17 @@ public class SeatReservation extends Seat implements Parcelable {
         }
     };
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SeatReservation that = (SeatReservation) o;
+        return getProjection() == that.getProjection() &&
+            getRow() == that.getRow() &&
+            getCol() == that.getCol() &&
+            getReservation() == that.getReservation();
+    }
+
     // GETTERS
     @Override
     public String toString() {

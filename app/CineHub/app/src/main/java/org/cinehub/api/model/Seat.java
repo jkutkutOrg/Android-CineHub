@@ -43,6 +43,14 @@ public class Seat implements Parcelable {
         }
     };
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Seat seat = (Seat) o;
+        return row == seat.row && col == seat.col;
+    }
+
     // GETTERS
     public int getRow() {
         return row;

@@ -42,6 +42,15 @@ public class Room implements Parcelable {
         }
     };
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return rows == room.rows &&
+            cols == room.cols;
+    }
+
     // GETTERS
     @NonNull
     @Override

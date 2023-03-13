@@ -49,6 +49,16 @@ public class SpecialSeat extends Seat implements Parcelable {
         }
     };
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SpecialSeat that = (SpecialSeat) o;
+        return getRoom() == that.getRoom() &&
+            getRow() == that.getRow() &&
+            getCol() == that.getCol();
+    }
+
     // GETTERS
     @NonNull
     @Override

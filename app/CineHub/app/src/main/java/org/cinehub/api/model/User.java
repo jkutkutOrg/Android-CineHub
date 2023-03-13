@@ -43,6 +43,13 @@ public class User implements Parcelable {
         }
     };
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return email.equals(((User) o).email);
+    }
+
     // GETTERS
     @Override
     public String toString() {
