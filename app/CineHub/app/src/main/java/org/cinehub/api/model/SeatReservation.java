@@ -12,19 +12,16 @@ import java.util.Locale;
  *
  * @author Jkutkut
  */
-public class SeatReservation implements Parcelable {
+public class SeatReservation extends Seat implements Parcelable {
 
     private int projection;
-    private int row;
-    private int col;
     private int reservation;
 
     public SeatReservation() {}
 
     public SeatReservation(int projection, int row, int col, int reservation) {
+        super(row, col);
         setProjection(projection);
-        setRow(row);
-        setCol(col);
         setReservation(reservation);
     }
 
@@ -55,20 +52,12 @@ public class SeatReservation implements Parcelable {
         return String.format(
             Locale.getDefault(),
             "SeatReservation{projection=%d, row=%d, col=%d, reservation=%d}",
-            projection, row, col, reservation
+            getProjection(), getRow(), getCol(), getReservation()
         );
     }
 
     public int getProjection() {
         return projection;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getCol() {
-        return col;
     }
 
     public int getReservation() {
@@ -78,14 +67,6 @@ public class SeatReservation implements Parcelable {
     // SETTERS
     public void setProjection(int projection) {
         this.projection = projection;
-    }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public void setCol(int col) {
-        this.col = col;
     }
 
     public void setReservation(int reservation) {
@@ -99,9 +80,9 @@ public class SeatReservation implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeInt(projection);
-        dest.writeInt(row);
-        dest.writeInt(col);
-        dest.writeInt(reservation);
+        dest.writeInt(getProjection());
+        dest.writeInt(getRow());
+        dest.writeInt(getCol());
+        dest.writeInt(getReservation());
     }
 }
