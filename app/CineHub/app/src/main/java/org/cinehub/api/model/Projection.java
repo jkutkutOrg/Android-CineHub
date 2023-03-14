@@ -48,6 +48,16 @@ public class Projection implements Parcelable {
         }
     };
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Projection that = (Projection) o;
+        return room == that.room &&
+            movie == that.movie &&
+            timedate.equals(that.timedate);
+    }
+
     // GETTERS
     @Override
     public String toString() {

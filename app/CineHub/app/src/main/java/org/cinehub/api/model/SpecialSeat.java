@@ -12,28 +12,23 @@ import java.util.Locale;
  *
  * @author  Jkutkut
  */
-public class SpecialSeat implements Parcelable {
-
-    public static final char FREE = 'f';
-    public static final char OCCUPIED = 'o';
-    public static final char GAP = ' ';
-    public static final char[] STATES = {FREE, OCCUPIED, GAP};
+public class SpecialSeat extends Seat implements Parcelable {
+    private static final int INVALID = -1;
 
     private int room;
-    private int row;
-    private int col;
     private char type;
 
-    public SpecialSeat() {}
+    public SpecialSeat() {
+        super();
+    }
 
     public SpecialSeat(int room, int row, int col, char type) {
+        super(row, col);
         setRoom(room);
-        setRow(row);
-        setCol(col);
         setTypeChar(type);
     }
 
-    protected SpecialSeat(Parcel in) {
+    private SpecialSeat(Parcel in) {
         this(
             in.readInt(),
             in.readInt(),
@@ -54,26 +49,29 @@ public class SpecialSeat implements Parcelable {
         }
     };
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SpecialSeat that = (SpecialSeat) o;
+        return getRoom() == that.getRoom() &&
+            getRow() == that.getRow() &&
+            getCol() == that.getCol();
+    }
+
     // GETTERS
+    @NonNull
     @Override
     public String toString() {
         return String.format(
             Locale.getDefault(),
             "RoomConfiguration{room=%d, row=%d, col=%d, state=%c}",
-            room, row, col, type
+            getRoom(), getRow(), getCol(), getType()
         );
     }
 
     public int getRoom() {
         return room;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getCol() {
-        return col;
     }
 
     public char getType() {
@@ -83,14 +81,6 @@ public class SpecialSeat implements Parcelable {
     // SETTERS
     public void setRoom(int room) {
         this.room = room;
-    }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public void setCol(int col) {
-        this.col = col;
     }
 
     public void setType(String typeStr) {
@@ -115,9 +105,9 @@ public class SpecialSeat implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeInt(room);
-        dest.writeInt(row);
-        dest.writeInt(col);
-        dest.writeInt((int) type);
+        dest.writeInt(getRoom());
+        dest.writeInt(getRow());
+        dest.writeInt(getCol());
+        dest.writeInt(getType());
     }
 }

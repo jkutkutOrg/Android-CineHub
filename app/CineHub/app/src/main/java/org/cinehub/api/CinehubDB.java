@@ -4,6 +4,7 @@ import org.cinehub.api.model.Movie;
 import org.cinehub.api.model.Projection;
 import org.cinehub.api.model.Reservation;
 import org.cinehub.api.model.Room;
+import org.cinehub.api.model.Seat;
 import org.cinehub.api.model.SpecialSeat;
 import org.cinehub.api.model.SeatReservation;
 import org.cinehub.api.model.User;
@@ -114,6 +115,24 @@ public interface CinehubDB {
         OnFailureCallback<String> onFailureCallback
     );
 
+    /**
+     * Add a reservation to the database.
+     * It will check if the seats are available.
+     *
+     * @param usr The user that made the reservation.
+     * @param projection The projection wanted.
+     * @param seats An arraylist of seats to be reserved.
+     * @param onSuccessCallback The callback to be called when the request is successful.
+     * @param onFailureCallback The callback to be called when the request fails.
+     */
+    void addReservation(
+        User usr,
+        Projection projection,
+        ArrayList<Seat> seats,
+        OnSuccessCallback onSuccessCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
+
     // ** Room **
 
     /**
@@ -183,6 +202,19 @@ public interface CinehubDB {
         OnFailureCallback<String> onFailureCallback
     );
 
+    /**
+     * Get all the seats booked by a user.
+     *
+     * @param usr User.
+     * @param onSuccessValueCallback The callback to be called when the request is success.
+     * @param onFailureCallback The callback to be called when the requests fails.
+     */
+    void getSeatReservationUser(
+        User usr,
+        OnSuccessValueCallback<ArrayList<SeatReservation>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
+
     // ** SpecialSeat **
     /**
      * Get all the special seats from the database.
@@ -243,19 +275,6 @@ public interface CinehubDB {
      */
     void getUserById(
         int id,
-        OnSuccessValueCallback<User> onSuccessCallback,
-        OnFailureCallback<String> onFailureCallback
-    );
-
-    /**
-     * Get the current user.
-     * If the user is not logged in or an error occurred, the Callback will be called with the
-     * appropriate error.
-     *
-     * @param onSuccessCallback The Callback to call when the operation is successful.
-     * @param onFailureCallback The Callback to handle the error.
-     */
-    void whoami(
         OnSuccessValueCallback<User> onSuccessCallback,
         OnFailureCallback<String> onFailureCallback
     );

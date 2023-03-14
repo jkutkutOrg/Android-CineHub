@@ -38,4 +38,19 @@ public class UserTest extends APITest {
             getFailureCallback()
         );
     }
+
+    /**
+     * @implNote If no user has been created. This method should fail
+     */
+    @Test
+    public void getNewUserById() {
+        db.getUserById(
+            4,
+            user -> {
+                System.out.println(user);
+                running.set(VALID);
+            },
+            getFailureCallback()
+        );
+    }
 }
