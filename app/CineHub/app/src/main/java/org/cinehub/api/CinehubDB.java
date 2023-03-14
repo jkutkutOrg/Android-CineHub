@@ -185,6 +185,19 @@ public interface CinehubDB {
     );
 
     /**
+     * Get all the seats from a user.
+     *
+     * @param usr User.
+     * @param onSuccessValueCallback The callback to be called when the request is success.
+     * @param onFailureCallback The callback to be called when the requests fails.
+     */
+    void getSeatReservationUser(
+        User usr,
+        OnSuccessValueCallback<ArrayList<SeatReservation>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
+
+    /**
      * Add a reservation to the database.
      * It will check if the seats are available.
      *
