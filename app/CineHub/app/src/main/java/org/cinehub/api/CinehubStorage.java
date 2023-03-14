@@ -1,9 +1,7 @@
 package org.cinehub.api;
 
 import org.cinehub.api.model.Movie;
-import org.cinehub.api.model.User;
 import org.cinehub.api.result.OnFailureCallback;
-import org.cinehub.api.result.OnSuccessCallback;
 import org.cinehub.api.result.OnSuccessValueCallback;
 
 /**

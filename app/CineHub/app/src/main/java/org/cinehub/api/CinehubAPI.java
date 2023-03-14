@@ -89,7 +89,7 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener(authResult -> append(
                 User.class, new User(email, name),
-                s -> onSuccessCallback.onSuccess(), onFailureCallback
+                s -> execute(onSuccessCallback), onFailureCallback
             ))
             .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
@@ -312,7 +312,15 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
         );
     }
 
-    protected void ensureSeatsAvailable( // TODO doc
+    /**
+     * Ensures that the seats are available to be reserved.
+     *
+     * @param projectionId the projection id.
+     * @param seats the seats to be reserved.
+     * @param onSuccessCallback the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     */
+    protected void ensureSeatsAvailable(
             int projectionId,
             ArrayList<Seat> seats,
             OnSuccessCallback onSuccessCallback,
@@ -429,7 +437,15 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
 
     // ********* Utils *********
 
-    protected <T> void getAll( // TODO doc
+    /**
+     * Obtains all the objects from the given class in the database.
+     *
+     * @param clazz the class of the objects.
+     * @param onSuccessListener the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     * @param <T> The model class.
+     */
+    protected <T> void getAll(
         Class<T> clazz,
         OnSuccessValueCallback<ArrayList<T>> onSuccessListener,
         OnFailureCallback<String> onFailureCallback
@@ -442,7 +458,16 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
         }).addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
 
-    protected <T> void get( // TODO doc
+    /**
+     * Obtains the object with the given id from the given class in the database.
+     *
+     * @param clazz the class of the object.
+     * @param id the id of the object.
+     * @param onSuccessListener the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     * @param <T> The model class.
+     */
+    protected <T> void get(
         Class<T> clazz,
         int id,
         OnSuccessValueCallback<T> onSuccessListener,
@@ -463,7 +488,15 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
             .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
 
-    protected <T> void getId( // TODO doc
+    /**
+     * Obtains the id of the given object in the database.
+     *
+     * @param data the object to search.
+     * @param onSuccessValueCallback the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     * @param <T> The model class.
+     */
+    protected <T> void getId(
         T data,
         OnSuccessValueCallback<Integer> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
@@ -483,26 +516,43 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
         );
     }
 
-    protected <T> void getSize( // TODO doc
+    /**
+     * Obtains the amount of elements of the given class in the database.
+     *
+     * @param clazz the class of the objects.
+     * @param onSuccessValueCallback the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     * @param <T> The model class.
+     */
+    protected <T> void getSize(
         Class<T> clazz,
         OnSuccessValueCallback<Integer> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
     ) {
         dbRef.child(getDBRef(clazz)).get()
             .addOnSuccessListener(d ->
-                onSuccessValueCallback.onSuccess((int) d.getChildrenCount())
+                execute(onSuccessValueCallback, (int) d.getChildrenCount())
             )
-            .addOnFailureListener(e -> onFailureCallback.onFailure(e.getMessage()));
+            .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
 
-    protected <T> void append( // TODO doc
+    /**
+     * Adds the given objects to the database.
+     *
+     * @param clazz the class of the object.
+     * @param lst the list of objects to add.
+     * @param onSuccessCallback the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     * @param <T> The model class.
+     */
+    protected <T> void append(
         Class<T> clazz,
         ArrayList<T> lst,
         OnSuccessValueCallback<Integer> onSuccessCallback,
         OnFailureCallback<String> onFailureCallback
     ) {
         if (lst.isEmpty()) {
-            onFailureCallback.onFailure("Empty list");
+            execute(onFailureCallback, "Empty list");
             return;
         }
         getSize(
@@ -523,7 +573,7 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
                                 }
                             }
                         } catch (IllegalAccessException | InvocationTargetException e) {
-                            onFailureCallback.onFailure(e.getMessage());
+                            execute(onFailureCallback, e.getMessage());
                             return Transaction.abort();
                         }
                         return Transaction.success(mutableData);
@@ -535,9 +585,9 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
                         @Nullable DataSnapshot dataSnapshot
                     ) {
                         if (databaseError != null)
-                            onFailureCallback.onFailure(databaseError.getMessage());
+                            execute(onFailureCallback, databaseError.getMessage());
                         else
-                            onSuccessCallback.onSuccess(size + lst.size());
+                            execute(onSuccessCallback, size + lst.size());
                     }
                 });
             },
@@ -545,7 +595,16 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
         );
     }
 
-    protected <T> void append( // TODO doc
+    /**
+     * Adds the given object to the database.
+     *
+     * @param clazz the class of the object.
+     * @param data the object to add.
+     * @param onSuccessCallback the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     * @param <T> The model class.
+     */
+    protected <T> void append(
         Class<T> clazz,
         T data,
         OnSuccessValueCallback<Integer> onSuccessCallback,
@@ -561,7 +620,11 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
         );
     }
 
-    // TODO doc
+    /**
+     * Obtains all the getter methods of the given class.
+     * @param clazz the class to search.
+     * @return an array of methods.
+     */
     protected Method[] getGetters(Class<?> clazz) {
         return Arrays.stream(clazz.getMethods())
             .filter(method ->
@@ -570,27 +633,55 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
             )
             .toArray(Method[]::new);
     }
-    // TODO doc
+
+    /**
+     * Obtains the attribute name from the given getter method.
+     * @param method method to use.
+     * @return the attribute name.
+     */
     protected String method2attr(Method method) {
         return method.getName().substring(3).toLowerCase();
     }
-    // TODO doc
+
+    /**
+     * From the given class, obtains the name of the database reference.
+     * @param clazz the class to obtain the reference from.
+     * @return the name of the database reference.
+     */
     protected String getDBRef(Class<?> clazz) {
         String[] arr = clazz.getName().split("\\.");
-        return arr[arr.length - 1].replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase();
+        return arr[arr.length - 1]
+            .replaceAll("([a-z])([A-Z])", "$1_$2")
+            .toLowerCase();
     }
 
-    // TODO doc
+    /**
+     * Executes the given callback.
+     * @param callback the callback to execute.
+     */
     protected void execute(OnSuccessCallback callback) {
         if (callback != null)
             callback.onSuccess();
     }
-    // TODO doc
+
+    /**
+     * Executes the given callback.
+     * @param callback the callback to execute.
+     * @param data the data to pass to the callback.
+     * @param <T> the type of the data.
+     */
     protected <T> void execute(OnSuccessValueCallback<T> callback, T data) {
         if (callback != null)
             callback.onSuccess(data);
     }
-    // TODO doc
+
+    /**
+     * Executes the given callback.
+     *
+     * @param callback the callback to execute.
+     * @param error the error to pass to the callback.
+     * @param <T> the type of the error.
+     */
     protected <T> void execute(OnFailureCallback<T> callback, T error) {
         if (callback != null)
             callback.onFailure(error);
