@@ -59,7 +59,7 @@ public interface CinehubAuth {
      * @param onSuccessCallback The Callback to call when the operation is successful.
      * @param onFailureCallback The Callback to handle the error.
      */
-    void whoami( // TODO update position in wiki
+    void whoami(
         OnSuccessValueCallback<User> onSuccessCallback,
         OnFailureCallback<String> onFailureCallback
     );

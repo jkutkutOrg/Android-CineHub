@@ -184,8 +184,17 @@ public interface CinehubDB {
         OnFailureCallback<String> onFailureCallback
     );
 
-    // TODO doc
-    void addReservation( // TODO wiki
+    /**
+     * Add a reservation to the database.
+     * It will check if the seats are available.
+     *
+     * @param usr The user that made the reservation.
+     * @param projection The projection wanted.
+     * @param seats An arraylist of seats to be reserved.
+     * @param onSuccessCallback The callback to be called when the request is successful.
+     * @param onFailureCallback The callback to be called when the request fails.
+     */
+    void addReservation(
         User usr,
         Projection projection,
         ArrayList<Seat> seats,
