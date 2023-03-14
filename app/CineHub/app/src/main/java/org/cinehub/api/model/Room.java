@@ -5,35 +5,29 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
 /**
  * Room model class.
  *
  * @author Jkutkut
  */
-public class Room extends CinehubModel implements Parcelable {
-    public static final String DB_REF = "room";
-
-    private String name;
+public class Room implements Parcelable {
     private int rows;
     private int cols;
-//    private ArrayList<RoomConfiguration> configurations; // TODO
 
     public Room() {}
 
-    public Room(String name, int rows, int cols) {
-        setName(name);
+    public Room(int rows, int cols) {
         setRows(rows);
         setCols(cols);
-        // setConfigurations(configurations);
     }
 
     protected Room(Parcel in) {
         this(
-            in.readString(),
             in.readInt(),
             in.readInt()
         );
-        // TODO
     }
 
     public static final Creator<Room> CREATOR = new Creator<Room>() {
@@ -48,14 +42,24 @@ public class Room extends CinehubModel implements Parcelable {
         }
     };
 
-    // GETTERS
-    @NonNull
-    public static String getDBRef() {
-        return DB_REF;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return rows == room.rows &&
+            cols == room.cols;
     }
 
-    public String getName() {
-        return name;
+    // GETTERS
+    @NonNull
+    @Override
+    public String toString() {
+        return String.format(
+            Locale.getDefault(),
+            "Room {rows: %d, cols: %d }",
+            rows, cols
+        );
     }
 
     public int getRows() {
@@ -66,15 +70,7 @@ public class Room extends CinehubModel implements Parcelable {
         return cols;
     }
 
-//    public ArrayList<RoomConfiguration> getConfigurations() {
-//        return configurations;
-//    }
-
     // SETTERS
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setRows(int rows) {
         this.rows = rows;
     }
@@ -83,10 +79,6 @@ public class Room extends CinehubModel implements Parcelable {
         this.cols = cols;
     }
 
-//    public void setConfigurations(ArrayList<RoomConfiguration> configurations) {
-//        this.configurations = configurations;
-//    }
-
     @Override
     public int describeContents() {
         return 0b0;
@@ -94,9 +86,7 @@ public class Room extends CinehubModel implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(name);
         dest.writeInt(rows);
         dest.writeInt(cols);
-        // TODO
     }
 }

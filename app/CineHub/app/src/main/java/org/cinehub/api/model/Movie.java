@@ -5,25 +5,26 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
 /**
  * Movie model class.
  *
  * @author Jkutkut
  */
-public class Movie extends CinehubModel implements Parcelable {
-    public static final String DB_REF = "movie";
+public class Movie implements Parcelable {
 
     private String name;
     private String description;
-    private String img;
+    private String banner;
     private float price;
 
     public Movie() {}
 
-    public Movie(String name, String description, String img, float price) {
+    public Movie(String name, String description, String banner, float price) {
         setName(name);
         setDescription(description);
-        setImg(img);
+        setBanner(banner);
         setPrice(price);
     }
 
@@ -48,10 +49,22 @@ public class Movie extends CinehubModel implements Parcelable {
         }
     };
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return name.equals(movie.name);
+    }
+
     // GETTERS
-    @NonNull
-    public static String getDBRef() {
-        return DB_REF;
+    @Override
+    public String toString() {
+        return String.format(
+            Locale.getDefault(),
+            "Movie{name=%s, description=%s, img=%s, price=%f}",
+            name, description, banner, price
+        );
     }
 
     public String getName() {
@@ -62,8 +75,8 @@ public class Movie extends CinehubModel implements Parcelable {
         return description;
     }
 
-    public String getImg() {
-        return img;
+    public String getBanner() {
+        return banner;
     }
 
     public float getPrice() {
@@ -79,8 +92,8 @@ public class Movie extends CinehubModel implements Parcelable {
         this.description = description;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setBanner(String banner) {
+        this.banner = banner;
     }
 
     public void setPrice(float price) {
@@ -96,7 +109,7 @@ public class Movie extends CinehubModel implements Parcelable {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(description);
-        dest.writeString(img);
+        dest.writeString(banner);
         dest.writeFloat(price);
     }
 }
