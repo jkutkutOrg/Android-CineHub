@@ -146,15 +146,17 @@
             {
                 "name": "Peter",
                 "email": "peter@gmail.com"
-            },
-            {
-                "name": "user",
-                "email": "user@user.com"
             }
         ],
         "reservation": [
             {
                 "user": 0
+            },
+            {
+                "user": 1
+            },
+            {
+                "user": 2
             }
         ],
         "seat_reservation": [
@@ -162,13 +164,13 @@
                 "projection": 0,
                 "row": 3,
                 "col": 5,
-                "reservation": 0
+                "reservation": 2
             },
             {
                 "projection": 0,
                 "row": 4,
                 "col": 5,
-                "reservation": 0
+                "reservation": 1
             },
             {
                 "projection": 0,
