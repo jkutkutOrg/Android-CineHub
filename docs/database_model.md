@@ -58,16 +58,6 @@ erDiagram
 
     room ||--o{ special_seat : has
 
-    RoomConfiguration {
-      id id
-      id room
-      int row
-      int col
-      char state
-    }
-
-    Room ||--o{ RoomConfiguration : has_gaps
-
 ```
 
 ## Features:

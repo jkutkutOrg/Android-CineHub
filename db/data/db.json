@@ -3,42 +3,99 @@
         "movie": [
             {
                 "name": "Titanic",
-                "description": "",
-                "banner": "",
+                "description": "A fictionalized account of the sinking of the RMS Titanic, which struck an iceberg and sank on April 15, 1912. The film follows the romantic relationship between two passengers from different social classes during the ill-fated voyage.",
+                "banner": "titanic",
                 "price": 3.0
             },
             {
                 "name": "Minions",
-                "description": "",
-                "banner": "",
+                "description": "A group of yellow, pill-shaped creatures work as henchmen for a supervillain named Gru. When Gru decides to steal the moon, the Minions must help him accomplish his goal.",
+                "banner": "minions",
                 "price": 6.0
             },
             {
-                "name": "Avatar",
-                "description": "",
-                "banner": "",
-                "price": 22.0
+                "name": "The Godfather",
+                "description": "A powerful Italian-American mafia family is led by patriarch Vito Corleone. When Vito's youngest son, Michael, takes over the family business, he must navigate the dangerous world of organized crime and protect his family from rival gangs.",
+                "banner": "the_god_father",
+                "price": 4.0
             },
             {
-                "name": "Avatar 3D",
-                "description": "",
-                "banner": "",
-                "price": 33.0
-            }
+                "name": "The Shawshank Redemption",
+                "description": "A banker named Andy Dufresne is wrongfully convicted of murder and sentenced to life in prison. While incarcerated, he befriends a fellow inmate named Red and works to clear his name.",
+                "banner": "the_shawshank_redemption",
+                "price": 4.0
+            },
+            {
+                "name": "The Dark Knight",
+                "description": "The Batman faces off against his most notorious adversary, the Joker, who is terrorizing Gotham City with his violent crimes.",
+                "banner": "the_dark_knight",
+                "price": 5.0
+            },
+            {
+                "name": "Inception",
+                "description": "A professional thief named Cobb is hired to perform an impossible heist: to plant an idea in the mind of a wealthy businessman by infiltrating his dreams.",
+                "banner": "inception",
+                "price": 4.0
+            },
+            {
+                "name": "The Matrix",
+                "description": "A computer programmer named Neo discovers that the world he thought was real is actually a simulated reality created by intelligent machines. He joins a rebellion against the machines and becomes their greatest hope for survival.",
+                "banner": "the_matrix",
+                "price": 4.0
+            },
+            {
+                "name": "Forrest Gump",
+                "description": "A slow-witted but kind-hearted man named Forrest Gump becomes an unwitting participant in some of the biggest events in American history, while also pursuing his childhood sweetheart, Jenny.",
+                "banner": "forrest_gump",
+                "price": 3.0
+            },
+            {
+                "name": "Jurassic Park",
+                "description": "A wealthy entrepreneur creates a theme park on an island where genetically cloned dinosaurs roam free. When a group of scientists and visitors visit the park, they quickly discover that the dinosaurs are not as safe as they seem.",
+                "banner": "jurassic_park",
+                "price": 5.0
+            },
+            {
+                "name": "The Silence of the Lambs",
+                "description": "An FBI trainee named Clarice Starling is tasked with interviewing a notorious serial killer named Hannibal Lecter in order to gain insight into another killer known as 'Buffalo Bill'.",
+                "banner": "the_silence_of_the_lambs",
+                "price": 4.0
+            },
+            {
+                "name": "The Lion King",
+                "description": "A young lion prince named Simba must overcome the loss of his father and the betrayal of his uncle to take his rightful place as king of the Pride Lands.",
+                "banner": "the_lion_king",
+                "price": 4.0
+              },
+              {
+                "name": "The Fellowship of the Ring",
+                "description": "A hobbit named Frodo Baggins is entrusted with a powerful ring that could ultimately destroy the world. He and a fellowship of other creatures must journey across Middle-earth to destroy the ring and prevent it from falling into the wrong hands.",
+                "banner": "the_fellowship_of_the_ring",
+                "price": 5.0
+              },
+              {
+                "name": "Avengers: Endgame",
+                "description": "The surviving members of the Avengers and their allies work to reverse the damage caused by Thanos in Infinity War and restore balance to the universe.",
+                "banner": "avengers_endgame",
+                "price": 6.0
+              },
+              {
+                "name": "The Terminator",
+                "description": "In the future, an artificial intelligence called Skynet sends a cyborg assassin back in time to kill Sarah Connor, the woman who will give birth to the human resistance. A soldier named Kyle Reese is also sent back to protect her.",
+                "banner": "the_terminator",
+                "price": 4.0
+              }
         ],
         "room": [
             {
-                "name": "Sala 1",
                 "rows": 10,
                 "cols": 10
             },
             {
-                "name": "Sala 2",
                 "rows": 10,
                 "cols": 10
             },
             {
-                "name": "Sala 3",
                 "rows": 10,
                 "cols": 10
             }
@@ -89,15 +146,17 @@
             {
                 "name": "Peter",
                 "email": "peter@gmail.com"
-            },
-            {
-                "name": "user",
-                "email": "user@user.com"
             }
         ],
         "reservation": [
             {
                 "user": 0
+            },
+            {
+                "user": 1
+            },
+            {
+                "user": 2
             }
         ],
         "seat_reservation": [
@@ -105,13 +164,13 @@
                 "projection": 0,
                 "row": 3,
                 "col": 5,
-                "reservation": 0
+                "reservation": 2
             },
             {
                 "projection": 0,
                 "row": 4,
                 "col": 5,
-                "reservation": 0
+                "reservation": 1
             },
             {
                 "projection": 0,
