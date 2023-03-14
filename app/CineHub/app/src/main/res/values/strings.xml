@@ -30,4 +30,6 @@
     <string name="action_booking_confirmation">Buy tickets</string>
     <!-- BillBoard Activity Strings-->
     <string name="title_billboard_tv_title">Select your favorite movie</string>
+    <string name="title_home">Welcome again %1$s</string>
+    <string name="label_home_sub">You have booked %1$d tickets</string>
 </resources>
