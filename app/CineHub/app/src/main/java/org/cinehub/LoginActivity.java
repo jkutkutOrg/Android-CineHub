@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.cinehub.api.model.User;
+import org.cinehub.api.CinehubAPI;
 import org.cinehub.utils.UserValidationUtils;
 
 public class LoginActivity extends NavActivity {
@@ -41,12 +41,13 @@ public class LoginActivity extends NavActivity {
             }
 
             if (isValid) {
-                Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
-                advanceActivity(() ->
-                        new Intent(this, BillBoardActivity.class)
-                                .putExtra(EXTRA_USER, new User(email)));
+                CinehubAPI api = new CinehubAPI();
+                api.getUser(email, (user) ->
+                    advanceActivity(() ->
+                            new Intent(this, BillBoardActivity.class)
+                                    .putExtra(EXTRA_USER, user)),
+                        System.err::println);
             }
-
         });
 
         btnRegister.setOnClickListener(v -> {
