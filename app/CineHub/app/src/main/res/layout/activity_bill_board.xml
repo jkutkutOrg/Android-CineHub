@@ -5,36 +5,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/std_padding"
+    android:background="@color/general_background"
     tools:context=".BillBoardActivity">
 
     <LinearLayout
-        android:id="@+id/llHeader"
+        android:id="@+id/llStatus"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="65dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:weightSum="4"
-        android:background="@drawable/st_rounded_background"
+        android:background="@drawable/st_gradient_bill"
+        android:weightSum="3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
-            android:id="@+id/ivLogo"
+            android:id="@+id/ivStatus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_logo_basic"
-            android:layout_weight="1"
-            android:contentDescription="@string/desc_login_logo" />
-        <TextView
-            android:id="@+id/tvTitle"
+            android:layout_weight="0.7"
+            android:src="@drawable/ic_logo_basic" />
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="@string/title_billboard_tv_title"
-            android:textColor="#0B090A"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:gravity="center" />
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hola Juan Delgado"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvStatus2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¿Que te apetece hacer hoy?"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -45,5 +62,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/llHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/llStatus" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
