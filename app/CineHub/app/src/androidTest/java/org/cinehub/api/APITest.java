@@ -28,6 +28,7 @@ public class APITest {
 
     protected static CinehubAuth auth;
     protected static CinehubDB db;
+    protected static CinehubStorage storage;
 
     protected AtomicInteger running;
     protected ArrayList<String> msgs;
@@ -36,6 +37,7 @@ public class APITest {
     public static void setup() {
         auth = CinehubAPI.getAuthInstance();
         db = CinehubAPI.getDBInstance();
+        storage = CinehubAPI.getStorageInstance();
     }
 
     @Before

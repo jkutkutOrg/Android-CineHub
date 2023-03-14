@@ -1,16 +1,24 @@
 package org.cinehub.api;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import org.cinehub.api.model.Movie;
 import org.cinehub.api.model.Projection;
 import org.cinehub.api.model.Reservation;
 import org.cinehub.api.model.Room;
+import org.cinehub.api.model.Seat;
 import org.cinehub.api.model.SpecialSeat;
 import org.cinehub.api.model.SeatReservation;
 import org.cinehub.api.model.User;
@@ -18,11 +26,16 @@ import org.cinehub.api.result.OnFailureCallback;
 import org.cinehub.api.result.OnSuccessCallback;
 import org.cinehub.api.result.OnSuccessValueCallback;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
-public class CinehubAPI implements CinehubAuth, CinehubDB {
+public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
 
     private static final String DB_REF = "db";
+    private static final String IMG_REF = "img";
 
     private static CinehubAPI instance;
 
@@ -44,10 +57,14 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         return getInstance();
     }
 
+    public static CinehubStorage getStorageInstance() {
+        return getInstance();
+    }
+
     public CinehubAPI() {
         auth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference().child(DB_REF);
-        storageRef = null; // TODO
+        storageRef = FirebaseStorage.getInstance().getReference();
     }
 
     // ********* Auth *********
@@ -70,11 +87,10 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnSuccessListener(authResult -> {
-                dbRef.child(getDBRef(User.class)).push().setValue(new User(name, email))
-                    .addOnSuccessListener(aVoid -> execute(onSuccessCallback))
-                    .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
-            })
+            .addOnSuccessListener(authResult -> append(
+                User.class, new User(email, name),
+                s -> execute(onSuccessCallback), onFailureCallback
+            ))
             .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
 
@@ -88,6 +104,17 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
             execute(onFailureListener, "Not logged in");
         else
             execute(onSuccessListener, usr.getEmail());
+    }
+    public void whoami(
+            OnSuccessValueCallback<User> onSuccessListener,
+            OnFailureCallback<String> onFailureCallback
+    ) {
+        FirebaseUser usr = auth.getCurrentUser();
+        if (usr == null) {
+            execute(onFailureCallback, "Not logged in");
+            return;
+        }
+        getUser(usr.getEmail(), onSuccessListener, onFailureCallback);
     }
 
     // ********* DB *********
@@ -134,17 +161,17 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         getProjection(
             projectionId,
             projection -> getRoomConfiguration(
-                    projection.getRoom(),
-                    roomArr -> getSeatReservationsProjection(
-                        projectionId,
-                        lstSeatReservations -> {
-                            for (SeatReservation r : lstSeatReservations)
-                                roomArr[r.getRow()][r.getCol()] = SpecialSeat.OCCUPIED;
-                            execute(onSuccessValueCallback, roomArr);
-                        },
-                        onFailureCallback
-                    ),
+                projection.getRoom(),
+                roomArr -> getSeatReservationsProjection(
+                    projectionId,
+                    lstSeatReservations -> {
+                        for (SeatReservation r : lstSeatReservations)
+                            roomArr[r.getRow()][r.getCol()] = SpecialSeat.OCCUPIED;
+                        execute(onSuccessValueCallback, roomArr);
+                    },
                     onFailureCallback
+                ),
+                onFailureCallback
             ),
             onFailureCallback
         );
@@ -165,6 +192,45 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         get(Reservation.class, reservationId, onSuccessValueCallback, onFailureCallback);
+    }
+
+    public void addReservation(
+        User usr,
+        Projection projection,
+        ArrayList<Seat> seats,
+        OnSuccessCallback onSuccessCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getId(
+            projection,
+            projectionId -> ensureSeatsAvailable(
+                projectionId,
+                seats,
+                () -> getId(
+                    usr,
+                    usrId -> append(
+                        Reservation.class,
+                        new Reservation(usrId),
+                        reservationId -> {
+                            ArrayList<SeatReservation> rlst = new ArrayList<>();
+                            for (Seat s : seats)
+                                rlst.add(new SeatReservation(
+                                    projectionId, s.getRow(), s.getCol(), reservationId
+                                ));
+                            append(
+                                SeatReservation.class, rlst,
+                                size -> execute(onSuccessCallback),
+                                onFailureCallback
+                            );
+                        },
+                        onFailureCallback
+                    ),
+                    onFailureCallback
+                ),
+                onFailureCallback
+            ),
+            onFailureCallback
+        );
     }
 
     // ** Room **
@@ -246,6 +312,38 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         );
     }
 
+    /**
+     * Ensures that the seats are available to be reserved.
+     *
+     * @param projectionId the projection id.
+     * @param seats the seats to be reserved.
+     * @param onSuccessCallback the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     */
+    protected void ensureSeatsAvailable(
+            int projectionId,
+            ArrayList<Seat> seats,
+            OnSuccessCallback onSuccessCallback,
+            OnFailureCallback<String> onFailureCallback
+    ) {
+        // Note: RoomConfiguration unverified
+        getSeatReservationsProjection(
+            projectionId,
+            reservations -> {
+                for (Seat s : seats) {
+                    for (SeatReservation r : reservations) {
+                        if (r.getRow() == s.getRow() && r.getCol() == s.getCol()) {
+                            execute(onFailureCallback, "Seat already reserved");
+                            return;
+                        }
+                    }
+                }
+                execute(onSuccessCallback);
+            },
+            onFailureCallback
+        );
+    }
+
     // ** SpecialSeat **
     public void getSpecialSeats(
         OnSuccessValueCallback<ArrayList<SpecialSeat>> onSuccessValueCallback,
@@ -301,15 +399,15 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         OnFailureCallback<String> onFailureCallback
     ) {
         getUsers(
-                users -> {
-                    for (User user : users)
-                        if (user.getEmail().equals(email)) {
-                            execute(onSuccessListener, user);
-                            return;
-                        }
-                    execute(onFailureCallback, "User not found");
-                },
-                onFailureCallback
+            users -> {
+                for (User user : users)
+                    if (Objects.equals(user.getEmail(), email)) {
+                        execute(onSuccessListener, user);
+                        return;
+                    }
+                execute(onFailureCallback, "User not found");
+            },
+            onFailureCallback
         );
     }
 
@@ -321,24 +419,32 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         get(User.class, id, onSuccessListener, onFailureCallback);
     }
 
-    public void whoami(
-        OnSuccessValueCallback<User> onSuccessListener,
-        OnFailureCallback<String> onFailureCallback
-    ) {
-        FirebaseUser usr = auth.getCurrentUser();
-        if (usr == null) {
-            execute(onFailureCallback, "Not logged in");
-            return;
-        }
-        getUser(usr.getEmail(), onSuccessListener, onFailureCallback);
-    }
-
     // ********* Storage *********
 
-    // TODO storage
-    // TODO implement storage interface
+    public void getBanner(
+            Movie movie,
+            OnSuccessValueCallback<String> onSuccessValueCallback,
+            OnFailureCallback<String> onFailureCallback
+    ) {
+        String img = movie.getBanner() + ".png";
+        StorageReference s = storageRef.child(IMG_REF).child(img);
+        s.getDownloadUrl().addOnSuccessListener(
+            uri -> execute(onSuccessValueCallback, uri.toString())
+        ).addOnFailureListener(
+            e -> execute(onFailureCallback, e.getMessage())
+        );
+    }
 
     // ********* Utils *********
+
+    /**
+     * Obtains all the objects from the given class in the database.
+     *
+     * @param clazz the class of the objects.
+     * @param onSuccessListener the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     * @param <T> The model class.
+     */
     protected <T> void getAll(
         Class<T> clazz,
         OnSuccessValueCallback<ArrayList<T>> onSuccessListener,
@@ -352,6 +458,15 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         }).addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
 
+    /**
+     * Obtains the object with the given id from the given class in the database.
+     *
+     * @param clazz the class of the object.
+     * @param id the id of the object.
+     * @param onSuccessListener the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     * @param <T> The model class.
+     */
     protected <T> void get(
         Class<T> clazz,
         int id,
@@ -373,19 +488,200 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
             .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
     }
 
-    protected String getDBRef(Class<?> clazz) {
-        String[] arr = clazz.getName().split("\\.");
-        return arr[arr.length - 1].replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase();
+    /**
+     * Obtains the id of the given object in the database.
+     *
+     * @param data the object to search.
+     * @param onSuccessValueCallback the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     * @param <T> The model class.
+     */
+    protected <T> void getId(
+        T data,
+        OnSuccessValueCallback<Integer> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getAll(
+            data.getClass(),
+            list -> {
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).equals(data)) {
+                        execute(onSuccessValueCallback, i);
+                        return;
+                    }
+                }
+                execute(onFailureCallback, data.getClass().getName() + " not found");
+            },
+            onFailureCallback
+        );
     }
 
+    /**
+     * Obtains the amount of elements of the given class in the database.
+     *
+     * @param clazz the class of the objects.
+     * @param onSuccessValueCallback the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     * @param <T> The model class.
+     */
+    protected <T> void getSize(
+        Class<T> clazz,
+        OnSuccessValueCallback<Integer> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        dbRef.child(getDBRef(clazz)).get()
+            .addOnSuccessListener(d ->
+                execute(onSuccessValueCallback, (int) d.getChildrenCount())
+            )
+            .addOnFailureListener(e -> execute(onFailureCallback, e.getMessage()));
+    }
+
+    /**
+     * Adds the given objects to the database.
+     *
+     * @param clazz the class of the object.
+     * @param lst the list of objects to add.
+     * @param onSuccessCallback the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     * @param <T> The model class.
+     */
+    protected <T> void append(
+        Class<T> clazz,
+        ArrayList<T> lst,
+        OnSuccessValueCallback<Integer> onSuccessCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        if (lst.isEmpty()) {
+            execute(onFailureCallback, "Empty list");
+            return;
+        }
+        getSize(
+            clazz,
+            size -> {
+                Method[] getters = getGetters(clazz);
+                String[] attrs = Arrays.stream(getters)
+                        .map(this::method2attr).toArray(String[]::new);
+                dbRef.child(getDBRef(clazz)).runTransaction(new Transaction.Handler() {
+                    @NonNull @Override
+                    public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                        try {
+                            for (int i, j = 0; j < lst.size(); j++) {
+                                for (i = 0; i < getters.length; i++) {
+                                    mutableData.child(String.valueOf(size + j))
+                                        .child(attrs[i])
+                                        .setValue(getters[i].invoke(lst.get(j)));
+                                }
+                            }
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            execute(onFailureCallback, e.getMessage());
+                            return Transaction.abort();
+                        }
+                        return Transaction.success(mutableData);
+                    }
+                    @Override
+                    public void onComplete(
+                        @Nullable DatabaseError databaseError,
+                        boolean b,
+                        @Nullable DataSnapshot dataSnapshot
+                    ) {
+                        if (databaseError != null)
+                            execute(onFailureCallback, databaseError.getMessage());
+                        else
+                            execute(onSuccessCallback, size + lst.size());
+                    }
+                });
+            },
+            onFailureCallback
+        );
+    }
+
+    /**
+     * Adds the given object to the database.
+     *
+     * @param clazz the class of the object.
+     * @param data the object to add.
+     * @param onSuccessCallback the callback to execute on success.
+     * @param onFailureCallback the callback to execute on failure.
+     * @param <T> The model class.
+     */
+    protected <T> void append(
+        Class<T> clazz,
+        T data,
+        OnSuccessValueCallback<Integer> onSuccessCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        ArrayList<T> lst = new ArrayList<>();
+        lst.add(data);
+        append(
+            clazz,
+            lst,
+            onSuccessCallback,
+            onFailureCallback
+        );
+    }
+
+    /**
+     * Obtains all the getter methods of the given class.
+     * @param clazz the class to search.
+     * @return an array of methods.
+     */
+    protected Method[] getGetters(Class<?> clazz) {
+        return Arrays.stream(clazz.getMethods())
+            .filter(method ->
+                method.getName().startsWith("get") &&
+                !method.getName().equals("getClass")
+            )
+            .toArray(Method[]::new);
+    }
+
+    /**
+     * Obtains the attribute name from the given getter method.
+     * @param method method to use.
+     * @return the attribute name.
+     */
+    protected String method2attr(Method method) {
+        return method.getName().substring(3).toLowerCase();
+    }
+
+    /**
+     * From the given class, obtains the name of the database reference.
+     * @param clazz the class to obtain the reference from.
+     * @return the name of the database reference.
+     */
+    protected String getDBRef(Class<?> clazz) {
+        String[] arr = clazz.getName().split("\\.");
+        return arr[arr.length - 1]
+            .replaceAll("([a-z])([A-Z])", "$1_$2")
+            .toLowerCase();
+    }
+
+    /**
+     * Executes the given callback.
+     * @param callback the callback to execute.
+     */
     protected void execute(OnSuccessCallback callback) {
         if (callback != null)
             callback.onSuccess();
     }
+
+    /**
+     * Executes the given callback.
+     * @param callback the callback to execute.
+     * @param data the data to pass to the callback.
+     * @param <T> the type of the data.
+     */
     protected <T> void execute(OnSuccessValueCallback<T> callback, T data) {
         if (callback != null)
             callback.onSuccess(data);
     }
+
+    /**
+     * Executes the given callback.
+     *
+     * @param callback the callback to execute.
+     * @param error the error to pass to the callback.
+     * @param <T> the type of the error.
+     */
     protected <T> void execute(OnFailureCallback<T> callback, T error) {
         if (callback != null)
             callback.onFailure(error);
