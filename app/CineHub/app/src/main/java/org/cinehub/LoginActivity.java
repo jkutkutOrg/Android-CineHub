@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import org.cinehub.api.CinehubAPI;
 import org.cinehub.api.CinehubAuth;
 import org.cinehub.api.model.User;
+
 import org.cinehub.utils.UserValidationUtils;
 
 public class LoginActivity extends NavActivity {
@@ -46,7 +47,6 @@ public class LoginActivity extends NavActivity {
                 Toast.makeText(this, R.string.notification_login_error_email, Toast.LENGTH_SHORT).show();
                 isValid = false;
             }
-
             if (password.isEmpty()) {
                 Toast.makeText(this, R.string.notification_login_error_password, Toast.LENGTH_SHORT).show();
                 isValid = false;
