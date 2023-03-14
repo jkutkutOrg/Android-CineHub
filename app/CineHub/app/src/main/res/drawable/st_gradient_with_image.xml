@@ -1,0 +1,17 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <gradient
+                android:startColor="#414141"
+                android:endColor="#000000"
+                android:angle="270" />
+        </shape>
+    </item>
+    <item>
+        <bitmap
+            android:src="@drawable/img_background_auth"
+            android:alpha="0.09"
+            android:scaleType="centerCrop"
+            android:gravity="center" />
+    </item>
+</layer-list>
