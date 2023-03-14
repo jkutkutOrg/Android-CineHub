@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import org.cinehub.api.model.Movie;
@@ -31,9 +32,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class CinehubAPI implements CinehubAuth, CinehubDB {
+public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
 
     private static final String DB_REF = "db";
+    private static final String IMG_REF = "img";
 
     private static CinehubAPI instance;
 
@@ -55,10 +57,14 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
         return getInstance();
     }
 
+    public static CinehubStorage getStorageInstance() {
+        return getInstance();
+    }
+
     public CinehubAPI() {
         auth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference().child(DB_REF);
-        storageRef = null; // TODO
+        storageRef = FirebaseStorage.getInstance().getReference();
     }
 
     // ********* Auth *********
@@ -411,7 +417,19 @@ public class CinehubAPI implements CinehubAuth, CinehubDB {
     // ********* Storage *********
 
     // TODO storage
-    // TODO implement storage interface
+    public void getBanner(
+            Movie movie,
+            OnSuccessValueCallback<String> onSuccessValueCallback,
+            OnFailureCallback<String> onFailureCallback
+    ) {
+        String img = movie.getBanner() + ".png";
+        StorageReference s = storageRef.child(IMG_REF).child(img);
+        s.getDownloadUrl().addOnSuccessListener(uri -> {
+            execute(onSuccessValueCallback, uri.toString());
+        }).addOnFailureListener(e -> {
+            execute(onFailureCallback, e.getMessage());
+        });
+    }
 
     // ********* Utils *********
     protected <T> void getAll( // TODO doc
