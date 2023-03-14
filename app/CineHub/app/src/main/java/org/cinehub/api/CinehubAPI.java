@@ -220,10 +220,7 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
                             append(
                                 SeatReservation.class, rlst,
                                 size -> execute(onSuccessCallback),
-                                e -> {
-                                    // TODO remove reservation
-                                    execute(onFailureCallback, e);
-                                }
+                                onFailureCallback
                             );
                         },
                         onFailureCallback
@@ -416,7 +413,6 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
 
     // ********* Storage *********
 
-    // TODO storage
     public void getBanner(
             Movie movie,
             OnSuccessValueCallback<String> onSuccessValueCallback,
@@ -424,14 +420,15 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
     ) {
         String img = movie.getBanner() + ".png";
         StorageReference s = storageRef.child(IMG_REF).child(img);
-        s.getDownloadUrl().addOnSuccessListener(uri -> {
-            execute(onSuccessValueCallback, uri.toString());
-        }).addOnFailureListener(e -> {
-            execute(onFailureCallback, e.getMessage());
-        });
+        s.getDownloadUrl().addOnSuccessListener(
+            uri -> execute(onSuccessValueCallback, uri.toString())
+        ).addOnFailureListener(
+            e -> execute(onFailureCallback, e.getMessage())
+        );
     }
 
     // ********* Utils *********
+
     protected <T> void getAll( // TODO doc
         Class<T> clazz,
         OnSuccessValueCallback<ArrayList<T>> onSuccessListener,
