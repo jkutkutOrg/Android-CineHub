@@ -2,6 +2,7 @@ package org.cinehub;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,6 +30,8 @@ public class LoginActivity extends NavActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPasswd);
@@ -73,6 +76,13 @@ public class LoginActivity extends NavActivity {
     }
 
     private void onLoginError(@NonNull String error) {
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+        // Set error message in correct field based on error message
+        if (error.contains("email")) {
+            etEmail.setError("Invalid email");
+        } else if (error.contains("password")) {
+            etPassword.setError("Invalid password");
+        } else {
+            Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+        }
     }
 }

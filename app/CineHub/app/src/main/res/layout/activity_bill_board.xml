@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/llStatus"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="80dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/st_gradient_bill"
@@ -35,16 +35,16 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/tvStatus"
+                android:id="@+id/tvStatusName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hola Juan Delgado"
+                android:text="Hola"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvStatus2"
+                android:id="@+id/tvStatusGeneric"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="¿Que te apetece hacer hoy?"
@@ -58,7 +58,6 @@
         android:id="@+id/rvMovies"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

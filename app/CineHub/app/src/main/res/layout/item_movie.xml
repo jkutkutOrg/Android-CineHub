@@ -37,7 +37,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
+                    android:maxLength="20"
                     android:textStyle="bold" />
 
                 <TextView
@@ -46,18 +47,20 @@
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
                     android:maxLines="4"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tvRcRoom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="16sp"
                     android:textColor="#FFFFFF"/>
 
                 <TextView
                     android:id="@+id/tvRcTimedate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="16sp"
                     android:textColor="#FFFFFF"/>
 
                 <LinearLayout
@@ -71,7 +74,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
                             android:textColor="#FFFFFF"
-                            android:textSize="18sp"/>
+                            android:textSize="16sp"/>
                     </LinearLayout>
             </LinearLayout>
         </LinearLayout>
