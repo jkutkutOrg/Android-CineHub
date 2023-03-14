@@ -233,6 +233,23 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
         );
     }
 
+    protected void getReservationsIdsUser(
+        int usrId,
+        OnSuccessValueCallback<ArrayList<Integer>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getReservations(
+            lstReservations -> {
+                ArrayList<Integer> rlst = new ArrayList<>();
+                for (int i = 0; i < lstReservations.size(); i++)
+                    if (lstReservations.get(i).getUser() == usrId)
+                        rlst.add(i);
+                execute(onSuccessValueCallback, rlst);
+            },
+            onFailureCallback
+        );
+    }
+
     // ** Room **
     public void getRooms(
         OnSuccessValueCallback<ArrayList<Room>> onSuccessValueCallback,
@@ -287,6 +304,32 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
         OnFailureCallback<String> onFailureCallback
     ) {
         get(SeatReservation.class, seatReservationId, onSuccessValueCallback, onFailureCallback);
+    }
+
+    public void getSeatReservationUser(
+        User usr,
+        OnSuccessValueCallback<ArrayList<SeatReservation>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getId(
+            usr,
+            usrId -> getReservationsIdsUser(
+                usrId,
+                reservationsIds -> getSeatReservations(
+                    lstSeatReservations -> {
+                        ArrayList<SeatReservation> lst = new ArrayList<>();
+                        for (SeatReservation s : lstSeatReservations)
+                            for (Integer j : reservationsIds)
+                                if (s.getReservation() == j)
+                                    lst.add(s);
+                        execute(onSuccessValueCallback, lst);
+                    },
+                    onFailureCallback
+                ),
+                onFailureCallback
+            ),
+            onFailureCallback
+        );
     }
 
     /**

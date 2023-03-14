@@ -115,6 +115,24 @@ public interface CinehubDB {
         OnFailureCallback<String> onFailureCallback
     );
 
+    /**
+     * Add a reservation to the database.
+     * It will check if the seats are available.
+     *
+     * @param usr The user that made the reservation.
+     * @param projection The projection wanted.
+     * @param seats An arraylist of seats to be reserved.
+     * @param onSuccessCallback The callback to be called when the request is successful.
+     * @param onFailureCallback The callback to be called when the request fails.
+     */
+    void addReservation(
+        User usr,
+        Projection projection,
+        ArrayList<Seat> seats,
+        OnSuccessCallback onSuccessCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
+
     // ** Room **
 
     /**
@@ -185,20 +203,15 @@ public interface CinehubDB {
     );
 
     /**
-     * Add a reservation to the database.
-     * It will check if the seats are available.
+     * Get all the seats booked by a user.
      *
-     * @param usr The user that made the reservation.
-     * @param projection The projection wanted.
-     * @param seats An arraylist of seats to be reserved.
-     * @param onSuccessCallback The callback to be called when the request is successful.
-     * @param onFailureCallback The callback to be called when the request fails.
+     * @param usr User.
+     * @param onSuccessValueCallback The callback to be called when the request is success.
+     * @param onFailureCallback The callback to be called when the requests fails.
      */
-    void addReservation(
+    void getSeatReservationUser(
         User usr,
-        Projection projection,
-        ArrayList<Seat> seats,
-        OnSuccessCallback onSuccessCallback,
+        OnSuccessValueCallback<ArrayList<SeatReservation>> onSuccessValueCallback,
         OnFailureCallback<String> onFailureCallback
     );
 

@@ -39,6 +39,9 @@ public class UserTest extends APITest {
         );
     }
 
+    /**
+     * @implNote If no user has been created. This method should fail
+     */
     @Test
     public void getNewUserById() {
         db.getUserById(
