@@ -38,7 +38,6 @@
                 android:id="@+id/tvHomeTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/title_home"
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 android:textStyle="bold" />
@@ -47,7 +46,6 @@
                 android:id="@+id/tvHomeSub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_home_sub"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
