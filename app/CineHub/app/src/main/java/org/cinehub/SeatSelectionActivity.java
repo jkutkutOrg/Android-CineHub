@@ -16,15 +16,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import org.cinehub.api.CinehubAPI;
+import org.cinehub.api.CinehubDB;
 import org.cinehub.api.model.Projection;
-import org.cinehub.api.model.SeatReservation;
+import org.cinehub.api.model.Seat;
 import org.cinehub.enums.SeatType;
 
 import java.util.ArrayList;
 
 public class SeatSelectionActivity extends NavActivity {
 
-    private final ArrayList<SeatReservation> reservations = new ArrayList<>();
+    private final ArrayList<Seat> reservations = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class SeatSelectionActivity extends NavActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        CinehubAPI api = new CinehubAPI();
+        CinehubDB api = CinehubAPI.getDBInstance();
 
         int roomId = ((Projection) getIntent()
                 .getParcelableExtra(BillBoardActivity.EXTRA_PROJECTION))
@@ -72,7 +73,7 @@ public class SeatSelectionActivity extends NavActivity {
             seatBtn.setEnabled(false);
         seatBtn.setBackgroundColor(0x0);
         seatBtn.setOnClickListener(v -> {
-            SeatReservation res = new SeatReservation(row, col);
+            Seat res = new Seat(row, col);
             if (!reservations.contains(res)) {
                 reservations.add(res);
                 seatBtn.setCompoundDrawablesWithIntrinsicBounds(null, selIco, null,

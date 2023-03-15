@@ -58,7 +58,7 @@ public class LoginActivity extends NavActivity {
             if (isValid) {
                 auth.login(email, password, () -> advanceActivity(() -> {
                     finish();
-                    return new Intent(this, BillBoardActivity.class)
+                    return new Intent(this, HomeActivity.class)
                             .putExtra(EXTRA_USER, new User(email));
                     }), this::onLoginError);
             }

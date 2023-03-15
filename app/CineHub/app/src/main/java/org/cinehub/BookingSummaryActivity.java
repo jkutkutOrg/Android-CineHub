@@ -11,9 +11,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import org.cinehub.api.CinehubAPI;
+import org.cinehub.api.CinehubDB;
 import org.cinehub.api.model.Movie;
 import org.cinehub.api.model.Projection;
-import org.cinehub.api.model.SeatReservation;
+import org.cinehub.api.model.Seat;
 import org.cinehub.api.model.User;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class BookingSummaryActivity extends NavActivity {
 
         Movie movie = getIntent().getParcelableExtra(BillBoardActivity.EXTRA_MOVIE);
         Projection projection = getIntent().getParcelableExtra(BillBoardActivity.EXTRA_PROJECTION);
-        ArrayList<SeatReservation> reservations = getIntent()
+        ArrayList<Seat> reservations = getIntent()
                 .getParcelableArrayListExtra(EXTRA_SEAT_RESERVATIONS);
         User user = getIntent().getParcelableExtra(LoginActivity.EXTRA_USER);
 
@@ -49,7 +50,7 @@ public class BookingSummaryActivity extends NavActivity {
         String timedate = projection.getTimedate();
         int timeIdx = timedate.indexOf('T') + 1;
         StringBuilder seatStr = new StringBuilder();
-        for (SeatReservation seat: reservations) {
+        for (Seat seat: reservations) {
             seatStr.append(getString(R.string.label_booking_seat_dat, seat.getRow(),
                     seat.getCol())).append("\n");
         }
@@ -69,10 +70,10 @@ public class BookingSummaryActivity extends NavActivity {
                 .into(ivBanner);
 
         findViewById(R.id.btnSummaryConfirmation).setOnClickListener(v -> {
-            CinehubAPI api = new CinehubAPI();
+            CinehubDB api = CinehubAPI.getDBInstance();
             api.addReservation(user, projection, new ArrayList<>(reservations), () -> {
                 Toast.makeText(this, "Data was sent scucessfully!", Toast.LENGTH_SHORT).show();
-                advanceActivity(() -> new Intent(this, BillBoardActivity.class));
+                advanceActivity(() -> new Intent(this, EndActivity.class));
                 finish();
             }, System.err::println);
         });
