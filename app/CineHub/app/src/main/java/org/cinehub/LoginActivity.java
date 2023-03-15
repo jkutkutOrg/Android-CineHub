@@ -43,7 +43,7 @@ public class LoginActivity extends NavActivity {
             if (isValid) {
                 Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
                 advanceActivity(() ->
-                        new Intent(this, BillBoardActivity.class)
+                        new Intent(this, HomeActivity.class)
                                 .putExtra(EXTRA_USER, new User(email)));
             }
 
