@@ -4,55 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="200dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/st_rounded_bar"
     tools:context=".ReservationItem">
 
-    <TextView
-        android:id="@+id/tvResItemFilm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvResItemTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toBottomOf="@+id/tvResItemFilm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvResItemFilm"
-        app:layout_constraintTop_toTopOf="@+id/tvResItemFilm" />
+    <ImageView
+        android:id="@+id/iv_poster"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.3"
+        android:src="@drawable/img_background_auth"
+        android:scaleType="centerCrop"/>
 
-    <TextView
-        android:id="@+id/tvResItemPos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="@+id/tvResItemRoom"
-        app:layout_constraintStart_toEndOf="@+id/tvResItemRoom"
-        app:layout_constraintTop_toTopOf="@+id/tvResItemRoom" />
+        <TextView
+            android:id="@+id/tvResItemFilm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/std_padding"
+            android:maxLength="10"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvResItemRoomLbl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/label_booking_room"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvResItemFilm" />
+        <TextView
+            android:id="@+id/tvResItemTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/std_padding"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintBottom_toBottomOf="@+id/tvResItemFilm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvResItemFilm"
+            app:layout_constraintTop_toTopOf="@+id/tvResItemFilm" />
 
-    <TextView
-        android:id="@+id/tvResItemRoom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-        app:layout_constraintEnd_toEndOf="@+id/tvResItemRoomLbl"
-        app:layout_constraintStart_toStartOf="@+id/tvResItemRoomLbl"
-        app:layout_constraintTop_toBottomOf="@+id/tvResItemRoomLbl" />
+        <TextView
+            android:id="@+id/tvResItemPos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:paddingStart="@dimen/std_padding"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintBottom_toBottomOf="@+id/tvResItemRoom"
+            app:layout_constraintStart_toEndOf="@+id/tvResItemRoom"
+            app:layout_constraintTop_toTopOf="@+id/tvResItemRoom" />
+
+        <TextView
+            android:id="@+id/tvResItemRoomLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="@dimen/std_padding"
+            android:textColor="@color/white"
+            android:text="@string/label_booking_room"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvResItemFilm" />
+
+        <TextView
+            android:id="@+id/tvResItemRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="@dimen/std_padding"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            app:layout_constraintEnd_toEndOf="@+id/tvResItemRoomLbl"
+            app:layout_constraintStart_toStartOf="@+id/tvResItemRoomLbl"
+            app:layout_constraintTop_toBottomOf="@+id/tvResItemRoomLbl" />
 </androidx.constraintlayout.widget.ConstraintLayout>

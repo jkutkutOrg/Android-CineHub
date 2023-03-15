@@ -27,7 +27,7 @@ public class HomeActivity extends NavActivity {
         User user = getIntent().getParcelableExtra(LoginActivity.EXTRA_USER);
         CinehubDB api = CinehubAPI.getDBInstance();
 
-        tvHomeTitle.setText(getString(R.string.title_home, user.getName()));
+        tvHomeTitle.setText("You're welcome");
         api.getSeatReservationUser(user, reservations -> {
             if (reservations.size() == 0) {
                 tvHomeSub.setText(R.string.msg_empty_booking);

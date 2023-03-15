@@ -36,10 +36,10 @@
     <string name="action_booking_confirmation">Buy tickets</string>
     <!-- BillBoard Activity Strings-->
     <string name="title_billboard_tv_title">Select your favorite movie</string>
-    <string name="title_home">Welcome again %1$s</string>
+    <string name="title_home">Welcome %1$s</string>
     <string name="label_home_sub">You have booked %1$d tickets</string>
     <!-- Home activity strings -->
-    <string name="msg_empty_booking">You don\'t have any tickets yet. Press the bottom right button for getting one!</string>
+    <string name="msg_empty_booking">You don\'t have any tickets yet.</string>
     <string name="error_login">User or password incorrect</string>
     <string name="error_email">Incorrect email</string>
 </resources>

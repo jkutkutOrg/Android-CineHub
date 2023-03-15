@@ -38,7 +38,6 @@
                 android:id="@+id/tvStatusName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hola"
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 android:textStyle="bold" />
@@ -47,9 +46,9 @@
                 android:id="@+id/tvStatusGeneric"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="¿Que te apetece hacer hoy?"
+                android:text="What movie do you want to see?"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
