@@ -47,4 +47,7 @@
     <string name="show_code_cinema">Show this entry code at the cinema</string>
     <string name="what_movie">What movie do you want to see?</string>
     <string name="wellcome">Wellcome to Cinehub</string>
+    <string name="reservation_success">Reservation made scucessfully!</string>
+    <string name="btn_buy_now">Buy Now - %1$s</string>
+    <string name="greeting_username">Hello %1$s!</string>
 </resources>

@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 
 import org.cinehub.api.CinehubAPI;
 import org.cinehub.api.CinehubDB;
-import org.cinehub.api.model.Reservation;
 import org.cinehub.api.model.SeatReservation;
 
 public class ReservationItem extends Fragment {
@@ -69,9 +68,7 @@ public class ReservationItem extends Fragment {
                     projection -> {
                         api.getMovie(
                             projection.getMovie(),
-                            movie -> {
-                                tvMovie.setText(movie.getName());
-                            },
+                            movie -> tvMovie.setText(movie.getName()),
                             System.err::println
                         );
                         tvRoom.setText(String.valueOf(projection.getRoom()));

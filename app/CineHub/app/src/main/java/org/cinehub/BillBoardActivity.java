@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,13 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.cinehub.api.CinehubAPI;
 import org.cinehub.api.CinehubAuth;
 import org.cinehub.api.CinehubDB;
-import org.cinehub.api.CinehubStorage;
 import org.cinehub.api.model.Movie;
 import org.cinehub.api.model.Projection;
 import org.cinehub.utils.MovieAdapter;
 
 import java.util.LinkedHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMovieClickListener {
 
@@ -31,7 +28,6 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
     private RecyclerView rvMovies;
     private LinkedHashMap<Projection, Movie> projectionMovieMap;
     private CinehubDB db;
-    private CinehubAuth auth;
     private TextView tvStatusName;
     private ProgressBar pbLoading;
 
@@ -44,7 +40,7 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         db = CinehubAPI.getDBInstance();
-        auth = CinehubAPI.getAuthInstance();
+        CinehubAuth auth = CinehubAPI.getAuthInstance();
 
         projectionMovieMap = new LinkedHashMap<>();
 
@@ -59,32 +55,23 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
         rvMovies.setAdapter(mvAdapter);
 
         auth.whoami(
-                user -> {
-                    if (user != null) {
-                        tvStatusName.setText("Hello, " + user.getName() + "!");
-                    } else {
-                        tvStatusName.setText("Hello, Guest!");
-                    }
-                },
-                (error) -> {
-                    System.out.println("Error at me: " + error);
-                }
+            user -> tvStatusName.setText(String.format(
+                getString(R.string.greeting_username), user.getName()
+            )),
+            (error) -> System.err.println("Error at me: " + error)
         );
 
         db.getProjections(
-            projections -> {
-                db.getMoviesWithBanner(
-                    movies -> {
-                        for (Projection p : projections) {
-                            projectionMovieMap.put(p, movies.get(p.getMovie()));
-                        }
-                        pbLoading.setVisibility(ProgressBar.GONE);
-                        mvAdapter.notifyDataSetChanged();
-                    },
-                    System.err::println
-                );
-
-            },
+            projections -> db.getMoviesWithBanner(
+                movies -> {
+                    for (Projection p : projections) {
+                        projectionMovieMap.put(p, movies.get(p.getMovie()));
+                    }
+                    pbLoading.setVisibility(ProgressBar.GONE);
+                    mvAdapter.notifyDataSetChanged();
+                },
+                System.err::println
+            ),
             System.err::println
         );
     }

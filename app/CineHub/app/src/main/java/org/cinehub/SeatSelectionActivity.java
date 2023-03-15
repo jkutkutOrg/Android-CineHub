@@ -85,7 +85,7 @@ public class SeatSelectionActivity extends NavActivity {
                 seatBtn.setCompoundDrawablesWithIntrinsicBounds(null, stdIco, null,
                         null);
             }
-            // TODO hide button when no seats are selected
+            // Idea: hide button when no seats are selected
         });
         seatBtn.setGravity(Gravity.CENTER);
         seatBtn.setTextColor(getResources().getColor(R.color.white));

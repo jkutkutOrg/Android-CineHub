@@ -53,11 +53,14 @@ public class BookingSummaryActivity extends NavActivity {
                     seat.getCol())).append("\n");
         }
 
-        tvDate.setText("\n" + timedate.substring(0, 10));
-        tvTime.setText("\n" + timedate.substring(timeIdx, timeIdx + 8));
-        tvRoom.setText("\n" + getString(R.string.label_room_name, projection.getRoom()));
+        tvDate.setText(String.format("\n%s", timedate.substring(0, 10)));
+        tvTime.setText(String.format("\n%s", timedate.substring(timeIdx, timeIdx + 8)));
+        tvRoom.setText(String.format("\n%s", getString(R.string.label_room_name, projection.getRoom())));
         tvSeat.setText(seatStr.toString());
-        btnConfirmation.setText("Buy Now - " + getString(R.string.label_booking_price_dat, movie.getPrice() * reservations.size()));
+        btnConfirmation.setText(String.format(
+            getString(R.string.btn_buy_now),
+            getString(R.string.label_booking_price_dat, movie.getPrice() * reservations.size())
+        ));
 
         Glide.with(this)
                 .load(movie.getBanner())
@@ -69,7 +72,7 @@ public class BookingSummaryActivity extends NavActivity {
             api.addReservation(
                 user, projection, new ArrayList<>(reservations),
                 () -> {
-                    Toast.makeText(this, "Data was sent scucessfully!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getText(R.string.reservation_success), Toast.LENGTH_SHORT).show();
                     advanceActivity(() -> new Intent(this, EndActivity.class));
                     finish();
                 },

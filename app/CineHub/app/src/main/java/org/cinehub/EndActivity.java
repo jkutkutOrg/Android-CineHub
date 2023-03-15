@@ -58,9 +58,7 @@ public class EndActivity extends NavActivity {
                         projection -> {
                             db.getMovie(
                                 projection.getMovie(),
-                                movie -> {
-                                    tvMovieName.setText(movie.getName());
-                                },
+                                movie -> tvMovieName.setText(movie.getName()),
                                 System.err::println
                             );
                             tvRoom.setText(String.valueOf(projection.getRoom()));

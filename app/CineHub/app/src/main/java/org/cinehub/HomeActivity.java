@@ -12,8 +12,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.cinehub.api.CinehubAPI;
 import org.cinehub.api.CinehubAuth;
 import org.cinehub.api.CinehubDB;
-import org.cinehub.api.model.Reservation;
-import org.cinehub.api.model.SeatReservation;
 import org.cinehub.api.model.User;
 
 public class HomeActivity extends NavActivity {
