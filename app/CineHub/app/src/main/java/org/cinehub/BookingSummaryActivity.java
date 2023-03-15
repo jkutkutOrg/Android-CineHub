@@ -72,7 +72,6 @@ public class BookingSummaryActivity extends NavActivity {
             api.addReservation(
                 user, projection, new ArrayList<>(reservations),
                 () -> {
-                    Toast.makeText(this, getText(R.string.reservation_success), Toast.LENGTH_SHORT).show();
                     advanceActivity(() -> new Intent(this, EndActivity.class));
                     finish();
                 },
