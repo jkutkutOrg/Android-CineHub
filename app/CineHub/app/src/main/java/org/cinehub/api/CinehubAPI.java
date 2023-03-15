@@ -61,7 +61,7 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
         return getInstance();
     }
 
-    public CinehubAPI() {
+    private CinehubAPI() {
         auth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference().child(DB_REF);
         storageRef = FirebaseStorage.getInstance().getReference();

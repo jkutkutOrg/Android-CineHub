@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import org.cinehub.api.CinehubAPI;
+import org.cinehub.api.CinehubDB;
 import org.cinehub.api.model.Projection;
 import org.cinehub.api.model.Seat;
 import org.cinehub.enums.SeatType;
@@ -30,7 +31,7 @@ public class SeatSelectionActivity extends NavActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seat_selection);
 
-        CinehubAPI api = new CinehubAPI();
+        CinehubDB api = CinehubAPI.getDBInstance();
 
         int roomId = ((Projection) getIntent()
                 .getParcelableExtra(BillBoardActivity.EXTRA_PROJECTION))
