@@ -3,6 +3,7 @@ package org.cinehub;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -98,9 +99,11 @@ public class SeatSelectionActivity extends NavActivity {
             Toast.makeText(this, "Please select at least one seat", Toast.LENGTH_SHORT).show();
             return;
         }
-        advanceActivity(() -> new Intent(this, BookingSummaryActivity.class)
+        startActivity(new Intent(this, BookingSummaryActivity.class)
                     .putParcelableArrayListExtra(BookingSummaryActivity.EXTRA_SEAT_RESERVATIONS,
-                            reservations));
+                            reservations)
+                .putExtra(BillBoardActivity.EXTRA_MOVIE, (Parcelable) getIntent().getParcelableExtra(BillBoardActivity.EXTRA_MOVIE))
+                .putExtra(BillBoardActivity.EXTRA_PROJECTION, (Parcelable) getIntent().getParcelableExtra(BillBoardActivity.EXTRA_PROJECTION)));
     }
 
     private static class MovieRoom {
