@@ -1,5 +1,6 @@
 package org.cinehub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +83,11 @@ public class ReservationItem extends Fragment {
             },
             System.err::println
         );
+        v.setOnClickListener(v1 -> {
+            Intent i = new Intent(getActivity(), EndActivity.class);
+            i.putExtra("reservationId", reservationId);
+            startActivity(i);
+        });
         return v;
     }
 }
