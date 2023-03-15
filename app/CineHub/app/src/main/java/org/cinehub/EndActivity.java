@@ -25,7 +25,7 @@ public class EndActivity extends NavActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         findViewById(R.id.btnEndReturn).setOnClickListener(v -> {
-            advanceActivity(() ->
+            startActivity(
                     new Intent(this, HomeActivity.class).setFlags(
                             Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             finish();

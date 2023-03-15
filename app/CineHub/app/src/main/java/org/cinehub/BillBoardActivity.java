@@ -79,7 +79,7 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
     @Override
     public void onProjectionClicked(Projection projection) {
         Movie movie = projectionMovieMap.get(projection);
-        advanceActivity(() -> new Intent(this, SeatSelectionActivity.class)
+        startActivity(new Intent(this, SeatSelectionActivity.class)
                 .putExtra(EXTRA_MOVIE, movie)
                 .putExtra(EXTRA_PROJECTION, projection));
     }

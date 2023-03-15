@@ -71,7 +71,7 @@ public class BookingSummaryActivity extends NavActivity {
             auth.whoami(user -> db.addReservation(
                     user, projection, new ArrayList<>(reservations),
                     () -> {
-                        advanceActivity(() -> new Intent(this, EndActivity.class));
+                        startActivity(new Intent(this, EndActivity.class));
                         finish();
                     },
                     System.err::println),

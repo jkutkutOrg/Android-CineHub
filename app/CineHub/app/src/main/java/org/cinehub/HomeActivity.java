@@ -30,7 +30,7 @@ public class HomeActivity extends NavActivity {
 
         CinehubAuth auth = CinehubAPI.getAuthInstance();
         auth.whoami(this::updateUI, System.err::println);
-        fabAddTicket.setOnClickListener(v -> advanceActivity(() ->
+        fabAddTicket.setOnClickListener(v -> startActivity(
                 new Intent(this, BillBoardActivity.class)));
     }
 

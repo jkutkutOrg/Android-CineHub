@@ -49,10 +49,12 @@ public class LoginActivity extends NavActivity {
 
             if (isValid) {
                 auth.login(email, password,
-                    () -> advanceActivity(() -> {
+                    () -> {
+                        startActivity(
+                                new Intent(this, HomeActivity.class)
+                        );
                         finish();
-                        return new Intent(this, HomeActivity.class);
-                    }),
+                    },
                     this::onLoginError
                 );
             }
