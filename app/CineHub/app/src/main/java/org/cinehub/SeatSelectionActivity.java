@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -29,6 +30,8 @@ public class SeatSelectionActivity extends NavActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seat_selection);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         CinehubAPI api = new CinehubAPI();
 
@@ -82,13 +85,15 @@ public class SeatSelectionActivity extends NavActivity {
             // TODO hide button when no seats are selected
         });
         seatBtn.setText(getString(R.string.label_seat_placement, row, col));
+        seatBtn.setGravity(Gravity.CENTER);
+        seatBtn.setTextColor(getResources().getColor(R.color.white));
         seatBtn.setCompoundDrawablesWithIntrinsicBounds(null, stdIco, null, null);
         return seatBtn;
     }
 
     private void onSelectionAccepted(View v) {
         if (reservations.isEmpty()) {
-            Toast.makeText(this, "Por favor, selecciona los asientos que deseas reservar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please select at least one seat", Toast.LENGTH_SHORT).show();
             return;
         }
         advanceActivity(() -> new Intent(this, BookingSummaryActivity.class)

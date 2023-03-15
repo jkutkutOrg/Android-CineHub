@@ -20,7 +20,7 @@
     <string name="notification_register_error_password_sec">Password is not secure</string>
     <!-- Room selection strings -->
     <string name="label_room_name">Room %1$d</string>
-    <string name="title_seat_selection">Choose the seats you want</string>
+    <string name="title_seat_selection">Choose the seats</string>
     <string name="label_seat_placement">%1$d - %2$d</string>
     <string name="label_screen_indicator">Screen</string>
     <!-- Summary strings -->
