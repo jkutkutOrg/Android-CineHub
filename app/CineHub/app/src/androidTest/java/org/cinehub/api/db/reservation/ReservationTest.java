@@ -30,4 +30,23 @@ public class ReservationTest extends APITest {
             getFailureCallback()
         );
     }
+
+    @Test
+    public void getReservationsUser() {
+        db.getUser(
+            "marta@gmail.com",
+            user -> db.getSeatReservationUser(
+                user,
+                reservations -> {
+                    print("Reservations of user: " + reservations.size());
+                    if (reservations.size() == 3)
+                        running.set(VALID);
+                    else
+                        running.set(INVALID);
+                },
+                getFailureCallback()
+            ),
+            getFailureCallback()
+        );
+    }
 }

@@ -19,10 +19,6 @@ public class SeatReservation extends Seat implements Parcelable {
 
     public SeatReservation() {}
 
-    public SeatReservation(int row, int col) {
-        this(-1, row, col, -1);
-    }
-
     public SeatReservation(int projection, int row, int col, int reservation) {
         super(row, col);
         setProjection(projection);
@@ -99,13 +95,5 @@ public class SeatReservation extends Seat implements Parcelable {
         dest.writeInt(getRow());
         dest.writeInt(getCol());
         dest.writeInt(getReservation());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SeatReservation that = (SeatReservation) o;
-        return projection == that.projection && row == that.row && col == that.col && reservation == that.reservation;
     }
 }
