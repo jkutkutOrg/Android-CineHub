@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
@@ -143,21 +144,38 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
         OnFailureCallback<String> onFailureCallback
     ) {
         getMovies(
-            movies -> {
-                AtomicInteger counter = new AtomicInteger(movies.size());
-                for (Movie m : movies) {
-                    getBanner(
-                        m,
-                        imgUrl -> {
-                            System.out.println(m.getName() + " " + imgUrl);
-                            m.setBanner(imgUrl);
-                            counter.decrementAndGet();
-                        },
-                        onFailureCallback
-                    );
-                }
-                while (counter.get() > 0) ;
-                onSuccessValueCallback.onSuccess(movies);
+            movies -> concatBannerCalls(
+                movies,
+                0,
+                onSuccessValueCallback,
+                onFailureCallback
+            ),
+            onFailureCallback
+        );
+    }
+
+    protected void concatBannerCalls(
+        ArrayList<Movie> movies,
+        int index,
+       OnSuccessValueCallback<ArrayList<Movie>> onSuccessValueCallback,
+       OnFailureCallback<String> onFailureCallback
+    ) {
+        if (index >= movies.size()) {
+            onSuccessValueCallback.onSuccess(movies);
+            return;
+        }
+        Movie currentMovie = movies.get(index);
+        getBanner(
+            currentMovie,
+            imgUrl -> {
+                System.out.println(currentMovie.getName() + " " + imgUrl);
+                currentMovie.setBanner(imgUrl);
+                concatBannerCalls(
+                    movies,
+                    index + 1,
+                    onSuccessValueCallback,
+                    onFailureCallback
+                );
             },
             onFailureCallback
         );
