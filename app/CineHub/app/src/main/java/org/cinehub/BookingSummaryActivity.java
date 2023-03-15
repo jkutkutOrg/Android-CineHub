@@ -3,8 +3,12 @@ package org.cinehub;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import org.cinehub.api.CinehubAPI;
 import org.cinehub.api.model.Movie;
@@ -30,8 +34,10 @@ public class BookingSummaryActivity extends NavActivity {
         TextView tvTime = findViewById(R.id.tvSummaryTime);
         TextView tvRoom = findViewById(R.id.tvSummaryRoom);
         TextView tvSeat = findViewById(R.id.tvSummarySeat);
-        TextView tvSeatLbl = findViewById(R.id.tvSummarySeatLbl);
-        TextView tvPrice = findViewById(R.id.tvSummaryPrice);
+        ImageView ivBanner = findViewById(R.id.ivBanner);
+        Button btnConfirmation = findViewById(R.id.btnSummaryConfirmation);
+        //TextView tvSeatLbl = findViewById(R.id.tvSummarySeatLbl);
+        //TextView tvPrice = findViewById(R.id.tvSummaryPrice);
 
         Movie movie = getIntent().getParcelableExtra(BillBoardActivity.EXTRA_MOVIE);
         Projection projection = getIntent().getParcelableExtra(BillBoardActivity.EXTRA_PROJECTION);
@@ -48,13 +54,20 @@ public class BookingSummaryActivity extends NavActivity {
                     seat.getCol())).append("\n");
         }
 
-        tvDate.setText(timedate.substring(0, 10));
-        tvTime.setText(timedate.substring(timeIdx, timeIdx + 8));
-        tvRoom.setText(getString(R.string.label_room_name, projection.getRoom()));
-        tvSeatLbl.setText(getString(R.string.label_booking_seat, reservations.size()));
+        tvDate.setText("\n" + timedate.substring(0, 10));
+        tvTime.setText("\n" + timedate.substring(timeIdx, timeIdx + 8));
+        tvRoom.setText("\n" + getString(R.string.label_room_name, projection.getRoom()));
+        //tvSeatLbl.setText(getString(R.string.label_booking_seat, reservations.size()));
         tvSeat.setText(seatStr.toString());
-        tvPrice.setText(getString(R.string.label_booking_price_dat, movie
-                .getPrice() * reservations.size()));
+        // tvPrice.setText(getString(R.string.label_booking_price_dat, movie.getPrice() * reservations.size()));
+        btnConfirmation.setText("Buy - " + getString(R.string.label_booking_price_dat, movie.getPrice() * reservations.size()));
+
+        // Using glide, set the movie poster in
+        Glide.with(this)
+                .load(movie.getBanner())
+                .centerCrop()
+                .into(ivBanner);
+
         findViewById(R.id.btnSummaryConfirmation).setOnClickListener(v -> {
             CinehubAPI api = new CinehubAPI();
             api.addReservation(user, projection, new ArrayList<>(reservations), () -> {

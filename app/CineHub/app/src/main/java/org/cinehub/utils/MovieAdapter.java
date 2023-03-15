@@ -10,20 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import org.cinehub.R;
-import org.cinehub.api.CinehubAPI;
-import org.cinehub.api.CinehubStorage;
 import org.cinehub.api.model.Movie;
 import org.cinehub.api.model.Projection;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.TimeZone;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
@@ -56,7 +51,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
             throw new RuntimeException(e);
         }
 
-        Picasso.get()
+        Glide.with(holder.itemView.getContext())
                 .load(movie.getBanner())
                 .placeholder(R.drawable.ic_logo_extended)
                 .error(R.drawable.ic_launcher_background)
