@@ -57,7 +57,7 @@ public class BookingSummaryActivity extends NavActivity {
             CinehubDB api = CinehubAPI.getDBInstance();
             api.addReservation(user, projection, new ArrayList<>(reservations), () -> {
                 Toast.makeText(this, "Data was sent scucessfully!", Toast.LENGTH_SHORT).show();
-                advanceActivity(() -> new Intent(this, BillBoardActivity.class));
+                advanceActivity(() -> new Intent(this, EndActivity.class));
                 finish();
             }, System.err::println);
         });
