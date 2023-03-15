@@ -1,5 +1,6 @@
 package org.cinehub;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -28,6 +29,7 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
     private LinkedHashMap<Projection, Movie> projectionMovieMap;
     private CinehubDB db;
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,13 +49,17 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
         mvAdapter = new MovieAdapter(projectionMovieMap, this);
         rvMovies.setAdapter(mvAdapter);
 
+        // TODO add in XML waiting icon
+        // Maybe hide the recycler?
+
         db.getProjections(
             projections -> {
-                db.getMovies(
+                db.getMoviesWithBanner(
                     movies -> {
                         for (Projection p : projections) {
                             projectionMovieMap.put(p, movies.get(p.getMovie()));
                         }
+                        // TODO Remove waiting icon
                         mvAdapter.notifyDataSetChanged();
                     },
                     System.err::println

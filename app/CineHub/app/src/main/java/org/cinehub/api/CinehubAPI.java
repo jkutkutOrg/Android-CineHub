@@ -31,6 +31,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
 
@@ -134,6 +137,48 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
         OnFailureCallback<String> onFailureCallback
     ) {
         get(Movie.class, movieId, onSuccessValueCallback, onFailureCallback);
+    }
+
+    public void getMoviesWithBanner(
+        OnSuccessValueCallback<ArrayList<Movie>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getMovies(
+            movies -> concatBannerCalls(
+                movies,
+                0,
+                onSuccessValueCallback,
+                onFailureCallback
+            ),
+            onFailureCallback
+        );
+    }
+
+    protected void concatBannerCalls(
+        ArrayList<Movie> movies,
+        int index,
+       OnSuccessValueCallback<ArrayList<Movie>> onSuccessValueCallback,
+       OnFailureCallback<String> onFailureCallback
+    ) {
+        if (index >= movies.size()) {
+            onSuccessValueCallback.onSuccess(movies);
+            return;
+        }
+        Movie currentMovie = movies.get(index);
+        getBanner(
+            currentMovie,
+            imgUrl -> {
+                System.out.println(currentMovie.getName() + " " + imgUrl);
+                currentMovie.setBanner(imgUrl);
+                concatBannerCalls(
+                    movies,
+                    index + 1,
+                    onSuccessValueCallback,
+                    onFailureCallback
+                );
+            },
+            onFailureCallback
+        );
     }
 
     // ** Projection **
