@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
     private CinehubDB db;
     private CinehubAuth auth;
     private TextView tvStatusName;
+    private ProgressBar pbLoading;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -48,7 +50,7 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
 
         rvMovies = findViewById(R.id.rvMovies);
         tvStatusName = findViewById(R.id.tvStatusName);
-
+        pbLoading = findViewById(R.id.pbLoading);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvMovies.setLayoutManager(layoutManager);
@@ -76,10 +78,12 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
                         for (Projection p : projections) {
                             projectionMovieMap.put(p, movies.get(p.getMovie()));
                         }
+                        pbLoading.setVisibility(ProgressBar.GONE);
                         mvAdapter.notifyDataSetChanged();
                     },
                     System.err::println
                 );
+
             },
             System.err::println
         );
@@ -92,5 +96,4 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
                 .putExtra(EXTRA_MOVIE, movie)
                 .putExtra(EXTRA_PROJECTION, projection));
     }
-
 }

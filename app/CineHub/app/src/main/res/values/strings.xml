@@ -40,4 +40,6 @@
     <string name="label_home_sub">You have booked %1$d tickets</string>
     <!-- Home activity strings -->
     <string name="msg_empty_booking">You don\'t have any tickets yet. Press the bottom right button for getting one!</string>
+    <string name="error_login">User or password incorrect</string>
+    <string name="error_email">Incorrect email</string>
 </resources>

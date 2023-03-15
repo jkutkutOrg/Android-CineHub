@@ -37,8 +37,6 @@ public class BookingSummaryActivity extends NavActivity {
         TextView tvSeat = findViewById(R.id.tvSummarySeat);
         ImageView ivBanner = findViewById(R.id.ivBanner);
         Button btnConfirmation = findViewById(R.id.btnSummaryConfirmation);
-        //TextView tvSeatLbl = findViewById(R.id.tvSummarySeatLbl);
-        //TextView tvPrice = findViewById(R.id.tvSummaryPrice);
 
         Movie movie = getIntent().getParcelableExtra(BillBoardActivity.EXTRA_MOVIE);
         Projection projection = getIntent().getParcelableExtra(BillBoardActivity.EXTRA_PROJECTION);
@@ -58,12 +56,9 @@ public class BookingSummaryActivity extends NavActivity {
         tvDate.setText("\n" + timedate.substring(0, 10));
         tvTime.setText("\n" + timedate.substring(timeIdx, timeIdx + 8));
         tvRoom.setText("\n" + getString(R.string.label_room_name, projection.getRoom()));
-        //tvSeatLbl.setText(getString(R.string.label_booking_seat, reservations.size()));
         tvSeat.setText(seatStr.toString());
-        // tvPrice.setText(getString(R.string.label_booking_price_dat, movie.getPrice() * reservations.size()));
         btnConfirmation.setText("Buy Now - " + getString(R.string.label_booking_price_dat, movie.getPrice() * reservations.size()));
 
-        // Using glide, set the movie poster in
         Glide.with(this)
                 .load(movie.getBanner())
                 .centerCrop()

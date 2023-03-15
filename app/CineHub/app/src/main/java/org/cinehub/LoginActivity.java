@@ -47,11 +47,11 @@ public class LoginActivity extends NavActivity {
             boolean isValid = true;
 
             if (!UserValidationUtils.isEmailValid(email)) {
-                Toast.makeText(this, R.string.notification_login_error_email, Toast.LENGTH_SHORT).show();
+                etEmail.setError(getString(R.string.error_email));
                 isValid = false;
             }
             if (password.isEmpty()) {
-                Toast.makeText(this, R.string.notification_login_error_password, Toast.LENGTH_SHORT).show();
+                etPassword.setError(getString(R.string.notification_login_error_password));
                 isValid = false;
             }
 
@@ -76,11 +76,9 @@ public class LoginActivity extends NavActivity {
     }
 
     private void onLoginError(@NonNull String error) {
-        // Set error message in correct field based on error message
-        if (error.contains("email")) {
-            etEmail.setError("Invalid email");
-        } else if (error.contains("password")) {
-            etPassword.setError("Invalid password");
+        if (error.contains("email") || error.contains("password")) {
+            etEmail.setError(getString(R.string.error_login));
+            etPassword.setText("");
         } else {
             Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
         }
