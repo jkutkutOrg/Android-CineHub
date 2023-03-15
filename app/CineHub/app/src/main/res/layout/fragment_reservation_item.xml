@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="150dp"
     android:layout_marginTop="10dp"
     android:background="@drawable/st_rounded_bar"
     tools:context=".ReservationItem">
-
 
     <ImageView
         android:id="@+id/iv_poster"
@@ -58,7 +57,6 @@
             android:id="@+id/tvResItemRoomLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:paddingStart="@dimen/std_padding"
             android:textColor="@color/white"
             android:text="@string/label_booking_room"
@@ -70,7 +68,6 @@
             android:id="@+id/tvResItemRoom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:paddingStart="@dimen/std_padding"
             android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"

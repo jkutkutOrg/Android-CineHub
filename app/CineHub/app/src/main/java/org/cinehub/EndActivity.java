@@ -2,6 +2,7 @@ package org.cinehub;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 public class EndActivity extends NavActivity {
 
@@ -9,6 +10,9 @@ public class EndActivity extends NavActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         findViewById(R.id.btnEndReturn).setOnClickListener(v -> {
             advanceActivity(() ->
                     new Intent(this, HomeActivity.class).setFlags(

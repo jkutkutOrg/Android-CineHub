@@ -2,6 +2,7 @@ package org.cinehub;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentTransaction;
@@ -19,6 +20,8 @@ public class HomeActivity extends NavActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         TextView tvHomeTitle = findViewById(R.id.tvHomeTitle);
         TextView tvHomeSub = findViewById(R.id.tvHomeSub);
