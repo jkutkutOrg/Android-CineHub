@@ -45,7 +45,7 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
 
         db.getProjections(
             projections -> {
-                db.getMovies(
+                db.getMoviesWithBanner(
                     movies -> {
                         for (Projection p : projections) {
                             projectionMovieMap.put(p, movies.get(p.getMovie()));

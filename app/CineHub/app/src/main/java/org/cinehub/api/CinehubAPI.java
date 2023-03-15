@@ -31,6 +31,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
 
@@ -134,6 +136,31 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
         OnFailureCallback<String> onFailureCallback
     ) {
         get(Movie.class, movieId, onSuccessValueCallback, onFailureCallback);
+    }
+
+    public void getMoviesWithBanner(
+        OnSuccessValueCallback<ArrayList<Movie>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getMovies(
+            movies -> {
+                AtomicInteger counter = new AtomicInteger(movies.size());
+                for (Movie m : movies) {
+                    getBanner(
+                        m,
+                        imgUrl -> {
+                            System.out.println(m.getName() + " " + imgUrl);
+                            m.setBanner(imgUrl);
+                            counter.decrementAndGet();
+                        },
+                        onFailureCallback
+                    );
+                }
+                while (counter.get() > 0) ;
+                onSuccessValueCallback.onSuccess(movies);
+            },
+            onFailureCallback
+        );
     }
 
     // ** Projection **

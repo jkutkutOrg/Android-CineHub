@@ -45,6 +45,17 @@ public interface CinehubDB {
         OnFailureCallback<String> onFailureCallback
     );
 
+    /**
+     * Get the movies with the banner.
+     *
+     * @param onSuccessValueCallback The callback to be called when the request is successful.
+     * @param onFailureCallback The callback to be called when the request fails.
+     */
+    void getMoviesWithBanner(
+        OnSuccessValueCallback<ArrayList<Movie>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    );
+
     // ** Projection **
 
     /**
