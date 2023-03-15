@@ -66,25 +66,25 @@
                 "description": "A young lion prince named Simba must overcome the loss of his father and the betrayal of his uncle to take his rightful place as king of the Pride Lands.",
                 "banner": "the_lion_king",
                 "price": 4.0
-              },
-              {
+            },
+            {
                 "name": "The Fellowship of the Ring",
                 "description": "A hobbit named Frodo Baggins is entrusted with a powerful ring that could ultimately destroy the world. He and a fellowship of other creatures must journey across Middle-earth to destroy the ring and prevent it from falling into the wrong hands.",
                 "banner": "the_fellowship_of_the_ring",
                 "price": 5.0
-              },
-              {
+            },
+            {
                 "name": "Avengers: Endgame",
                 "description": "The surviving members of the Avengers and their allies work to reverse the damage caused by Thanos in Infinity War and restore balance to the universe.",
                 "banner": "avengers_endgame",
                 "price": 6.0
-              },
-              {
+            },
+            {
                 "name": "The Terminator",
                 "description": "In the future, an artificial intelligence called Skynet sends a cyborg assassin back in time to kill Sarah Connor, the woman who will give birth to the human resistance. A soldier named Kyle Reese is also sent back to protect her.",
                 "banner": "the_terminator",
                 "price": 4.0
-              }
+            }
         ],
         "room": [
             {
@@ -108,44 +108,99 @@
             },
             {
                 "room": 1,
-                "movie": 0,
+                "movie": 1,
                 "timedate": "2023-03-30T18:42:00.000Z"
             },
             {
                 "room": 2,
-                "movie": 1,
+                "movie": 2,
                 "timedate": "2023-03-30T18:42:00.000Z"
             },
 
             {
                 "room": 0,
-                "movie": 1,
+                "movie": 3,
                 "timedate": "2023-03-30T22:42:00.000Z"
             },
             {
                 "room": 1,
-                "movie": 2,
+                "movie": 4,
                 "timedate": "2023-03-30T22:42:00.000Z"
             },
             {
                 "room": 2,
-                "movie": 3,
+                "movie": 5,
                 "timedate": "2023-03-30T22:42:00.000Z"
+            },
+
+            {
+                "room": 0,
+                "movie": 6,
+                "timedate": "2023-03-31T18:42:00.000Z"
+            },
+            {
+                "room": 1,
+                "movie": 7,
+                "timedate": "2023-03-31T18:42:00.000Z"
+            },
+            {
+                "room": 2,
+                "movie": 8,
+                "timedate": "2023-03-31T18:42:00.000Z"
+            },
+
+            {
+                "room": 0,
+                "movie": 9,
+                "timedate": "2023-03-31T22:42:00.000Z"
+            },
+            {
+                "room": 1,
+                "movie": 10,
+                "timedate": "2023-03-31T22:42:00.000Z"
+            },
+            {
+                "room": 2,
+                "movie": 11,
+                "timedate": "2023-03-31T22:42:00.000Z"
+            },
+
+            {
+                "room": 0,
+                "movie": 12,
+                "timedate": "2023-04-01T18:42:00.000Z"
+            },
+            {
+                "room": 1,
+                "movie": 13,
+                "timedate": "2023-04-01T18:42:00.000Z"
+            },
+
+            {
+                "room": 0,
+                "movie": 1,
+                "timedate": "2023-04-01T22:42:00.000Z"
+            },
+            {
+                "room": 1,
+                "movie": 1,
+                "timedate": "2023-04-01T22:42:00.000Z"
+            },
+            {
+                "room": 2,
+                "movie": 1,
+                "timedate": "2023-04-01T22:42:00.000Z"
             }
         ],
 
         "user": [
             {
+                "name": "marvin",
+                "email": "marvin@gmail.com"
+            },
+            {
                 "name": "Marta",
                 "email": "marta@gmail.com"
-            },
-            {
-                "name": "Pepe",
-                "email": "pepe@gmail.com"
-            },
-            {
-                "name": "Peter",
-                "email": "peter@gmail.com"
             }
         ],
         "reservation": [
@@ -153,10 +208,10 @@
                 "user": 0
             },
             {
-                "user": 1
+                "user": 0
             },
             {
-                "user": 2
+                "user": 0
             }
         ],
         "seat_reservation": [
