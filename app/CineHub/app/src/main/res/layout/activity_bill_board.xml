@@ -46,7 +46,7 @@
                 android:id="@+id/tvStatusGeneric"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="What movie do you want to see?"
+                android:text="@string/what_movie"
                 android:textColor="@color/white"
                 android:textSize="17sp"
                 android:textStyle="bold" />

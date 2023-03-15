@@ -32,7 +32,7 @@
                 android:id="@+id/tvRoomName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Show this entry code cinemma"
+                android:text="@string/show_code_cinema"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -40,7 +40,7 @@
             <ImageView
                 android:id="@+id/ivCode"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_code_bar_ticket" />
