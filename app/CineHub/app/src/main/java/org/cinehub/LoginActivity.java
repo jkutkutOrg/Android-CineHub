@@ -8,13 +8,10 @@ import android.widget.EditText;
 
 import org.cinehub.api.CinehubAPI;
 import org.cinehub.api.CinehubAuth;
-import org.cinehub.api.model.User;
-
 import org.cinehub.utils.UserValidationUtils;
 
 public class LoginActivity extends NavActivity {
 
-    public static final String EXTRA_USER = "User";
 
     private EditText etEmail;
     private EditText etPassword;
@@ -54,8 +51,7 @@ public class LoginActivity extends NavActivity {
                 auth.login(email, password,
                     () -> advanceActivity(() -> {
                         finish();
-                        return new Intent(this, HomeActivity.class)
-                            .putExtra(EXTRA_USER, new User(email));
+                        return new Intent(this, HomeActivity.class);
                     }),
                     this::onLoginError
                 );

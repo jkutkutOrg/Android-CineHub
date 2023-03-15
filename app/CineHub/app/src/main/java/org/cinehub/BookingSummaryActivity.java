@@ -6,16 +6,15 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import org.cinehub.api.CinehubAPI;
+import org.cinehub.api.CinehubAuth;
 import org.cinehub.api.CinehubDB;
 import org.cinehub.api.model.Movie;
 import org.cinehub.api.model.Projection;
 import org.cinehub.api.model.Seat;
-import org.cinehub.api.model.User;
 
 import java.util.ArrayList;
 
@@ -42,7 +41,6 @@ public class BookingSummaryActivity extends NavActivity {
         Projection projection = getIntent().getParcelableExtra(BillBoardActivity.EXTRA_PROJECTION);
         ArrayList<Seat> reservations = getIntent()
                 .getParcelableArrayListExtra(EXTRA_SEAT_RESERVATIONS);
-        User user = getIntent().getParcelableExtra(LoginActivity.EXTRA_USER);
 
         tvMovieName.setText(movie.getName());
         String timedate = projection.getTimedate();
@@ -68,15 +66,16 @@ public class BookingSummaryActivity extends NavActivity {
                 .into(ivBanner);
 
         findViewById(R.id.btnSummaryConfirmation).setOnClickListener(v -> {
-            CinehubDB api = CinehubAPI.getDBInstance();
-            api.addReservation(
-                user, projection, new ArrayList<>(reservations),
-                () -> {
-                    advanceActivity(() -> new Intent(this, EndActivity.class));
-                    finish();
-                },
-                System.err::println
-            );
+            CinehubDB db = CinehubAPI.getDBInstance();
+            CinehubAuth auth = CinehubAPI.getAuthInstance();
+            auth.whoami(user -> db.addReservation(
+                    user, projection, new ArrayList<>(reservations),
+                    () -> {
+                        advanceActivity(() -> new Intent(this, EndActivity.class));
+                        finish();
+                    },
+                    System.err::println),
+                    System.err::println);
         });
     }
 }
