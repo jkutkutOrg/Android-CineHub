@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.cinehub.api.CinehubAPI;
+import org.cinehub.api.CinehubDB;
 import org.cinehub.api.model.SeatReservation;
 import org.cinehub.api.model.User;
 
@@ -24,7 +25,7 @@ public class HomeActivity extends NavActivity {
         FloatingActionButton fabAddTicket = findViewById(R.id.fabAddTicket);
 
         User user = getIntent().getParcelableExtra(LoginActivity.EXTRA_USER);
-        CinehubAPI api = new CinehubAPI();
+        CinehubDB api = CinehubAPI.getDBInstance();
 
         tvHomeTitle.setText(getString(R.string.title_home, user.getName()));
         api.getSeatReservationUser(user, reservations -> {

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import org.cinehub.api.CinehubAPI;
+import org.cinehub.api.CinehubDB;
 import org.cinehub.api.model.SeatReservation;
 
 public class ReservationItem extends Fragment {
@@ -43,7 +44,7 @@ public class ReservationItem extends Fragment {
         ((TextView) v.findViewById(R.id.tvResItemPos))
                 .setText(getString(R.string.label_seat_placement,
                         reservation.getRow(), reservation.getCol()));
-        CinehubAPI api = new CinehubAPI();
+        CinehubDB api = CinehubAPI.getDBInstance();
         api.getProjection(reservation.getProjection(), projection -> {
             api.getMovie(projection.getMovie(), movie -> ((TextView) v
                     .findViewById(R.id.tvResItemFilm))
