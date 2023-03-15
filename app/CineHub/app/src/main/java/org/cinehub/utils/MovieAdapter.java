@@ -53,8 +53,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
 
         Glide.with(holder.itemView.getContext())
                 .load(movie.getBanner())
-                .placeholder(R.drawable.ic_logo_extended)
-                .error(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.ic_load_image)
                 .into(holder.ivMovie);
 
         holder.itemView.setOnClickListener(view ->

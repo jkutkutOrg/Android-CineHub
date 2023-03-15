@@ -42,7 +42,6 @@
                 android:id="@+id/tvSummaryMovieName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Exmple title of"
                 android:textColor="@color/black"
                 android:gravity="center"
                 android:textSize="22sp"
@@ -52,7 +51,7 @@
                 android:id="@+id/tvRoomName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Plase, Show the ticket at the entrance"
+                android:text="Please check all data before confirm"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -75,7 +74,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Fecha"
                     android:gravity="center"
                     android:textSize="16sp"
                     android:textColor="#000000"/>
@@ -85,7 +83,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hora"
                     android:gravity="center"
                     android:textSize="16sp"
                     android:textColor="#000000"/>
@@ -95,11 +92,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Sala"
                     android:gravity="center"
                     android:textSize="16sp"
                     android:textColor="#000000"/>
-
         </LinearLayout>
     </LinearLayout>
 
@@ -108,7 +103,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:text="Seats"
         android:gravity="center"
         android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/btnSummaryConfirmation"
@@ -119,7 +113,6 @@
         style="@style/primary_button"
         android:layout_width="match_parent"
         android:layout_margin="15dp"
-        android:text="BUY NOW"
         app:backgroundTint="#FE0000"
         app:layout_constraintBottom_toBottomOf="@+id/llGeneral"
         tools:layout_editor_absoluteX="47dp" />

@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.cinehub.api.CinehubAPI;
+import org.cinehub.api.CinehubAuth;
 import org.cinehub.api.CinehubDB;
 import org.cinehub.api.CinehubStorage;
 import org.cinehub.api.model.Movie;
@@ -28,6 +30,8 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
     private RecyclerView rvMovies;
     private LinkedHashMap<Projection, Movie> projectionMovieMap;
     private CinehubDB db;
+    private CinehubAuth auth;
+    private TextView tvStatusName;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -38,10 +42,13 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         db = CinehubAPI.getDBInstance();
+        auth = CinehubAPI.getAuthInstance();
 
         projectionMovieMap = new LinkedHashMap<>();
 
         rvMovies = findViewById(R.id.rvMovies);
+        tvStatusName = findViewById(R.id.tvStatusName);
+
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvMovies.setLayoutManager(layoutManager);
@@ -49,8 +56,18 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
         mvAdapter = new MovieAdapter(projectionMovieMap, this);
         rvMovies.setAdapter(mvAdapter);
 
-        // TODO add in XML waiting icon
-        // Maybe hide the recycler?
+        auth.whoami(
+                user -> {
+                    if (user != null) {
+                        tvStatusName.setText("Hello, " + user.getName() + "!");
+                    } else {
+                        tvStatusName.setText("Hello, Guest!");
+                    }
+                },
+                (error) -> {
+                    System.out.println("Error at me: " + error);
+                }
+        );
 
         db.getProjections(
             projections -> {
@@ -59,7 +76,6 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
                         for (Projection p : projections) {
                             projectionMovieMap.put(p, movies.get(p.getMovie()));
                         }
-                        // TODO Remove waiting icon
                         mvAdapter.notifyDataSetChanged();
                     },
                     System.err::println

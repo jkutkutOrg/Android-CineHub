@@ -60,7 +60,7 @@ public class BookingSummaryActivity extends NavActivity {
         //tvSeatLbl.setText(getString(R.string.label_booking_seat, reservations.size()));
         tvSeat.setText(seatStr.toString());
         // tvPrice.setText(getString(R.string.label_booking_price_dat, movie.getPrice() * reservations.size()));
-        btnConfirmation.setText("Buy - " + getString(R.string.label_booking_price_dat, movie.getPrice() * reservations.size()));
+        btnConfirmation.setText("Buy Now - " + getString(R.string.label_booking_price_dat, movie.getPrice() * reservations.size()));
 
         // Using glide, set the movie poster in
         Glide.with(this)
