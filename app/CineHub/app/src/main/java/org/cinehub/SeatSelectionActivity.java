@@ -71,6 +71,8 @@ public class SeatSelectionActivity extends NavActivity {
         // Disable button if seat is occupied or nonexistent
         if (seatType.equals(SeatType.NONEXISTENT) || seatType.equals(SeatType.OCCUPIED))
             seatBtn.setEnabled(false);
+        else
+            seatBtn.setText(getString(R.string.label_seat_placement, row, col));
         seatBtn.setBackgroundColor(0x0);
         seatBtn.setOnClickListener(v -> {
             Seat res = new Seat(row, col);
@@ -85,7 +87,6 @@ public class SeatSelectionActivity extends NavActivity {
             }
             // TODO hide button when no seats are selected
         });
-        seatBtn.setText(getString(R.string.label_seat_placement, row, col));
         seatBtn.setGravity(Gravity.CENTER);
         seatBtn.setTextColor(getResources().getColor(R.color.white));
         seatBtn.setCompoundDrawablesWithIntrinsicBounds(null, stdIco, null, null);
