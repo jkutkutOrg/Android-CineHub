@@ -25,48 +25,15 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
     private MovieAdapter mvAdapter;
     private RecyclerView rvMovies;
     private LinkedHashMap<Projection, Movie> projectionMovieMap;
-    private CinehubDB db = CinehubAPI.getDBInstance();
-    CinehubStorage auth = CinehubAPI.getStorageInstance();
+    private CinehubDB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill_board);
+        db = CinehubAPI.getDBInstance();
 
         projectionMovieMap = new LinkedHashMap<>();
-
-        db.getProjections(projections -> {
-            AtomicInteger i = new AtomicInteger();
-            for (Projection projection : projections) {
-                db.getMovie(projection.getMovie(), movie -> {
-                    projectionMovieMap.put(projection, movie);
-
-                    auth.getBanner(movie,
-                            url -> {
-                                movie.setBanner(url);
-                                mvAdapter.notifyItemChanged(i.get());
-                            },
-                            error -> {
-                                Toast.makeText(this, "Error al cargar la URL del banner para la película " + movie.getName(), Toast.LENGTH_LONG).show();
-                            }
-                    );
-
-                    mvAdapter.notifyItemChanged(i.getAndIncrement());
-                }, System.err::println);
-            }
-        }, System.err::println);
-
-/*
-        db.getProjections(projections -> {
-            AtomicInteger i = new AtomicInteger();
-            for (Projection projection : projections) {
-                db.getMovie(projection.getMovie(), movie -> {
-                    projectionMovieMap.put(projection, movie);
-
-                    mvAdapter.notifyItemChanged(i.getAndIncrement());
-                }, System.err::println);
-            }
-        }, System.err::println); */
 
         rvMovies = findViewById(R.id.rvMovies);
 
@@ -75,6 +42,21 @@ public class BillBoardActivity extends NavActivity implements MovieAdapter.OnMov
 
         mvAdapter = new MovieAdapter(projectionMovieMap, this);
         rvMovies.setAdapter(mvAdapter);
+
+        db.getProjections(
+            projections -> {
+                db.getMovies(
+                    movies -> {
+                        for (Projection p : projections) {
+                            projectionMovieMap.put(p, movies.get(p.getMovie()));
+                        }
+                        mvAdapter.notifyDataSetChanged();
+                    },
+                    System.err::println
+                );
+            },
+            System.err::println
+        );
     }
 
     @Override

@@ -50,7 +50,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
         holder.tvTitle.setText(movie.getName());
         holder.tvDescription.setText(movie.getDescription());
         holder.tvRoom.setText("Lounge: R" + projection.getRoom()); // TODO: Chang to string resource
-        System.out.println("Nuevo BANNER URL" + movie.getBanner());
         try {
             holder.tvTimedate.setText(dateToISO8601(projection.getTimedate()));
         } catch (ParseException e) {
