@@ -23,8 +23,8 @@ import java.util.TimeZone;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
 
-    private LinkedHashMap<Projection, Movie> projectionMovieMap;
-    private OnMovieClickListener onMovieClickListener;
+    private final LinkedHashMap<Projection, Movie> projectionMovieMap;
+    private final OnMovieClickListener onMovieClickListener;
     public MovieAdapter(LinkedHashMap<Projection, Movie> projectionMovieMap, OnMovieClickListener onMovieClickListener) {
         this.projectionMovieMap = projectionMovieMap;
         this.onMovieClickListener = onMovieClickListener;
@@ -44,7 +44,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
 
         holder.tvTitle.setText(movie.getName());
         holder.tvDescription.setText(movie.getDescription());
-        holder.tvRoom.setText("Lounge: R" + projection.getRoom()); // TODO: Chang to string resource
+        holder.tvRoom.setText("Lounge: R" + projection.getRoom());
         try {
             holder.tvTimedate.setText(dateToISO8601(projection.getTimedate()));
         } catch (ParseException e) {
@@ -76,13 +76,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieVH> {
         Date newDate = dateFormat.parse(date);
 
         SimpleDateFormat dateOut = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        assert newDate != null;
         return dateOut.format(newDate);
     }
 
     public static class MovieVH extends RecyclerView.ViewHolder {
 
-        TextView tvTitle, tvReleaseDate, tvDescription, tvRoom, tvTimedate;
-        ImageView ivMovie;
+        final TextView tvTitle, tvReleaseDate, tvDescription, tvRoom, tvTimedate;
+        final ImageView ivMovie;
 
         public MovieVH(@NonNull View itemView) {
             super(itemView);

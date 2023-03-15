@@ -13,7 +13,7 @@
     <string name="hint_register_et_mail">Email</string>
     <string name="hint_register_et_cpasswd">Confirm your password</string>
     <string name="hint_register_et_username">Nickname</string>
-    <string name="button_register_now">Register</string>
+    <string name="button_register_now">Sign Up</string>
     <string name="notification_register_error_username">Username is not valid</string>
     <string name="notification_register_error_email">Email is not valid</string>
     <string name="notification_register_error_password">Password is not matching</string>
@@ -22,6 +22,7 @@
     <string name="label_room_name">Room %1$d</string>
     <string name="title_seat_selection">Choose the seats</string>
     <string name="label_seat_placement">%1$d - %2$d</string>
+    <string name="label_seat_placement_detail">row: %1$d - column: %2$d</string>
     <string name="label_screen_indicator">Screen</string>
     <!-- Summary strings -->
     <string name="title_summary">Booking overview</string>
@@ -37,10 +38,16 @@
     <!-- BillBoard Activity Strings-->
     <string name="title_billboard_tv_title">Select your favorite movie</string>
     <string name="title_home">Welcome %1$s</string>
-    <string name="label_home_sub">You have booked %1$d tickets</string>
+    <string name="label_home_sub">You have booked %1$d reservations</string>
     <!-- Home activity strings -->
     <string name="msg_empty_booking">You don\'t have any tickets yet.</string>
     <string name="error_login">User or password incorrect</string>
     <string name="error_email">Incorrect email</string>
-    <string name="button_go_to_home">Return to home</string>
+    <string name="button_go_to_home">Return home</string>
+    <string name="show_code_cinema">Show this entry code at the cinema</string>
+    <string name="what_movie">What movie do you want to see?</string>
+    <string name="wellcome">Wellcome to Cinehub</string>
+    <string name="reservation_success">Reservation made scucessfully!</string>
+    <string name="btn_buy_now">Buy Now - %1$s</string>
+    <string name="greeting_username">Hello %1$s!</string>
 </resources>

@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import com.google.firebase.database.annotations.NotNull;
-
 import java.util.Locale;
 
 /**
