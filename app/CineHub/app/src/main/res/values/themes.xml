@@ -12,5 +12,28 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="fontFamily">@font/kanit_regular</item>
+    </style>
+
+    <style name="login_input_text">
+        <item name="android:background">@drawable/st_rounded_background</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textColorHint">@color/normal_text_color</item>
+        <item name="android:textColor">@color/hint_text_color</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="primary_button">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/st_rounded_background</item>
+        <item name="android:textSize">@dimen/std_txtsize</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="secondary_button" parent="primary_button">
+        <item name="android:background">@drawable/st_rounded_background</item>
+        <item name="android:textSize">@dimen/std_txtsize</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

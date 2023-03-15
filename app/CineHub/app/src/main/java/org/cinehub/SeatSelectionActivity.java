@@ -3,8 +3,10 @@ package org.cinehub;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -30,6 +32,8 @@ public class SeatSelectionActivity extends NavActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seat_selection);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         CinehubDB api = CinehubAPI.getDBInstance();
 
@@ -68,6 +72,8 @@ public class SeatSelectionActivity extends NavActivity {
         // Disable button if seat is occupied or nonexistent
         if (seatType.equals(SeatType.NONEXISTENT) || seatType.equals(SeatType.OCCUPIED))
             seatBtn.setEnabled(false);
+        else
+            seatBtn.setText(getString(R.string.label_seat_placement, row, col));
         seatBtn.setBackgroundColor(0x0);
         seatBtn.setOnClickListener(v -> {
             Seat res = new Seat(row, col);
@@ -80,21 +86,24 @@ public class SeatSelectionActivity extends NavActivity {
                 seatBtn.setCompoundDrawablesWithIntrinsicBounds(null, stdIco, null,
                         null);
             }
-            // TODO hide button when no seats are selected
+            // Idea: hide button when no seats are selected
         });
-        seatBtn.setText(getString(R.string.label_seat_placement, row, col));
+        seatBtn.setGravity(Gravity.CENTER);
+        seatBtn.setTextColor(getResources().getColor(R.color.white));
         seatBtn.setCompoundDrawablesWithIntrinsicBounds(null, stdIco, null, null);
         return seatBtn;
     }
 
     private void onSelectionAccepted(View v) {
         if (reservations.isEmpty()) {
-            Toast.makeText(this, "Por favor, selecciona los asientos que deseas reservar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please select at least one seat", Toast.LENGTH_SHORT).show();
             return;
         }
-        advanceActivity(() -> new Intent(this, BookingSummaryActivity.class)
+        startActivity(new Intent(this, BookingSummaryActivity.class)
                     .putParcelableArrayListExtra(BookingSummaryActivity.EXTRA_SEAT_RESERVATIONS,
-                            reservations));
+                            reservations)
+                .putExtra(BillBoardActivity.EXTRA_MOVIE, (Parcelable) getIntent().getParcelableExtra(BillBoardActivity.EXTRA_MOVIE))
+                .putExtra(BillBoardActivity.EXTRA_PROJECTION, (Parcelable) getIntent().getParcelableExtra(BillBoardActivity.EXTRA_PROJECTION)));
     }
 
     private static class MovieRoom {

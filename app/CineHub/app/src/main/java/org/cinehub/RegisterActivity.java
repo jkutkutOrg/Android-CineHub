@@ -1,10 +1,9 @@
 package org.cinehub;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,18 +18,19 @@ public class RegisterActivity extends NavActivity {
     private EditText etEmail;
     private EditText etPassword;
     private EditText etConfirmPassword;
-    private Button btnRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         etUsername = findViewById(R.id.etUsername);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPasswd);
         etConfirmPassword = findViewById(R.id.etPasswdConfirm);
-        btnRegister = findViewById(R.id.btnRegister);
+        Button btnRegister = findViewById(R.id.btnRegister);
 
         btnRegister.setOnClickListener(v -> {
             String username = etUsername.getText().toString().trim();
@@ -55,25 +55,13 @@ public class RegisterActivity extends NavActivity {
             } else {
                 CinehubAuth auth = CinehubAPI.getAuthInstance();
                 auth.signup(
-                        username, email, password, this::onSignupSuccess, this::onSignupError
+                        username, email, password, this::finish, this::onSignupError
                 );
             }
         });
     }
 
-    private void onSignupSuccess() {
-        cleanFields();
-        startActivity(new Intent(this, LoginActivity.class));
-    }
-
     private void onSignupError(@NonNull String error) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-    }
-
-    private void cleanFields() {
-        etUsername.setText("");
-        etEmail.setText("");
-        etPassword.setText("");
-        etConfirmPassword.setText("");
     }
 }

@@ -2,26 +2,19 @@ package org.cinehub;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 
 import org.cinehub.api.CinehubAPI;
 import org.cinehub.api.CinehubAuth;
-import org.cinehub.api.model.User;
-
 import org.cinehub.utils.UserValidationUtils;
 
 public class LoginActivity extends NavActivity {
 
-    public static final String EXTRA_USER = "User";
 
     private EditText etEmail;
     private EditText etPassword;
-    private Button btnLogin;
-    private Button btnRegister;
 
     private CinehubAuth auth;
 
@@ -29,11 +22,13 @@ public class LoginActivity extends NavActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPasswd);
-        btnLogin = findViewById(R.id.btnLogin);
-        btnRegister = findViewById(R.id.btnRegister);
+        Button btnLogin = findViewById(R.id.btnLogin);
+        Button btnRegister = findViewById(R.id.btnRegister);
 
         auth = CinehubAPI.getAuthInstance();
 
@@ -44,20 +39,24 @@ public class LoginActivity extends NavActivity {
             boolean isValid = true;
 
             if (!UserValidationUtils.isEmailValid(email)) {
-                Toast.makeText(this, R.string.notification_login_error_email, Toast.LENGTH_SHORT).show();
+                etEmail.setError(getString(R.string.error_email));
                 isValid = false;
             }
             if (password.isEmpty()) {
-                Toast.makeText(this, R.string.notification_login_error_password, Toast.LENGTH_SHORT).show();
+                etPassword.setError(getString(R.string.notification_login_error_password));
                 isValid = false;
             }
 
             if (isValid) {
-                auth.login(email, password, () -> advanceActivity(() -> {
-                    finish();
-                    return new Intent(this, HomeActivity.class)
-                            .putExtra(EXTRA_USER, new User(email));
-                    }), this::onLoginError);
+                auth.login(email, password,
+                    () -> {
+                        startActivity(
+                                new Intent(this, HomeActivity.class)
+                        );
+                        finish();
+                    },
+                    this::onLoginError
+                );
             }
         });
 
@@ -72,7 +71,8 @@ public class LoginActivity extends NavActivity {
         etPassword.setText("");
     }
 
-    private void onLoginError(@NonNull String error) {
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    private void onLoginError(String error) {
+        etEmail.setError(getString(R.string.error_login));
+        etPassword.setText("");
     }
 }

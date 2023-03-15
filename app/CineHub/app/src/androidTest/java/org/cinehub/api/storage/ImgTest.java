@@ -18,20 +18,18 @@ public class ImgTest extends APITest {
     public void getPhoto() {
         db.getMovie(
             0,
-            movie -> {
-                storage.getBanner(
-                    movie,
-                    url -> {
-                        print("Banner url: " + url);
-                        running.set(VALID);
-                    },
-                    error -> {
-                        print("Error: " + error);
-                        print("Banner url: " + movie.getBanner());
-                        running.set(INVALID);
-                    }
-                );
-            },
+            movie -> storage.getBanner(
+                movie,
+                url -> {
+                    print("Banner url: " + url);
+                    running.set(VALID);
+                },
+                error -> {
+                    print("Error: " + error);
+                    print("Banner url: " + movie.getBanner());
+                    running.set(INVALID);
+                }
+            ),
             getFailureCallback()
         );
     }

@@ -136,6 +136,48 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
         get(Movie.class, movieId, onSuccessValueCallback, onFailureCallback);
     }
 
+    public void getMoviesWithBanner(
+        OnSuccessValueCallback<ArrayList<Movie>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getMovies(
+            movies -> concatBannerCalls(
+                movies,
+                0,
+                onSuccessValueCallback,
+                onFailureCallback
+            ),
+            onFailureCallback
+        );
+    }
+
+    protected void concatBannerCalls(
+        ArrayList<Movie> movies,
+        int index,
+       OnSuccessValueCallback<ArrayList<Movie>> onSuccessValueCallback,
+       OnFailureCallback<String> onFailureCallback
+    ) {
+        if (index >= movies.size()) {
+            onSuccessValueCallback.onSuccess(movies);
+            return;
+        }
+        Movie currentMovie = movies.get(index);
+        getBanner(
+            currentMovie,
+            imgUrl -> {
+                System.out.println(currentMovie.getName() + " " + imgUrl);
+                currentMovie.setBanner(imgUrl);
+                concatBannerCalls(
+                    movies,
+                    index + 1,
+                    onSuccessValueCallback,
+                    onFailureCallback
+                );
+            },
+            onFailureCallback
+        );
+    }
+
     // ** Projection **
 
     public void getProjections(
@@ -211,7 +253,8 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
                     usrId -> append(
                         Reservation.class,
                         new Reservation(usrId),
-                        reservationId -> {
+                        newReservationId -> {
+                            int reservationId = newReservationId - 1;
                             ArrayList<SeatReservation> rlst = new ArrayList<>();
                             for (Seat s : seats)
                                 rlst.add(new SeatReservation(
@@ -246,6 +289,22 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
                         rlst.add(i);
                 execute(onSuccessValueCallback, rlst);
             },
+            onFailureCallback
+        );
+    }
+
+    public void getReservationsIdsUser(
+        User user,
+        OnSuccessValueCallback<ArrayList<Integer>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getId(
+            user,
+            usrId -> getReservationsIdsUser(
+                usrId,
+                onSuccessValueCallback,
+                onFailureCallback
+            ),
             onFailureCallback
         );
     }
@@ -328,6 +387,23 @@ public class CinehubAPI implements CinehubAuth, CinehubDB, CinehubStorage {
                 ),
                 onFailureCallback
             ),
+            onFailureCallback
+        );
+    }
+
+    public void getSeatReservationReservation(
+        int reservationId,
+        OnSuccessValueCallback<ArrayList<SeatReservation>> onSuccessValueCallback,
+        OnFailureCallback<String> onFailureCallback
+    ) {
+        getSeatReservations(
+            lstSeatReservations -> {
+                ArrayList<SeatReservation> lst = new ArrayList<>();
+                for (SeatReservation s : lstSeatReservations)
+                    if (s.getReservation() == reservationId)
+                        lst.add(s);
+                execute(onSuccessValueCallback, lst);
+            },
             onFailureCallback
         );
     }

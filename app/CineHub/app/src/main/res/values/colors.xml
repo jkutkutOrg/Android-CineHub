@@ -6,8 +6,13 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
     <color name="empty_seat">#58BC67</color>
     <color name="select_seat">#DABC80</color>
     <color name="occupied_seat">#C0524B</color>
+    <!-- New palette colors -->
+    <color name="general_background">#121212</color>
+    <color name="hint_text_color">#B5ADAD</color>
+    <color name="normal_text_color">#B5ADAD</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="red">#FE0000</color>
 </resources>
