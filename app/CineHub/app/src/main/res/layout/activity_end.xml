@@ -7,48 +7,54 @@
     android:layout_margin="@dimen/std_padding"
     tools:context=".EndActivity">
 
-    <TextView
-        android:id="@+id/tvEndTitle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/llGeneral"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thank you!"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:orientation="vertical"
+        android:background="@drawable/st_gradient_ticket"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tvEndSub"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/std_padding"
-        android:text="Your tickets have been booked sucessfully"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvEndTitle" />
+        <LinearLayout
+            android:id="@+id/llGeneralInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="@dimen/std_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivStatus">
 
-    <ImageView
-        android:id="@+id/ivEndMovie"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:adjustViewBounds="true"
-        app:layout_constraintBottom_toTopOf="@+id/btnEndReturn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvEndSub"
-        app:srcCompat="@drawable/ic_movie" />
+            <TextView
+                android:id="@+id/tvRoomName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show this entry code cinemma"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/ivCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_code_bar_ticket" />
+        </LinearLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnEndReturn"
-        android:layout_width="0dp"
+        style="@style/primary_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:text="@string/button_go_to_home"
+        android:layout_margin="15dp"
+        app:backgroundTint="#FE0000"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

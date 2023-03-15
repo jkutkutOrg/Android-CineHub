@@ -42,4 +42,5 @@
     <string name="msg_empty_booking">You don\'t have any tickets yet.</string>
     <string name="error_login">User or password incorrect</string>
     <string name="error_email">Incorrect email</string>
+    <string name="button_go_to_home">Return to home</string>
 </resources>
