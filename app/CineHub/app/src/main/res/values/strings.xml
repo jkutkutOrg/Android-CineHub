@@ -45,4 +45,5 @@
     <string name="button_go_to_home">Return home</string>
     <string name="show_code_cinema">Show this entry code at the cinema</string>
     <string name="what_movie">What movie do you want to see?</string>
+    <string name="wellcome">Wellcome to Cinehub</string>
 </resources>

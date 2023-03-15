@@ -10,21 +10,22 @@ import androidx.fragment.app.Fragment;
 
 import org.cinehub.api.CinehubAPI;
 import org.cinehub.api.CinehubDB;
+import org.cinehub.api.model.Reservation;
 import org.cinehub.api.model.SeatReservation;
 
 public class ReservationItem extends Fragment {
     private static final String ARG_RESERVATION = "reservation";
 
-    private SeatReservation reservation;
+    private Integer reservationId;
 
     public ReservationItem() {
         // Required empty public constructor
     }
 
-    public static ReservationItem newInstance(SeatReservation reservation) {
+    public static ReservationItem newInstance(int reservation) {
         ReservationItem fragment = new ReservationItem();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_RESERVATION, reservation);
+        args.putInt(ARG_RESERVATION, reservation);
         fragment.setArguments(args);
         return fragment;
     }
@@ -33,7 +34,7 @@ public class ReservationItem extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            reservation = getArguments().getParcelable(ARG_RESERVATION);
+            reservationId = getArguments().getInt(ARG_RESERVATION);
         }
     }
 
@@ -41,19 +42,46 @@ public class ReservationItem extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_reservation_item, container, false);
-        ((TextView) v.findViewById(R.id.tvResItemPos))
-                .setText(getString(R.string.label_seat_placement,
-                        reservation.getRow(), reservation.getCol()));
         CinehubDB api = CinehubAPI.getDBInstance();
-        api.getProjection(reservation.getProjection(), projection -> {
-            api.getMovie(projection.getMovie(), movie -> ((TextView) v
-                    .findViewById(R.id.tvResItemFilm))
-                    .setText(movie.getName()), System.err::println);
-            ((TextView) v.findViewById(R.id.tvResItemRoom)).setText(String
-                    .valueOf(projection.getRoom()));
-            String time = projection.getTimedate().substring(0, 16).replace('T', ' ');
-            ((TextView) v.findViewById(R.id.tvResItemTime)).setText(time);
-        }, System.err::println);
+
+        TextView tvSeats = v.findViewById(R.id.tvResItemPos);
+        TextView tvMovie = v.findViewById(R.id.tvResItemFilm);
+        TextView tvRoom = v.findViewById(R.id.tvResItemRoom);
+        TextView tvTime = v.findViewById(R.id.tvResItemTime);
+
+        System.out.println("Reservation id: " + reservationId);
+
+        api.getSeatReservationReservation(
+            reservationId,
+            seats -> {
+                StringBuilder sb = new StringBuilder();
+                for (SeatReservation sr: seats) {
+                    sb.append(String.format(
+                        getString(R.string.label_seat_placement) + "; ",
+                        sr.getRow(), sr.getCol()
+                    ));
+                }
+                tvSeats.setText(sb.toString());
+
+                api.getProjection(
+                    seats.get(0).getProjection(),
+                    projection -> {
+                        api.getMovie(
+                            projection.getMovie(),
+                            movie -> {
+                                tvMovie.setText(movie.getName());
+                            },
+                            System.err::println
+                        );
+                        tvRoom.setText(String.valueOf(projection.getRoom()));
+                        String time = projection.getTimedate()
+                            .substring(0, 16).replace('T', ' ');
+                        tvTime.setText(time);
+                    }, System.err::println
+                );
+            },
+            System.err::println
+        );
         return v;
     }
 }
